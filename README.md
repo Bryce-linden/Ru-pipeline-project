@@ -1,2 +1,15 @@
-# Ru-pipeline-project
- Final project geog 575 on Russian gas exports to Europe
+# Team Name
+
+### Team Members
+1. Bryce Linden
+2. Michael Connolly
+3. Joey Inskeep
+4. Branton Kunz
+
+### Final Proposal
+1. Persona/Scenario
+
+2. Required Documents
+
+3. Wireframes
+
