@@ -3,7 +3,7 @@
 ### Team Members
 1. Bryce Linden
 2. Michael Connolly
-3. Joey Inskeep
+3. Joey Inskeep 
 4. Branton Kunz
 
 ### Final Proposal
