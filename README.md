@@ -1,8 +1,8 @@
 # Team Name
 
-### Team Members
+### Our Amazing Team Members
 1. Bryce Linden
-2. Michael Connolly
+2. Mike Connolly
 3. Joey Inskeep 
 4. Branton Kunz
 
