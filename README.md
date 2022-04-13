@@ -1,6 +1,7 @@
 **Geog 575 Final Project Proposal**
 
 **Group: Michael Connolly, Joey Inskeep, Bryce Linden, Branton Kunz**
+
 **April 13, 2022**
  
 **User Profile (Persona)**
