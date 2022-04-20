@@ -7,6 +7,9 @@
 
         <!--put your external stylesheet links here-->
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="lib/leaflet.css">
+        
         <!--[if IE<9]>
             <link rel="stylesheet" href="css/style.ie.css">
         <![endif]-->
@@ -18,12 +21,17 @@
 
     <body>
         <!--put your initial page content here-->
-
+        <h1>Test. Bryce is working in this html</h1>
         <!--you can also use this space for internal scripts;
         place these within <script> tags-->
-
+            <div class="row">
+                <div class="col-md-8">
+                  <div id="mapid"></div>
+                </div>
+            </div>
         <!--put your external script links here-->
-        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/choropleth_testjava.js"></script>
+        <script type="text/javascript" src="lib/leaflet-src.js"></script>
         <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
     </body>
 </html>
