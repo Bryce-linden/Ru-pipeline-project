@@ -5,7 +5,7 @@
         "type": "Feature",
         "properties": {
           "City": "Greifswald(Nord Stream)",
-          "BorderX": 224,
+          "BorderX": "224",
           "19-Jan": 5029,
           "19-Feb": 4539,
           "19-Mar": 5025,

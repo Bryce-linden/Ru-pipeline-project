@@ -1,4 +1,5 @@
 /*insert style here*/
+<<<<<<< Updated upstream
 /*color scheme focuses on the colors of a cow. They are black, white, brown, and pink for the nose*/
 h1 {
 	font-family: 'Moo Lah Lah', cursive;
@@ -153,4 +154,12 @@ a:hover {
  /*style breaks*/
 br:after {
 	margin-bottom: 10px !important;
+=======
+#map {
+    height: 600px;
+    width: 100%;
+    display: inline-block;
+    /*vertical-align: top;*/
+    
+>>>>>>> Stashed changes
 }
