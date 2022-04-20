@@ -45,4 +45,11 @@ Upon arriving at the interactive, the European Parliament Member's assistant (us
 | 7\.                | Line Graph Hover          | Retrieve: (objects), hover over a line on a graph to get the gas flow volume or temperature for a location / feature, also highlight that location / feature. D3 interactive.                                                                                                                              |
 | 8\.                |  Download                 | Export: select features (objects) and data.                                                                                                                                                                                                                                                                |
 
-  
+  **Wireframes:**
+
+![Frame 1](webmapping_final_group-main/img/overview1.png?raw=true "Frame 1")
+
+
+![Frame 2](webmapping_final_group-main/img/frame2.png?raw=true "Frame 2")
+
+![Frame 3](webmapping_final_group-main/img/frame3.png?raw=true "Frame 3")
