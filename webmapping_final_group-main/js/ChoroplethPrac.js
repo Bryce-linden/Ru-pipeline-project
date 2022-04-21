@@ -1,4 +1,4 @@
-var map;
+
 
 //var minValue;
 var dataStats = {};
@@ -7,7 +7,7 @@ var dataStats = {};
 function createMap(){
 
     //create the map
-    map = L.map('mapid', {
+    var map = L.map('mapid', {
         center: [50, 10], //center map on central Wisconsin
         zoom: 4
     });
