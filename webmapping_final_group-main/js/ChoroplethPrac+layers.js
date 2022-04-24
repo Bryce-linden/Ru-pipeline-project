@@ -6,7 +6,23 @@ var dataStats = {};
 //keep everything in the createMap function. The functions getcolor and style seem to work properly
 function createMap(){
 
-    var cities = L.layerGroup();
+    var oil_icon = L.icon({
+        iconUrl: 'lib/oil_barrel.png',
+        
+    
+        iconSize:     [18, 24], // size of the icon
+       // shadowSize:   [50, 64], // size of the shadow
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        //shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    var cities = L.layerGroup(); //create empty variable layer group that you will fill with array
+    var mLittleton = L.marker([39.61, -105.02], {icon:oil_icon}).bindPopup('This is Littleton, CO.').addTo(cities);
+	var mDenver = L.marker([39.74, -104.99],{icon:oil_icon}).bindPopup('This is Denver, CO.').addTo(cities);
+	var mAurora = L.marker([39.73, -104.8],{icon:oil_icon}).bindPopup('This is Aurora, CO.').addTo(cities);
+	var mGolden = L.marker([39.77, -105.23],{icon:oil_icon}).bindPopup('This is Golden, CO.').addTo(cities);
+
     //var choropleth = L.layerGroup();
 
 
