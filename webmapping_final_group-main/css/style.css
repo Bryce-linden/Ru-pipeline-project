@@ -1,3 +1,23 @@
+<<<<<<< Updated upstream
+=======
+/*insert style here*/
+/*color scheme focuses on the colors of a cow. They are black, white, brown, and pink for the nose*/
+h1 {
+	font-family: 'Moo Lah Lah', cursive;
+	color: rgb(77, 20, 20);
+	font-size: 70px;
+	
+}
+
+h2 {
+	font-family: 'Sansita Swashed', cursive;
+}
+body{
+	font-family: 'Sansita Swashed', cursive;
+	size: 50px;
+}
+
+>>>>>>> Stashed changes
 
 
  /*style mapid div class*/
@@ -22,6 +42,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	pointer-events: auto;
 	}
 
+<<<<<<< Updated upstream
     
 .info {
     padding: 6px 8px;
@@ -46,4 +67,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
     float: left;
     margin-right: 8px;
     opacity: 0.7;
+=======
+ /*style breaks*/
+br:after {
+	margin-bottom: 10px !important;
+>>>>>>> Stashed changes
 }
