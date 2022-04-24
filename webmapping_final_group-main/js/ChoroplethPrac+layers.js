@@ -36,6 +36,7 @@ function createMap(){
 
     var baseLayers = {
 		'Grayscale': grayscale,
+        'Smooth Gray': SmoothDark, //when I move this line of code above 'Grayscale', the starting basemap is grayscale, but the legend is correct with smooth dark as the first option
 		'Streets': streets,
         'Groovy': groovy
 	};
