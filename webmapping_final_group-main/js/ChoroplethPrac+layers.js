@@ -155,7 +155,7 @@ function createMap(){
 
 
     /* global statesData */
-        geojson = L.geoJson(statesData, {
+        geojson = L.geoJson(countryData, {
         style: style,
         onEachFeature: onEachFeature
     }).addTo(map);
