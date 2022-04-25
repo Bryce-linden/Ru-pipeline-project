@@ -1,7 +1,5 @@
-////// START OLD CODE HERE ///////
 //declare map variable in global scope
 var map;
-
 //declare the min value and max value in global scope 
 var dataStats = {};
 
@@ -29,66 +27,37 @@ function createMap(){
     getData(map); //add map at some point
 };
 
-
-
-function calcStats(data,attributes) {
-   
-    //var properties = data.features[2].properties;
-    //var time =  data.properties[0]//.properties["2019-01"]; //City.properties["2019-01"];//.properties["2019-01"];//City.properties["2019-01"];
-    //console.log(time)
-    //var myArray = time.split("-")
-    var attribute = attributes[0];
-    console.log(attribute)
-    var year = attribute.split("-")[0]
-    var month = attribute.split("-")[1]
-    //console.log(year)
-    //console.log(month)
-
-    //console.log(month)
+function calcStats(data) {
     //create empty array to store all data values
     var allValues = [];
-    //var year = data[0]
-    //var month = data[1]
     //loop through each city
     for (var City of data.features) {
-        //Local year variable that pulls out the year
-        
-        //Comparing local year variable to the constraints
-        //split function - split - the date property on the hyphen First year second month assign local variable to year and month
-        //for retrieval same thing 
         //loop through each year
-        for (var year = 2019; year <= 2022; year +=1){
-            for (var month = 1; month <= 12; month += 1) {
-                //get snowfall for current year
-                var value = City.properties[String(month)];
-                //add value to array
-                console.log(value)
-                allValues.push(value);
-            }
-            
+        for (var year = 2019; year <= 2022; year += 1) {
+            //get snowfall for current year
+            var value = City.properties["Gas_" + String(year)];
+            //console.log(value)
+            //add value to array
+            allValues.push(value);
         }
-
-        //get min, max, mean stats for our array
-        dataStats.min = Math.min(...allValues);
-        dataStats.max = Math.max(...allValues);
-        //calculate meanValue
-
-        var sum = allValues.reduce(function (a,b) {
-            return a + b;
-        });
-        dataStats.mean = sum /allValues.length;
-
     }
+    //get min, max, mean stats for our array
+    dataStats.min = Math.min(...allValues);
+    dataStats.max = Math.max(...allValues);
+    //calculate meanValue
+    var sum = allValues.reduce(function (a, b) {
+        return a + b;
+    });
+    dataStats.mean = sum / allValues.length;
+}
 
-};
-
-//calculate the radius of each proportional symbol
+//calculate the radius of each proportional symbol 
 function calcPropRadius(attValue) {
-    //constant factor adjusts symbol sizes evenly
-    //use conditional if else statement if value 0, eg if attValue == 0 return else return all else
-    var minRadius = 5;
-    //flannery Appearance compensation formula
-    var radius = 1.0083 * Math.pow(attValue/dataStats.min,0.715) * minRadius;
+    //constant factor adjusts symbol sizes evenly 
+    //Use conditional if else statement if value 0, eg if attValue == 0 return 0 else return all else
+    var minRadius = .05; //Or 6?
+    //Flannery Apperance Compensation formula
+    var radius = 1.0083 * Math.pow(attValue/1,0.5715) * minRadius;
 
     return radius;
 };
@@ -98,21 +67,19 @@ function PopupContent(properties, attribute){
     //add the city popup content string
     this.properties = properties;
     this.attribute = attribute;
-    this.year = attribute.split("-")[0]; // index for year 
-    this.month = attribute.split("-")[1] // index for month
-    this.gas = this.properties[attribute]; //this.gas is properties attribute
+    this.year = attribute.split("_")[1];
+    this.gas = this.properties[attribute];
     
 
-    this.formatted = "<p><img src = '" + properties.img + "'" + " class=popupImage " + "'><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Net import of Gas for " + this.year + "in the month of  " + this.month + ": </b>" + this.gas + " Whatever the unit is</p>";
+    this.formatted = "<p><b>City:</b> " + this.properties.City + "</p><p><b>Net Gas import " + this.year + ": </b>" + this.gas + " Unit for gas</p>";
 
 };
-
 
 //Function to convert markers to circle markers
 function pointToLayer(feature, latlng, attributes){
     //Determine which attribute value to visualize with proportional symbols
     var attribute = attributes[0];
-    //console.log(attribute)
+    console.log(attribute)
 
     //create marker options
     var options = {
@@ -126,7 +93,6 @@ function pointToLayer(feature, latlng, attributes){
 
     //For each feature, determine its value for the selected attribute 
     var attValue = Number(feature.properties[attribute]);
-    console.log(attValue)
 
     //Give each feature's circle marker a radius based on its attribute value
     options.radius = calcPropRadius(attValue);
@@ -161,7 +127,7 @@ function createPropSymbols(data, attributes){
 function getCircleValues(attribute) {
     //start with min at highest possible and max at lowest possible number
     var min = Infinity, 
-    max = -Infinity;
+      max = -Infinity;
 
     map.eachLayer(function (layer) {
         //get the attribute value
@@ -181,7 +147,7 @@ function getCircleValues(attribute) {
         }
     });
 
-        //set mean
+    //set mean
     var mean = (max + min) / 2;
 
     //return values as an object
@@ -195,7 +161,8 @@ function getCircleValues(attribute) {
 
 function updateLegend(attribute) {
     //create content for legend 
-    var year = attribute.split("-")[0];
+    var year = attribute.split("_")[1];
+    console.log(year)
     //replace legend content
     document.querySelector("span.year").innerHTML = year;
     
@@ -209,9 +176,10 @@ function updateLegend(attribute) {
         document.querySelector("#" + key).setAttribute("cy", 54 - radius);
         document.querySelector("#" + key).setAttribute("r", radius)
 
-        document.querySelector("#" + key + "-text").textContent = Math.round(circleValues[key] * 100) / 100 + " Gas Unit of IMPORT/EXPORT";
+        document.querySelector("#" + key + "-text").textContent = Math.round(circleValues[key] * 100) / 100 + " UNIT FOR GAS EXPORT/IMPORT";
     }
-};    
+};
+
 
 function updatePropSymbols(attribute){
     map.eachLayer(function(layer){
@@ -235,7 +203,8 @@ function updatePropSymbols(attribute){
     });
 
     updateLegend(attribute);
-};   
+};
+
 
 //Create an array of the sequential attributes
 function processData(data){
@@ -248,18 +217,19 @@ function processData(data){
     //push each attribute name into the attribute array
     for (var attribute in properties){
         //only take attributes with snowfall values
-        if (attribute.indexOf("gas") > -1){
+        if (attribute.indexOf("Gas") > -1){
             attributes.push(attribute);
         };
     };
 
     //check the resulg
-    console.log(attributes);
+    //console.log(attributes);
 
     return attributes;
-}; 
+};
 
-/*function createSequenceControls(attributes){
+//Step 1: Create new sequence controls
+function createSequenceControls(attributes){
     var SequenceControl = L.Control.extend({
         options: {
             position: 'bottomleft'
@@ -267,15 +237,15 @@ function processData(data){
 
         onAdd: function () {
             //create the control container div with a particular class name 
-            var container = L.DomUtil.create('div', 'dropdown-control-container');
+            var container = L.DomUtil.create('div', 'sequence-control-container');
 
             //create range input element (slider)
-            container.insertAdjacentHTML('beforeend', '<input class="dropdown" type="text">');
+            container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
 
-            //add dropdown button 
-            container.insertAdjacentHTML('beforeend', '<button class ="dropbtn" id="myInput" title="Select Month and Year"></button>');
+            //add skip buttons
+            container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="img/reverse.png"></button>');
 
-            //container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="img/forward.png"></button>');
+            container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="img/forward.png"></button>');
 
             L.DomEvent.disableClickPropagation(container);
 
@@ -287,7 +257,7 @@ function processData(data){
     map.addControl(new SequenceControl());
     //add listeners after adding control
     //set slider attributes
-    document.querySelector(".range-slider").max = 8;
+    document.querySelector(".range-slider").max = 3;
     document.querySelector(".range-slider").min = 0;
     document.querySelector(".range-slider").value = 0;
     document.querySelector(".range-slider").step = 1;
@@ -298,16 +268,16 @@ function processData(data){
     steps.forEach(function(step){
         step.addEventListener("click", function(){
             var index = document.querySelector('.range-slider').value;
-            console.log(index);
+            //console.log(index);
             //increment or decrement depending on button clicked
             if (step.id == 'forward'){
                 index++;
                 //if past the last attribute, wrap around to first attribute
-                index = index > 8 ? 0 : index;
+                index = index > 3 ? 0 : index;
             } else if (step.id == 'reverse'){
                 index--;
                 //if past the first attribute, wrap around to last attribute
-                index = index < 0 ? 8 : index;
+                index = index < 0 ? 3 : index;
             };
 
             //update slider
@@ -323,9 +293,7 @@ function processData(data){
         //console.log(index);
         updatePropSymbols(attributes[index]);
     });
-};   */
-
-
+};
 //function to create legend 
 function createLegend(attributes) {
     var LegendControl = L.Control.extend({
@@ -337,7 +305,7 @@ function createLegend(attributes) {
             //create the control container with a particular class name 
             var container = L.DomUtil.create("div", "legend-control-container");
 
-            container.innerHTML = '<p class="temporalLegend">Gas in <span class="year">2019</span></p>';
+            container.innerHTML = '<p class="temporalLegend">Oil in/out <span class="year">2019</span></p>';
 
             //Start attribute legend svg string
             var svg = '<svg id="attribute-legend" width="160px" height="60px">';
@@ -349,9 +317,9 @@ function createLegend(attributes) {
             for (var i = 0; i < circles.length; i++) {
                 //calculate r and cy
                 var radius = calcPropRadius(dataStats[circles[i]]);
-                console.log(radius);
+                //console.log(radius);
                 var cy = 54 - radius;
-                console.log(cy);
+                //console.log(cy);
 
                 //circle string
                 svg += '<circle class="legend-circle" id="' + circles[i] + '" r="' + radius + '" cy="' + cy + '" fill="#00bbff" fill-opacity="0.8" stroke="#000000" cx="30"/>';
@@ -360,7 +328,7 @@ function createLegend(attributes) {
                 var textY = i * 20 + 10;
 
                 //text string 
-                svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + Math.round(dataStats[circles[i]] *100) / 100 + " inches" + "</text>";
+                svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + Math.round(dataStats[circles[i]] *100) / 100 + " UNIT FOR GAS IMPORT/EXPORT" + "</text>";
             }
 
             //close svg string
@@ -374,91 +342,25 @@ function createLegend(attributes) {
     });
 
     map.addControl(new LegendControl());
-}    
+}
 
-////// FROM CHAPTER 5 TRYING TO GET DATA TO LOAD
-/*function createPropSymbols(data){
-
-    var attribute = "City";
-    //create marker options
-    var geojsonMarkerOptions ={
-        radius: 8,
-        fillColor: "#ff7800",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
-
-    //create a Leaflet GeoJSON layer and add it to the map
-    L.geoJson(data, {
-        pointToLayer: function (feature, latlng) {
-
-            var attValue = Number(feature.properties[attribute]);
-
-            console.log(feature.properties, attValue);
-
-            return L.circleMarker(latlng, geojsonMarkerOptions);
-        }
-    }).addTo(map);
-};*/
-    
-//}    
 
 //function to retrieve the data and place it on the map
-function getData(map){ //add map to parantheses at some point
+function getData(map){  //add map at some point to
     //load the data
-    fetch("data/NetBorderX.geojson")
+    fetch("data/borderXyear.geojson")
         .then(function(response){
             return response.json();
         })
         .then(function(json){
-            //createPropSymbols(json);
             var attributes = processData(json);
             //console.log(attributes)
-            calcStats(json, attributes)
+            calcStats(json)
             //create marker options
             //callfunction to create proportional symbols
             createPropSymbols(json, attributes);
-            //createSequenceControls(attributes);
-            //createLegend(attributes);
-        })
-    
+            createSequenceControls(attributes);
+            createLegend(attributes);
+        }) 
 };
-document.addEventListener('DOMContentLoaded', createMap)    
-
-
-//Step 3: Add circle markers for point features to the map
-// function createPropSymbols(data){
-//     //create marker options
-//     var geojsonMarkerOptions = {
-//         radius: 8,
-//         fillColor: "#ff7800",
-//         color: "#000",
-//         weight: 1,
-//         opacity: 1,
-//         fillOpacity: 0.8
-//     };
-
-//     //create a Leaflet GeoJSON layer and add it to the map
-//     L.geoJson(data, {
-//         pointToLayer: function (feature, latlng) {
-//             return L.circleMarker(latlng, geojsonMarkerOptions);
-//         }
-//     }).addTo(map);
-// };
-
-// //Step 2: Import GeoJSON data
-// function getData(map){
-//     //load the data
-//     fetch("data/NetBorderX.geojson")
-//         .then(function(response){
-//             if (!response.ok) {
-// 				throw new Error("HTTP error, status = " + response.status);
-// 			}
-//             return response.json();
-//         })
-//         .then(function(json){
-//             createPropSymbols(json);
-//         })
-// 
+document.addEventListener('DOMContentLoaded', createMap)

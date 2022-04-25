@@ -1,0 +1,974 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Greifswald(Nord Stream)",
+          "Gas_2019": 56687,
+          "Gas_2020": 57377,
+          "Gas_2021": 55354,
+          "Gas_2022": 4691
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.385554,
+            54.084992
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Mallnow",
+          "Gas_2019": 27549,
+          "Gas_2020": 24669,
+          "Gas_2021": 21051,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            14.652859,
+            52.495184
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Mallnow",
+          "Gas_2019": 12,
+          "Gas_2020": 85,
+          "Gas_2021": 80,
+          "Gas_2022": 551
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            14.652859,
+            52.495184
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Kamminke",
+          "Gas_2019": 0,
+          "Gas_2020": 5,
+          "Gas_2021": 1,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            14.2065,
+            53.8702
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Lasow",
+          "Gas_2019": 369,
+          "Gas_2020": 685,
+          "Gas_2021": 563,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            15.0308,
+            51.2286
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Olbernhau",
+          "Gas_2019": 0,
+          "Gas_2020": 0,
+          "Gas_2021": 0,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.3383,
+            50.6589
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Hora Svate Kateriny ",
+          "Gas_2019": 118,
+          "Gas_2020": 42,
+          "Gas_2021": 1,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.4367,
+            50.6063
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Waidhaus",
+          "Gas_2019": 21522,
+          "Gas_2020": 21473,
+          "Gas_2021": 24928,
+          "Gas_2022": 1878
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            12.495029,
+            49.641939
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Operkappel",
+          "Gas_2019": 711,
+          "Gas_2020": 224,
+          "Gas_2021": 770,
+          "Gas_2022": 2
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.7716,
+            48.5528
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Operkappel",
+          "Gas_2019": 3115,
+          "Gas_2020": 4662,
+          "Gas_2021": 1442,
+          "Gas_2022": 421
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.7716,
+            48.5528
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Burghausen (Uberackern II)",
+          "Gas_2019": 859,
+          "Gas_2020": 449,
+          "Gas_2021": 209,
+          "Gas_2022": 5
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            12.841521,
+            48.180834
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Burghausen (Uberackern II)",
+          "Gas_2019": 127,
+          "Gas_2020": 984,
+          "Gas_2021": 987,
+          "Gas_2022": 126
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            12.841521,
+            48.180834
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Kiefersfelden",
+          "Gas_2019": 398,
+          "Gas_2020": 388,
+          "Gas_2021": 410,
+          "Gas_2022": 58
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            12.190504,
+            47.612734
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Tarvisio",
+          "Gas_2019": 29251,
+          "Gas_2020": 27830,
+          "Gas_2021": 27733,
+          "Gas_2022": 1589
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.598429,
+            46.505239
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Tarvisio",
+          "Gas_2019": 134,
+          "Gas_2020": 126,
+          "Gas_2021": 851,
+          "Gas_2022": 105
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.598429,
+            46.505239
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Gorizia",
+          "Gas_2019": 14,
+          "Gas_2020": 2,
+          "Gas_2021": 39,
+          "Gas_2022": 10
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.50076,
+            45.873406
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Gorizia",
+          "Gas_2019": 1,
+          "Gas_2020": 0,
+          "Gas_2021": 4,
+          "Gas_2022": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.50076,
+            45.873406
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Griespass",
+          "Gas_2019": 10639,
+          "Gas_2020": 8598,
+          "Gas_2021": 2169,
+          "Gas_2022": 864
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.373976,
+            46.453772
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Griespass",
+          "Gas_2019": 60,
+          "Gas_2020": 71,
+          "Gas_2021": 520,
+          "Gas_2022": 46
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.373976,
+            46.453772
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Bizzarone",
+          "Gas_2019": 124,
+          "Gas_2020": 118,
+          "Gas_2021": 124,
+          "Gas_2022": 19
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            8.948803,
+            45.834255
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Irun (Biriatou)",
+          "Gas_2019": 0,
+          "Gas_2020": 0,
+          "Gas_2021": 0,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -1.793698,
+            43.339081
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Irun (Biriatou)",
+          "Gas_2019": 401,
+          "Gas_2020": 313,
+          "Gas_2021": 443,
+          "Gas_2022": 33
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -1.793698,
+            43.339081
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Larrau",
+          "Gas_2019": 3732,
+          "Gas_2020": 2529,
+          "Gas_2021": 1925,
+          "Gas_2022": 58
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -0.951661,
+            43.005832
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Larrau",
+          "Gas_2019": 247,
+          "Gas_2020": 113,
+          "Gas_2021": 448,
+          "Gas_2022": 34
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -0.951661,
+            43.005832
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Taisnieres",
+          "Gas_2019": 4488,
+          "Gas_2020": 3938,
+          "Gas_2021": 4291,
+          "Gas_2022": 59
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            3.872416,
+            50.364597
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Obergailbach",
+          "Gas_2019": 3752,
+          "Gas_2020": 3860,
+          "Gas_2021": 5714,
+          "Gas_2022": 148
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.218883,
+            49.118238
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Oltingue",
+          "Gas_2019": 0,
+          "Gas_2020": 0,
+          "Gas_2021": 64,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.392576,
+            47.491924
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Oltingue",
+          "Gas_2019": 6072,
+          "Gas_2020": 5097,
+          "Gas_2021": 1394,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.392576,
+            47.491924
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Blategnies",
+          "Gas_2019": 9027,
+          "Gas_2020": 6433,
+          "Gas_2021": 3300,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            3.9488,
+            50.3619
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Jura",
+          "Gas_2019": 561,
+          "Gas_2020": 651,
+          "Gas_2021": 653,
+          "Gas_2022": 107
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            6.131497,
+            46.191574
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Oude Statenzijl",
+          "Gas_2019": 12915,
+          "Gas_2020": 12117,
+          "Gas_2021": 7377,
+          "Gas_2022": 250
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.205,
+            53.2019
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Oude Statenzijl",
+          "Gas_2019": 3333,
+          "Gas_2020": 2724,
+          "Gas_2021": 3041,
+          "Gas_2022": 220
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.205,
+            53.2019
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Winterswijk",
+          "Gas_2019": 6032,
+          "Gas_2020": 5413,
+          "Gas_2021": 5728,
+          "Gas_2022": 513
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            6.716599,
+            51.971864
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Zevenaar",
+          "Gas_2019": 6527,
+          "Gas_2020": 5551,
+          "Gas_2021": 5151,
+          "Gas_2022": 616
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            6.06872,
+            51.934033
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Tegelen",
+          "Gas_2019": 8,
+          "Gas_2020": 22,
+          "Gas_2021": 17,
+          "Gas_2022": 5
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            6.140978,
+            51.341771
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Zelzate",
+          "Gas_2019": 5984.43,
+          "Gas_2020": 4783.109,
+          "Gas_2021": 4255.83,
+          "Gas_2022": 412.98
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            3.812306,
+            51.198034
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Zelzate",
+          "Gas_2019": 528,
+          "Gas_2020": 827,
+          "Gas_2021": 1682,
+          "Gas_2022": 10
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            3.812306,
+            51.198034
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Zandvliet",
+          "Gas_2019": 1410,
+          "Gas_2020": 407,
+          "Gas_2021": 0,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            4.271811,
+            51.359955
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Hilvarenbeek",
+          "Gas_2019": 3506,
+          "Gas_2020": 8291,
+          "Gas_2021": 8667,
+          "Gas_2022": 577
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            5.042085,
+            51.446385
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "s Gravenvoeren",
+          "Gas_2019": 622,
+          "Gas_2020": 653,
+          "Gas_2021": 0,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            5.71369,
+            51.037296
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Petange",
+          "Gas_2019": 63,
+          "Gas_2020": 99,
+          "Gas_2021": 51,
+          "Gas_2022": 34
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            5.851631,
+            49.550583
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Remich ",
+          "Gas_2019": 108,
+          "Gas_2020": 157,
+          "Gas_2021": 157,
+          "Gas_2022": 2
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            6.362301,
+            49.544328
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Alveringem",
+          "Gas_2019": 27,
+          "Gas_2020": 158,
+          "Gas_2021": 697,
+          "Gas_2022": 600
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            2.7097,
+            51.0123
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Wallbach",
+          "Gas_2019": 7489,
+          "Gas_2020": 5757,
+          "Gas_2021": 3065,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            7.899507,
+            47.568867
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Tietierowka",
+          "Gas_2019": 81,
+          "Gas_2020": 86,
+          "Gas_2021": 91,
+          "Gas_2022": 13
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            18.5804,
+            54.7353
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Kondratki",
+          "Gas_2019": 34427,
+          "Gas_2020": 35919,
+          "Gas_2021": 31700,
+          "Gas_2022": 582
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            18.9592,
+            52.7796
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Wysokoje",
+          "Gas_2019": 3013,
+          "Gas_2020": 2850,
+          "Gas_2021": 3653,
+          "Gas_2022": 167
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            23.165,
+            52.287
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Drozdowicze",
+          "Gas_2019": 3906,
+          "Gas_2020": 2795,
+          "Gas_2021": 4051,
+          "Gas_2022": 101
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            22.5951,
+            49.5387
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Hermanowice",
+          "Gas_2019": 1461,
+          "Gas_2020": 440,
+          "Gas_2021": 0,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            22.8149,
+            49.7231
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Gubin ",
+          "Gas_2019": 5,
+          "Gas_2020": 4,
+          "Gas_2021": 6,
+          "Gas_2022": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            14.7285,
+            51.949
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Finkenherd (EWE)",
+          "Gas_2019": 48,
+          "Gas_2020": 50,
+          "Gas_2021": 58,
+          "Gas_2022": 0
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            11.137,
+            51.7872
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Moravia",
+          "Gas_2019": 440,
+          "Gas_2020": 337,
+          "Gas_2021": 415,
+          "Gas_2022": 78
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            16.7677,
+            48.9545
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Baumgarten an der March",
+          "Gas_2019": 44341,
+          "Gas_2020": 36879,
+          "Gas_2021": 36404,
+          "Gas_2022": 1867
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            16.8697,
+            48.3089
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Baumgarten an der March",
+          "Gas_2019": 1923,
+          "Gas_2020": 1928,
+          "Gas_2021": 1210,
+          "Gas_2022": 68
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            16.8697,
+            48.3089
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Lindau ",
+          "Gas_2019": 282,
+          "Gas_2020": 277,
+          "Gas_2021": 287,
+          "Gas_2022": 42
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            9.6929,
+            47.5535
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Ruggel",
+          "Gas_2019": 39,
+          "Gas_2020": 60,
+          "Gas_2021": 65,
+          "Gas_2022": 10
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            9.5402,
+            47.2529
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Brandov ",
+          "Gas_2019": 25809,
+          "Gas_2020": 36872,
+          "Gas_2021": 39999,
+          "Gas_2022": 3295
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.3907,
+            50.632
+          ]
+        }
+      }
+    ]
+  }
