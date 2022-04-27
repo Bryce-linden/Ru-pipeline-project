@@ -1,0 +1,8 @@
+/*Map div class style*/
+#map {
+    height: 600px;
+    width: 100%;
+    display: inline-block;
+    /*vertical-align: top;*/
+    
+}

@@ -4,7 +4,7 @@
 var dataStats = {};
 
 //keep everything in the createMap function. The functions getcolor and style seem to work properly
-function createMap(){
+function createMap(statesData){
 
     var oil_icon = L.icon({
         iconUrl: 'lib/oil_barrel.png',
@@ -22,6 +22,7 @@ function createMap(){
 	var mDenver = L.marker([39.74, -104.99],{icon:oil_icon}).bindPopup('This is Denver, CO.').addTo(cities);
 	var mAurora = L.marker([39.73, -104.8],{icon:oil_icon}).bindPopup('This is Aurora, CO.').addTo(cities);
 	var mGolden = L.marker([39.77, -105.23],{icon:oil_icon}).bindPopup('This is Golden, CO.').addTo(cities);
+    
 
     //var choropleth = L.layerGroup();
 
@@ -88,9 +89,9 @@ function createMap(){
     //console.log("pop density")
     // method that we will use to update the control based on feature properties passed
     info.update = function (props) {
-        this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
+        this._div.innerHTML = '<h4> Gas units</h4>' +  (props ?
             '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
-            : 'Hover over a state');
+            : 'Hover over a region');
     };
 
     info.addTo(map);
@@ -155,7 +156,7 @@ function createMap(){
 
 
     /* global statesData */
-        geojson = L.geoJson(countryData, {
+        geojson = L.geoJson(statesData, {
         style: style,
         onEachFeature: onEachFeature
     }).addTo(map);

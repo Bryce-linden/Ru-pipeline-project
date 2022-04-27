@@ -1,0 +1,58 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Greifswald(Nord Stream)",
+
+          "Mth_1": 5029,
+          "Mth_2": 4539,
+          "Mth_3": 5025,
+          "Mth_4": 4864,
+          "Mth_5": 5021,
+          "Mth_6": 4865,
+          "Mth_7": 2923,
+          "Mth_8": 5018,
+          "Mth_9": 4692,
+          "Mth_10": 4867,
+          "Mth_11": 4840,
+          "Mth_12": 5004
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            13.385554,
+            54.084992
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "City": "Mallnow",
+    
+          "Mth_1": 2335,
+          "Mth_2": 2144,
+          "Mth_3": 2364,
+          "Mth_4": 1992,
+          "Mth_5": 2478,
+          "Mth_6": 2250,
+          "Mth_7": 2190,
+          "Mth_8": 2178,
+          "Mth_9": 2270,
+          "Mth_10": 2528,
+          "Mth_11": 2416,
+          "Mth_12": 2416
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            14.652859,
+            52.495184
+          ]
+        }
+      }
+      
+    ]
+}
