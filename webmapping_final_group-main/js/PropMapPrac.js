@@ -1,9 +1,12 @@
-////// START OLD CODE HERE ///////
 //declare map variable in global scope
 var map;
 
+var minValues = {};
+
 //declare the min value and max value in global scope 
 var dataStats = {};
+
+var expressed = "Y2019-01"
 
 //function to instantiate the leaflet map
 function createMap(){
@@ -31,33 +34,49 @@ function createMap(){
 
 
 
-function calcStats(data,attributes) {
+function calcStats(data, attributes) {
    
     //var properties = data.features[2].properties;
     //var time =  data.properties[0]//.properties["2019-01"]; //City.properties["2019-01"];//.properties["2019-01"];//City.properties["2019-01"];
     //console.log(time)
     //var myArray = time.split("-")
-    var attribute = attributes[0];
-    console.log(attribute)
-    var year = attribute.split("-")[0]
-    var month = attribute.split("-")[1]
     //console.log(year)
     //console.log(month)
-
+    //var attribute = attributes[0];
+    //console.log(attributes)
+    //var year = attribute.split("-")[0]
+    //var month = Number(attribute.split("-")[1])
     //console.log(month)
     //create empty array to store all data values
-    var allValues = [];
+    
     //var year = data[0]
     //var month = data[1]
     //loop through each city
-    for (var City of data.features) {
+   for (var attribute of attributes) {
+        var allValues = [];
+        for (var feature of data.features){
+            //console.log(feature)
+            if (feature.properties[attribute])
+                allValues.push(feature.properties[attribute])
+
+        }
+       
+        //minValues[attribute] = Math.min(...allValues)
+        dataStats.min = Math.min(...allValues)
+        dataStats.max = Math.max(...allValues);
+
+        var sum = allValues.reduce(function (a,b) {
+            return a + b;
+        });
+        dataStats.mean = sum /allValues.length; 
+   
         //Local year variable that pulls out the year
         
         //Comparing local year variable to the constraints
         //split function - split - the date property on the hyphen First year second month assign local variable to year and month
         //for retrieval same thing 
         //loop through each year
-        for (var year = 2019; year <= 2022; year +=1){
+        /*for (var year = 2019; year <= 2022; year +=1){
             for (var month = 1; month <= 12; month += 1) {
                 //get snowfall for current year
                 var value = City.properties[String(month)];
@@ -76,9 +95,10 @@ function calcStats(data,attributes) {
         var sum = allValues.reduce(function (a,b) {
             return a + b;
         });
-        dataStats.mean = sum /allValues.length;
+        dataStats.mean = sum /allValues.length; */
 
-    }
+    } 
+    //console.log(minValues)
 
 };
 
@@ -86,11 +106,12 @@ function calcStats(data,attributes) {
 function calcPropRadius(attValue) {
     //constant factor adjusts symbol sizes evenly
     //use conditional if else statement if value 0, eg if attValue == 0 return else return all else
-    var minRadius = 5;
+    var minRadius = .075;
     //flannery Appearance compensation formula
-    var radius = 1.0083 * Math.pow(attValue/dataStats.min,0.715) * minRadius;
-
+    var radius = 1.0083 * Math.pow(attValue/1,0.715) * minRadius;
+    //console.log(radius)
     return radius;
+    
 };
 
 //create popup content 
@@ -103,7 +124,7 @@ function PopupContent(properties, attribute){
     this.gas = this.properties[attribute]; //this.gas is properties attribute
     
 
-    this.formatted = "<p><img src = '" + properties.img + "'" + " class=popupImage " + "'><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Net import of Gas for " + this.year + "in the month of  " + this.month + ": </b>" + this.gas + " Whatever the unit is</p>";
+    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Net import of Gas for " + this.year + " in the month of  " + this.month + ": </b>" + this.gas + " Whatever the unit is</p>";
 
 };
 
@@ -111,7 +132,7 @@ function PopupContent(properties, attribute){
 //Function to convert markers to circle markers
 function pointToLayer(feature, latlng, attributes){
     //Determine which attribute value to visualize with proportional symbols
-    var attribute = attributes[0];
+   // var attribute = attributes[0];
     //console.log(attribute)
 
     //create marker options
@@ -125,8 +146,8 @@ function pointToLayer(feature, latlng, attributes){
     };
 
     //For each feature, determine its value for the selected attribute 
-    var attValue = Number(feature.properties[attribute]);
-    console.log(attValue)
+    var attValue = Number(feature.properties[expressed]);
+    //console.log(attValue)
 
     //Give each feature's circle marker a radius based on its attribute value
     options.radius = calcPropRadius(attValue);
@@ -135,7 +156,7 @@ function pointToLayer(feature, latlng, attributes){
     var layer = L.circleMarker(latlng, options);
 
     //build popup content string starting with city
-    var popupContent = new PopupContent(feature.properties, attribute);
+    var popupContent = new PopupContent(feature.properties, expressed);
 
     
     //Bind the popup to the circle marker addin an offset to each circle marker as to not cover symbol
@@ -247,19 +268,80 @@ function processData(data){
 
     //push each attribute name into the attribute array
     for (var attribute in properties){
-        //only take attributes with snowfall values
-        if (attribute.indexOf("gas") > -1){
+        //console.log(attribute.indexOf("Y"))
+        //only take attributes with gas values
+        if (attribute.indexOf("Y") == 0){
             attributes.push(attribute);
         };
     };
 
     //check the resulg
-    console.log(attributes);
+    //console.log(attributes);
 
     return attributes;
 }; 
 
-/*function createSequenceControls(attributes){
+function cascadingDropdown(attributes){ //Put attributes in parantheses?
+    var subjectObject = {
+        "Month": {
+          "January": ["2019", "2020", "2021", "2022"],
+          "February": ["2019", "2020", "2021", "2022"],
+          "March": ["2019", "2020", "2021", "2022"],
+          "April": ["2019", "2020", "2021", "2022"],
+          "May": ["2019", "2020", "2021", "2022"],
+          "June": ["2019", "2020", "2021", "2022"],
+          "July": ["2019", "2020", "2021", "2022"],
+          "August": ["2019", "2020", "2021", "2022"],
+          "September": ["2019", "2020", "2021", "2022"],
+          "October": ["2019", "2020", "2021", "2022"],
+          "November": ["2019", "2020", "2021", "2022"],
+          "December": ["2019", "2020", "2021", "2022"]
+        }
+      }
+
+      //var attribute = attributes[0];
+      //console.log(attribute)
+      //var month = Number(attribute.split("-")[1])
+      //console.log(month)
+      //var year = attribute.split("-")[0]
+      //var yearY = year.split("Y")[1]
+      //console.log(year)
+      //console.log(yearY)
+      window.onload = function() {
+        var monthSel = document.getElementById("month");
+        var yearSel = document.getElementById("year");
+        for (var y in subjectObject) {
+          monthSel.options[monthSel.options.length] = new Option(y, y);
+        }
+        monthSel.onchange = function() {
+          //empty Chapters- and Topics- dropdowns
+          //chapterSel.length = 1;
+          yearSel.length = 1;
+          var z = subjectObject[monthSel.value][this.value];
+          //display correct values
+          for (var i = 0; i < z.length; i++){
+            yearSel.options[yearSel.options.length] = new Option(z[i], z[i]);
+          }
+        }
+        /*yearSel.onchange = function() {
+          //empty Chapters dropdown
+          chapterSel.length = 1;
+          //display correct values
+          var z = subjectObject[monthSel.value][this.value];
+          for (var i = 0; i < z.length; i++) {
+            //chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
+          }
+        }*/
+    }
+    //document.querySelector('.range-slider').addEventListener('input', function(){
+    //    var index = this.value;
+    //    //console.log(index);
+    //    updatePropSymbols(attributes[index]);
+    //});
+
+}
+//Step 1: Create new sequence controls
+function createSequenceControls(attributes){
     var SequenceControl = L.Control.extend({
         options: {
             position: 'bottomleft'
@@ -267,15 +349,15 @@ function processData(data){
 
         onAdd: function () {
             //create the control container div with a particular class name 
-            var container = L.DomUtil.create('div', 'dropdown-control-container');
+            var container = L.DomUtil.create('div', 'sequence-control-container');
 
             //create range input element (slider)
-            container.insertAdjacentHTML('beforeend', '<input class="dropdown" type="text">');
+            container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
 
-            //add dropdown button 
-            container.insertAdjacentHTML('beforeend', '<button class ="dropbtn" id="myInput" title="Select Month and Year"></button>');
+            //add skip buttons
+            container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="img/reverse.png"></button>');
 
-            //container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="img/forward.png"></button>');
+            container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="img/forward.png"></button>');
 
             L.DomEvent.disableClickPropagation(container);
 
@@ -287,7 +369,7 @@ function processData(data){
     map.addControl(new SequenceControl());
     //add listeners after adding control
     //set slider attributes
-    document.querySelector(".range-slider").max = 8;
+    document.querySelector(".range-slider").max = 36;
     document.querySelector(".range-slider").min = 0;
     document.querySelector(".range-slider").value = 0;
     document.querySelector(".range-slider").step = 1;
@@ -298,16 +380,16 @@ function processData(data){
     steps.forEach(function(step){
         step.addEventListener("click", function(){
             var index = document.querySelector('.range-slider').value;
-            console.log(index);
+            //console.log(index);
             //increment or decrement depending on button clicked
             if (step.id == 'forward'){
                 index++;
                 //if past the last attribute, wrap around to first attribute
-                index = index > 8 ? 0 : index;
+                index = index > 36 ? 0 : index;
             } else if (step.id == 'reverse'){
                 index--;
                 //if past the first attribute, wrap around to last attribute
-                index = index < 0 ? 8 : index;
+                index = index < 0 ? 36 : index;
             };
 
             //update slider
@@ -320,11 +402,10 @@ function processData(data){
     //input listener for slider
     document.querySelector('.range-slider').addEventListener('input', function(){
         var index = this.value;
-        //console.log(index);
+    //    console.log(index);
         updatePropSymbols(attributes[index]);
     });
-};   */
-
+};
 
 //function to create legend 
 function createLegend(attributes) {
@@ -344,14 +425,14 @@ function createLegend(attributes) {
 
             //array of circle names to base loop on 
             var circles = ["max", "mean", "min"];
-
+            
             //Loop to add each circle and text to svg string
             for (var i = 0; i < circles.length; i++) {
                 //calculate r and cy
                 var radius = calcPropRadius(dataStats[circles[i]]);
-                console.log(radius);
+                //console.log(radius);
                 var cy = 54 - radius;
-                console.log(cy);
+                //console.log(cy);
 
                 //circle string
                 svg += '<circle class="legend-circle" id="' + circles[i] + '" r="' + radius + '" cy="' + cy + '" fill="#00bbff" fill-opacity="0.8" stroke="#000000" cx="30"/>';
@@ -371,7 +452,7 @@ function createLegend(attributes) {
 
             return container;
         },
-    });
+    });//minValues[attribute] = Math.min(...allValues)
 
     map.addControl(new LegendControl());
 }    
@@ -419,9 +500,10 @@ function getData(map){ //add map to parantheses at some point
             calcStats(json, attributes)
             //create marker options
             //callfunction to create proportional symbols
+            cascadingDropdown();
             createPropSymbols(json, attributes);
             //createSequenceControls(attributes);
-            //createLegend(attributes);
+            createLegend(attributes);
         })
     
 };

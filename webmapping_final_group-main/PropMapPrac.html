@@ -19,6 +19,18 @@
 
     <body>
         <div id="map"></div>
+        <div id="panel"></div>
+        <form name="form1" id="form1" action="/action_page.php">
+            Month: <select name="month" id="month">
+                <option value="" selected="selected">Select Month</option>
+            </select>
+            <br><Br>
+            Year: <select name="year" id="year">
+                <option value="" selected="selected">Select Month First</option>
+            </select>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
         <!--put your initial page content here-->
 
         <!--you can also use this space for internal scripts;
@@ -26,7 +38,7 @@
 
         <!--put your external script links here-->
         
-        <script type="text/javascript" src="js/PropMapPracYear.js"></script>
+        <script type="text/javascript" src="js/PropMapPrac.js"></script>
         <script type="text/javascript" src="lib/leaflet-src.js"></script>
         <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
     </body>

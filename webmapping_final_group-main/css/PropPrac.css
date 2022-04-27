@@ -60,7 +60,7 @@ body{
     height: auto;
 }
 
-/*Panel box style from chapter 5 sequences box
+/*Panel box style from chapter 5 sequences box*/
 #panel {
     width: 25%;
     padding: 20px;
@@ -68,7 +68,7 @@ body{
     vertical-align: top;
     text-align: center;
     line-height: 42px;
-}*/
+}
  
 #forward {
     float: right;
