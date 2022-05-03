@@ -77,7 +77,7 @@ function createMap(){
            
         
         };
-    console.log(bordercrossings)
+    console.log("this is border crossings", bordercrossings)
     var layerControl = L.control.layers(baseLayers,overlays).addTo(map); 
     var satellite = L.tileLayer(mbUrl, {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
     layerControl.addBaseLayer(satellite, "Satellite");
@@ -88,21 +88,7 @@ function createMap(){
 
 function calcStats(data, attributes) {
    
-    //var properties = data.features[2].properties;
-    //var time =  data.properties[0]//.properties["2019-01"]; //City.properties["2019-01"];//.properties["2019-01"];//City.properties["2019-01"];
-    //console.log(time)
-    //var myArray = time.split("-")
-    //console.log(year)
-    //console.log(month)
-    //var attribute = attributes[0];
-    //console.log(attributes)
-    //var year = attribute.split("-")[0]
-    //var month = Number(attribute.split("-")[1])
-    //console.log(month)
-    //create empty array to store all data values
-    
-    //var year = data[0]
-    //var month = data[1]
+  
     //loop through each city
    for (var attribute of attributes) {
         var allValues = [];
@@ -122,43 +108,146 @@ function calcStats(data, attributes) {
         });
         dataStats.mean = sum /allValues.length; 
    
-        //Local year variable that pulls out the year
-        
-        //Comparing local year variable to the constraints
-        //split function - split - the date property on the hyphen First year second month assign local variable to year and month
-        //for retrieval same thing 
-        //loop through each year
-        /*for (var year = 2019; year <= 2022; year +=1){
-            for (var month = 1; month <= 12; month += 1) {
-                //get snowfall for current year
-                var value = City.properties[String(month)];
-                //add value to array
-                console.log(value)
-                allValues.push(value);
-            }
-            
-        }
-
-        //get min, max, mean stats for our array
-        dataStats.min = Math.min(...allValues);
-        dataStats.max = Math.max(...allValues);
-        //calculate meanValue
-
-        var sum = allValues.reduce(function (a,b) {
-            return a + b;
-        });
-        dataStats.mean = sum /allValues.length; */
 
     } 
     //console.log(minValues)
 
 };
 
+
+//BEGIN CHOROPLETH! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function makechoropleth(){
+    // control that shows state info on hover
+	var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = '<h4>2019</h4>' +  (props ?
+			'<b>' + props.ADMIN + '</b><br />' + props.Y2019 + ' meters^3 ' : 'Hover over a country!');
+			console.log("props:", props)
+	};
+	
+	info.addTo(map);
+
+ //This color scheme gives you purple as middle values
+	// function getColor(d) {
+	// 	return d >= 12215 ? '#F50000' :
+	// 		d >= 9855 ? '#E8005F' :
+	// 		d >= 7374 ? '#4600C2' :
+	// 		d >= 5152 ? '#9F00CE' :
+	// 		d >= 2520 ? '#3F13B5' :
+	// 		d >= -3702 ? '#4600C2' :
+	// 		d >= -7280 ? '#0009B5' : 
+	// 		'#fff5f0';
+	// }
+
+    function getColor(d) {
+		return d >= 12215 ? '#b2182b' :
+			d >= 9855 ? '#ef8a62' :
+			d >= 7374 ? '#fddbc7' :
+			d >= 5152 ? '#f7f7f7' :
+			d >= 2520 ? '#d1e5f0' :
+			d >= -3702 ? '#67a9cf' :
+			d >= -7280 ? '#2166ac' : 
+			'#fff5f0';
+	}
+
+	function style(feature) {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.7,
+			fillColor: getColor(feature.properties.Y2019)
+		};
+	}
+
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: '#FC4E2A',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+		info.update(layer.feature.properties);
+	}
+
+	var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+	/* global statesData */
+	geojson = L.geoJson(alleuro, {
+		style: style,
+		onEachFeature: onEachFeature,
+	}).addTo(map);
+	
+
+	map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+
+
+	var legend = L.control({position: 'bottomleft'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend');
+		
+        var grades = [12215, 9855, 7374, 5152, 2520, -3702, -7280];
+		var labels = [];
+		var from, to;
+
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+			to = grades[i + 1];
+
+            labels.push(
+				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+}
+
+//end choropleth function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
     //constant factor adjusts symbol sizes evenly
     //use conditional if else statement if value 0, eg if attValue == 0 return else return all else
-    var minRadius = .075;
+    var minRadius = .06;
     //flannery Appearance compensation formula
     var radius = 1.0083 * Math.pow(attValue/1,0.715) * minRadius;
     //console.log(radius)
@@ -220,6 +309,17 @@ function pointToLayer(feature, latlng, attributes){
     return layer;
 };
 
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
 //add circle markers or point features to the map
 function createPropSymbols(data, attributes){
     //create a Leaflet GeoJSON Layer and add it to map 
@@ -229,6 +329,27 @@ function createPropSymbols(data, attributes){
         }
     });
 };
+
+
+
+// function style(feature) {
+//     return {
+//         fillColor: getColor(feature.properties.density),
+//         weight: 2,
+//         opacity: 1,
+//         color: 'green',
+//         dashArray: '3',
+//         fillOpacity: 0.7
+//     };
+// }
+
+
+
+
+//FOR CHOROPLETH
+//create new function similar to createpropsymbols
+// Plug in json variable into parethesis in function
+// style : style
 
 //NEEDED FOR FINAL LAB
 function getCircleValues(attribute) {
@@ -351,14 +472,7 @@ function cascadingDropdown(attributes){ //Put attributes in parantheses?
         }
       }
 
-      //var attribute = attributes[0];
-      //console.log(attribute)
-      //var month = Number(attribute.split("-")[1])
-      //console.log(month)
-      //var year = attribute.split("-")[0]
-      //var yearY = year.split("Y")[1]
-      //console.log(year)
-      //console.log(yearY)
+     
       window.onload = function() {
         var monthSel = document.getElementById("month");
         var yearSel = document.getElementById("year");
@@ -375,21 +489,9 @@ function cascadingDropdown(attributes){ //Put attributes in parantheses?
             yearSel.options[yearSel.options.length] = new Option(z[i], z[i]);
           }
         }
-        /*yearSel.onchange = function() {
-          //empty Chapters dropdown
-          chapterSel.length = 1;
-          //display correct values
-          var z = subjectObject[monthSel.value][this.value];
-          for (var i = 0; i < z.length; i++) {
-            //chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
-          }
-        }*/
+        
     }
-    //document.querySelector('.range-slider').addEventListener('input', function(){
-    //    var index = this.value;
-    //    //console.log(index);
-    //    updatePropSymbols(attributes[index]);
-    //});
+    
 
 }
 //Step 1: Create new sequence controls
@@ -509,34 +611,9 @@ function createLegend(attributes) {
     map.addControl(new LegendControl());
 }    
 
-////// FROM CHAPTER 5 TRYING TO GET DATA TO LOAD
-/*function createPropSymbols(data){
 
-    var attribute = "City";
-    //create marker options
-    var geojsonMarkerOptions ={
-        radius: 8,
-        fillColor: "#ff7800",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
 
-    //create a Leaflet GeoJSON layer and add it to the map
-    L.geoJson(data, {
-        pointToLayer: function (feature, latlng) {
-
-            var attValue = Number(feature.properties[attribute]);
-
-            console.log(feature.properties, attValue);
-
-            return L.circleMarker(latlng, geojsonMarkerOptions);
-        }
-    }).addTo(map);
-};*/
-    
-//}    
+  
 
 //function to retrieve the data and place it on the map
 function getData(){ //add map to parantheses at some point
@@ -546,7 +623,7 @@ function getData(){ //add map to parantheses at some point
             return response.json();
         })
         .then(function(json){
-            console.log(json)
+            console.log("This is function getData:" , json)
             //createPropSymbols(json);
             attributes = processData(json);
             //console.log(attributes)
@@ -556,45 +633,14 @@ function getData(){ //add map to parantheses at some point
             cascadingDropdown();
             createPropSymbols(json, attributes);
             createMap();
-            //createSequenceControls(attributes);
+            createSequenceControls(attributes);
             createLegend(attributes);
+            makechoropleth();
         })
     
 };
 document.addEventListener('DOMContentLoaded', getData)    
 
 
-//Step 3: Add circle markers for point features to the map
-// function createPropSymbols(data){
-//     //create marker options
-//     var geojsonMarkerOptions = {
-//         radius: 8,
-//         fillColor: "#ff7800",
-//         color: "#000",
-//         weight: 1,
-//         opacity: 1,
-//         fillOpacity: 0.8
-//     };
 
-//     //create a Leaflet GeoJSON layer and add it to the map
-//     L.geoJson(data, {
-//         pointToLayer: function (feature, latlng) {
-//             return L.circleMarker(latlng, geojsonMarkerOptions);
-//         }
-//     }).addTo(map);
-// };
 
-// //Step 2: Import GeoJSON data
-// function getData(map){
-//     //load the data
-//     fetch("data/NetBorderX.geojson")
-//         .then(function(response){
-//             if (!response.ok) {
-// 				throw new Error("HTTP error, status = " + response.status);
-// 			}
-//             return response.json();
-//         })
-//         .then(function(json){
-//             createPropSymbols(json);
-//         })
-// 

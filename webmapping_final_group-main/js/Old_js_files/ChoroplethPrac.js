@@ -137,6 +137,22 @@ legend.addTo(map);
 
 };
 
-
+function getData(){
+    //load the data
+    fetch("data/Europe_shapefiles/Belgiumtest.json")
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(json){
+            attributes = processData(json);
+            calcStats(json)
+            console.log('test fetch function')
+            //call function to create proportional symbols, call all 3
+            createPropSymbols(json, attributes);
+            createMap();
+            createSequenceControls(attributes);
+            createLegend(attributes);
+        })
+  };
 
 document.addEventListener('DOMContentLoaded',createMap)
