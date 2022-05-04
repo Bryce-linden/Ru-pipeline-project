@@ -1,0 +1,3 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"LineString","coordinates":[[603877.007100001,8191722.8794],[555741.8834000006,8077948.950499997],[787665.6614999995,7058359.510899998]]},"properties":{"PipeLine":"","Shape_Leng":1169171.81531}}
+]}

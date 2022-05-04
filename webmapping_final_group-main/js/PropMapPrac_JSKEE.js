@@ -3,17 +3,48 @@ var map;
 
 var minValues = {};
 
+
 //declare the min value and max value in global scope 
 var dataStats = {};
-
+var attributes
+var bordercrossings
 var expressed = "Y2019-01"
-
-//var monthSelect = elem.target.options[elem.target.options.selectedIndex].value
-
-//var yearSelect = elem.target.options[elem.target.options.selectedIndex].value
 
 //function to instantiate the leaflet map
 function createMap(){
+
+    var oil_icon = L.icon({
+        iconUrl: 'lib/oil_barrel.png',
+        
+    
+        iconSize:     [18, 24], // size of the icon
+       // shadowSize:   [50, 64], // size of the shadow
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        //shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    var cities = L.layerGroup(); //create empty variable layer group that you will fill with array
+    var mLittleton = L.marker([39.61, -105.02], {icon:oil_icon}).bindPopup('This is Littleton, CO.').addTo(cities);
+    var mDenver = L.marker([39.74, -104.99],{icon:oil_icon}).bindPopup('This is Denver, CO.').addTo(cities);
+    var mAurora = L.marker([39.73, -104.8],{icon:oil_icon}).bindPopup('This is Aurora, CO.').addTo(cities);
+    var mGolden = L.marker([39.77, -105.23],{icon:oil_icon}).bindPopup('This is Golden, CO.').addTo(cities);
+  
+  
+  
+    var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+    var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+    var mbUrlgroov = 'https://api.mapbox.com/styles/v1/blinden/ckv0a1c4m0jqc14ofmm49yj72/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYmxpbmRlbiIsImEiOiJja3RicnN2aXQxejJnMm9yNXJ5ODdnZnlzIn0.xxMkVduVt5ll-Trxg1qBPQ'
+    var mbAttrgroov = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+  
+  
+    var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var groovy = L.tileLayer(mbUrlgroov, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttrgroov});
+  
+
+
+
     map = L.map('map', {
         center: [50, 11],
         zoom: 4
@@ -23,28 +54,41 @@ function createMap(){
         //    [23, -35]
         //    ]
     });
-
-    //'https://api.mapbox.com/styles/v1/jinskeep/cl0im49qp000k15muijdwfann/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoiamluc2tlZXAiLCJhIjoiY2wwaWhwZWIwMDJxODNvb3Q1Mm1zMzJwMyJ9.YJAm8B6G0iBkf0wIiCKSfA'
+    map.options.layers = [grayscale, bordercrossings];
+    
 
     //Add custom base tilelayer
     var Stadia_AlidadeSmoothDark = L.tileLayer('https://api.mapbox.com/styles/v1/blinden/cl22cbrjy000o14l69xhpbm4r/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYmxpbmRlbiIsImEiOiJja3RicnN2aXQxejJnMm9yNXJ5ODdnZnlzIn0.xxMkVduVt5ll-Trxg1qBPQ', {
         maxZoom: 20,
         attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     }).addTo(map)
-        //call the getData function
-
-    getData(map); //add map at some point
+        //call the getData function, but not when the data is too big! It won't load in time
+    var baseLayers = {
+        'Grayscale': grayscale,
+        'Smooth Gray': Stadia_AlidadeSmoothDark, //when I move this line of code above 'Grayscale', the starting basemap is grayscale, but the legend is correct with smooth dark as the first option
+        'Streets': streets,
+        'Groovy': groovy
+        };
+    
+    var overlays = {
+        'Border Crossings': bordercrossings
+    
+            //'Cities' represents the text that you see for the button on the interface. cities (the blue one) is the variable in the code
+           
+        
+        };
+    console.log("this is border crossings", bordercrossings)
+    var layerControl = L.control.layers(baseLayers,overlays).addTo(map); 
+    var satellite = L.tileLayer(mbUrl, {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    layerControl.addBaseLayer(satellite, "Satellite");
+    //getData(map); //add map at some point
 };
 
 
 
 function calcStats(data, attributes) {
    
-
-    //create empty array to store all data values
-    
-    //var year = data[0]
-    //var month = data[1]
+  
     //loop through each city
    for (var attribute of attributes) {
         var allValues = [];
@@ -64,24 +108,146 @@ function calcStats(data, attributes) {
         });
         dataStats.mean = sum /allValues.length; 
    
-        //Local year variable that pulls out the year
-        
-        //Comparing local year variable to the constraints
-        //split function - split - the date property on the hyphen First year second month assign local variable to year and month
-        //for retrieval same thing 
-        //loop through each year
-
 
     } 
     //console.log(minValues)
 
 };
 
+
+//BEGIN CHOROPLETH! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function makechoropleth(){
+    // control that shows state info on hover
+	var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = '<h4>2019</h4>' +  (props ?
+			'<b>' + props.ADMIN + '</b><br />' + props.Y2019 + ' meters^3 ' : 'Hover over a country!');
+			console.log("props:", props)
+	};
+	
+	info.addTo(map);
+
+ //This color scheme gives you purple as middle values
+	// function getColor(d) {
+	// 	return d >= 12215 ? '#F50000' :
+	// 		d >= 9855 ? '#E8005F' :
+	// 		d >= 7374 ? '#4600C2' :
+	// 		d >= 5152 ? '#9F00CE' :
+	// 		d >= 2520 ? '#3F13B5' :
+	// 		d >= -3702 ? '#4600C2' :
+	// 		d >= -7280 ? '#0009B5' : 
+	// 		'#fff5f0';
+	// }
+
+    function getColor(d) {
+		return d >= 12215 ? '#b2182b' :
+			d >= 9855 ? '#ef8a62' :
+			d >= 7374 ? '#fddbc7' :
+			d >= 5152 ? '#f7f7f7' :
+			d >= 2520 ? '#d1e5f0' :
+			d >= -3702 ? '#67a9cf' :
+			d >= -7280 ? '#2166ac' : 
+			'#fff5f0';
+	}
+
+	function style(feature) {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.7,
+			fillColor: getColor(feature.properties.Y2019)
+		};
+	}
+
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: '#FC4E2A',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+		info.update(layer.feature.properties);
+	}
+
+	var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+	/* global statesData */
+	geojson = L.geoJson(alleuro, {
+		style: style,
+		onEachFeature: onEachFeature,
+	}).addTo(map);
+	
+
+	map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+
+
+	var legend = L.control({position: 'bottomleft'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend');
+		
+        var grades = [12215, 9855, 7374, 5152, 2520, -3702, -7280];
+		var labels = [];
+		var from, to;
+
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+			to = grades[i + 1];
+
+            labels.push(
+				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+}
+
+//end choropleth function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
     //constant factor adjusts symbol sizes evenly
     //use conditional if else statement if value 0, eg if attValue == 0 return else return all else
-    var minRadius = .075;
+    var minRadius = .06;
     //flannery Appearance compensation formula
     var radius = 1.0083 * Math.pow(attValue/1,0.715) * minRadius;
     //console.log(radius)
@@ -143,15 +309,47 @@ function pointToLayer(feature, latlng, attributes){
     return layer;
 };
 
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
 //add circle markers or point features to the map
 function createPropSymbols(data, attributes){
     //create a Leaflet GeoJSON Layer and add it to map 
-    L.geoJson(data, {
+    bordercrossings = L.geoJson(data, {
         pointToLayer: function(feature, latlng){
             return pointToLayer(feature, latlng, attributes);
         }
-    }).addTo(map);
+    });
 };
+
+
+
+// function style(feature) {
+//     return {
+//         fillColor: getColor(feature.properties.density),
+//         weight: 2,
+//         opacity: 1,
+//         color: 'green',
+//         dashArray: '3',
+//         fillOpacity: 0.7
+//     };
+// }
+
+
+
+
+//FOR CHOROPLETH
+//create new function similar to createpropsymbols
+// Plug in json variable into parethesis in function
+// style : style
 
 //NEEDED FOR FINAL LAB
 function getCircleValues(attribute) {
@@ -192,7 +390,6 @@ function getCircleValues(attribute) {
 function updateLegend(attribute) {
     //create content for legend 
     var year = attribute.split("-")[0];
-    //var month = attribute.split("-")[1]
     //replace legend content
     document.querySelector("span.year").innerHTML = year;
     
@@ -238,10 +435,9 @@ function updatePropSymbols(attribute){
 function processData(data){
     //empty array to hold attributes
     var attributes = [];
-
+    console.log("this is data", data)
     //properties of the first feature in the dataset
     var properties = data.features[0].properties;
-    console.log(properties)
 
     //push each attribute name into the attribute array
     for (var attribute in properties){
@@ -259,6 +455,67 @@ function processData(data){
 }; 
 
 
+function processDataChoro(data){
+    //empty array to hold attributes
+    var attributes = [];
+
+    //properties of the first feature in the dataset
+    var properties = data.features[0].properties;
+
+    //push each attribute name into the attribute array
+    for (var attribute in properties){
+        //console.log(attribute.indexOf("Y"))
+        //only take attributes with gas values
+        if (attribute.indexOf("Y") == 0){
+            attributes.push(attribute);
+        };
+    };
+
+    //check the resulg
+    //console.log(attributes);
+
+    return attributes;
+}; 
+function cascadingDropdown(attributes){ //Put attributes in parantheses?
+    var subjectObject = {
+        "Month": {
+          "January": ["2019", "2020", "2021", "2022"],
+          "February": ["2019", "2020", "2021", "2022"],
+          "March": ["2019", "2020", "2021", "2022"],
+          "April": ["2019", "2020", "2021", "2022"],
+          "May": ["2019", "2020", "2021", "2022"],
+          "June": ["2019", "2020", "2021", "2022"],
+          "July": ["2019", "2020", "2021", "2022"],
+          "August": ["2019", "2020", "2021", "2022"],
+          "September": ["2019", "2020", "2021", "2022"],
+          "October": ["2019", "2020", "2021", "2022"],
+          "November": ["2019", "2020", "2021", "2022"],
+          "December": ["2019", "2020", "2021", "2022"]
+        }
+      }
+
+     
+      window.onload = function() {
+        var monthSel = document.getElementById("month");
+        var yearSel = document.getElementById("year");
+        for (var y in subjectObject) {
+          monthSel.options[monthSel.options.length] = new Option(y, y);
+        }
+        monthSel.onchange = function() {
+          //empty Chapters- and Topics- dropdowns
+          //chapterSel.length = 1;
+          yearSel.length = 1;
+          var z = subjectObject[monthSel.value][this.value];
+          //display correct values
+          for (var i = 0; i < z.length; i++){
+            yearSel.options[yearSel.options.length] = new Option(z[i], z[i]);
+          }
+        }
+        
+    }
+    
+
+}
 
     var months = { // This is a utility object to make it easier to work the particular format that our data requires
         "January":"01"
@@ -274,8 +531,8 @@ function processData(data){
         ,"November":"11"
         ,"December":"12"
     };
-    
-    
+
+
     var monthsIndex = { // This is a set of key:value pairs that maps the particular label for each data item/index to the 0 to 36 index values that the update function requires
         "Y2019-01": 0,
     "Y2019-02": 1,
@@ -336,10 +593,6 @@ var changeButton = document.querySelector("#updateSymbolsButton") // Select the 
     useThisIndex = monthsIndex[updateIndexString]; 
     updatePropSymbols(globalAttributes[useThisIndex]) // The Leaflet magic that actually updates the map, using the index built from our dropdown-menu values, and the Attributes that the code generates
 });
-    
-    
-    
-    
 
 
 
@@ -382,7 +635,7 @@ function createDropDownFilter(attributes){
 function createSequenceControls(attributes){
     var SequenceControl = L.Control.extend({
         options: {
-            position: 'bottomleft'
+            position: 'bottomright'
         },
 
         onAdd: function () {
@@ -393,9 +646,9 @@ function createSequenceControls(attributes){
             container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
 
             //add skip buttons
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="img/reverse.png"></button>');
+            container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="lib/oil_barrel.png"></button>');
 
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="img/forward.png"></button>');
+            container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="lib/marker-icon.png"></button>');
 
             L.DomEvent.disableClickPropagation(container);
 
@@ -416,7 +669,7 @@ function createSequenceControls(attributes){
 
     //add step buttons
     steps.forEach(function(step){
-        step.addEventListener("click", function(){ //look into what event is for dropdown menu ,, may be change
+        step.addEventListener("click", function(){
             var index = document.querySelector('.range-slider').value;
             //console.log(index);
             //increment or decrement depending on button clicked
@@ -440,10 +693,80 @@ function createSequenceControls(attributes){
     //input listener for slider
     document.querySelector('.range-slider').addEventListener('input', function(){
         var index = this.value;
-        console.log(index);
+    //    console.log(index);
         updatePropSymbols(attributes[index]);
     });
 };
+
+
+function createSequenceChoro(){
+    var SequenceControl = L.Control.extend({
+        options: {
+            position: 'bottomleft'
+        },
+
+        onAdd: function () {
+            //create the control container div with a particular class name 
+            var container = L.DomUtil.create('div', 'sequence-control-container');
+
+            //create range input element (slider)
+            container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
+
+            //add skip buttons
+            container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="lib/oil_barrel.png"></button>');
+
+            container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="lib/marker-icon.png"></button>');
+
+            L.DomEvent.disableClickPropagation(container);
+
+            return container;
+
+        }
+    });
+
+    map.addControl(new SequenceControl());
+    //add listeners after adding control
+    //set slider attributes
+    document.querySelector(".range-slider").max = 3;
+    document.querySelector(".range-slider").min = 0;
+    document.querySelector(".range-slider").value = 0;
+    document.querySelector(".range-slider").step = 1;
+
+    var steps = document.querySelectorAll('.step');
+
+    //add step buttons
+    steps.forEach(function(step){
+        step.addEventListener("click", function(){
+            var index = document.querySelector('.range-slider').value;
+            //console.log(index);
+            //increment or decrement depending on button clicked
+            if (step.id == 'forward'){
+                index++;
+                //if past the last attribute, wrap around to first attribute
+                index = index > 3 ? 0 : index;
+            } else if (step.id == 'reverse'){
+                index--;
+                //if past the first attribute, wrap around to last attribute
+                index = index < 0 ? 3 : index;
+            };
+
+            //update slider
+            document.querySelector('.range-slider').value = index;
+            //pass new attribute to update symbols
+            //updatePropSymbols(attributes[index]);
+            //makechoropleth();
+        })
+    })
+
+    //input listener for slider
+    document.querySelector('.range-slider').addEventListener('input', function(){
+        var index = this.value;
+    //    console.log(index);
+        //makechoropleth();
+        //updatePropSymbols(attributes[index]);
+    });
+};
+
 
 //function to create legend 
 function createLegend(attributes) {
@@ -495,30 +818,35 @@ function createLegend(attributes) {
     map.addControl(new LegendControl());
 }    
 
- 
+
+
+  
 
 //function to retrieve the data and place it on the map
-function getData(map){ //add map to parantheses at some point
+function getData(){ //add map to parantheses at some point
     //load the data
     fetch("data/NetBorderX.geojson")
         .then(function(response){
             return response.json();
         })
         .then(function(json){
+            console.log("This is function getData:" , json)
             //createPropSymbols(json);
-            var attributes = processData(json);
+            attributes = processData(json);
             globalAttributes = processData(json);
             //console.log(attributes)
-            calcStats(json, attributes)
+            calcStats(json,attributes)
             //create marker options
             //callfunction to create proportional symbols
             createDropDownFilter(attributes);
             createPropSymbols(json, attributes);
-            //createSequenceControls(attributes);
+            createMap();
+            createSequenceControls(attributes);
+            createSequenceChoro();
             createLegend(attributes);
+            makechoropleth();
+            
         })
     
 };
-document.addEventListener('DOMContentLoaded', createMap)    
-
-
+document.addEventListener('DOMContentLoaded', getData)    
