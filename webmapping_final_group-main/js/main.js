@@ -9,6 +9,7 @@ var dataStats = {};
 var attributes
 var bordercrossings
 var expressed = "Y2019-01"
+var alleuro;
 
 //function to instantiate the leaflet map
 function createMap(){
@@ -237,9 +238,14 @@ function makechoropleth(){
 		div.innerHTML = labels.join('<br>');
 		return div;
 	};
+    
 
 	legend.addTo(map);
+
+    createSequenceChoro();
 }
+
+
 
 //end choropleth function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -700,6 +706,7 @@ function createSequenceControls(attributes){
 
 
 function createSequenceChoro(){
+
     var SequenceControl = L.Control.extend({
         options: {
             position: 'bottomleft'
@@ -842,7 +849,11 @@ function getData(){ //add map to parantheses at some point
             createPropSymbols(json, attributes);
             createMap();
             //createSequenceControls(attributes);
+<<<<<<< Updated upstream
             createSequenceChoro();
+=======
+            //createSequenceChoro();
+>>>>>>> Stashed changes
             createLegend(attributes);
             makechoropleth();
             
