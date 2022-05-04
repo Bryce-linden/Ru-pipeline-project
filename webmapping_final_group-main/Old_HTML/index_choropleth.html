@@ -7,42 +7,40 @@
 
         <!--put your external stylesheet links here-->
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="lib/leaflet.css">
+        
         <!--[if IE<9]>
             <link rel="stylesheet" href="css/style.ie.css">
         <![endif]-->
 
          <!--you can also place internal styles here;
              place these within <style> tags-->
-        
+            <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
     </head>
 
     <body>
-        <div id="map"></div>
-        <div id="panel"></div>
-        <form name="form1" id="form1">
-            Year: <select name="year" id="year-select">
-                <option value="" selected="selected">Select Year</option>
-            </select>
-            <br><Br>
-            Month: <select name="month" id="month-select">
-                <option value="" selected="selected">Select Year First</option>
-            </select>
-            <br><br>
-            <!--input type="submit" value="Submit"-->
-        </form>
-        <button id="updateSymbolsButton" value="Submit">Update Symbols</button>
         <!--put your initial page content here-->
-
+        <h1>Test for choropleth map!</h1>
         <!--you can also use this space for internal scripts;
         place these within <script> tags-->
-
+            <div class="row">
+                <div class="col-md-8">
+                  <div id="mapid"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                  <div id="imageZ"></div>
+                  <h2>Image here</h2>
+                </div>
+            </div>
         <!--put your external script links here-->
-        
-        
+        <script type="text/javascript" src="data/Europe_shapefiles/BelgiumtestJAVA.js"></script>
+        <!-- <script type="text/javascript" src="js/BorderXing2019changetojs.js"></script> -->
+
+        <script type="text/javascript" src="js/ChoroplethPraccopy.js"></script>
         <script type="text/javascript" src="lib/leaflet-src.js"></script>
         <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
-        <script type="text/javascript" src="data/Europe_shapefiles/10euro_countries2019-22yeardata.js"></script>
-        <script type="text/javascript" src="js/PropMapPrac2019.js"></script>
     </body>
 </html>

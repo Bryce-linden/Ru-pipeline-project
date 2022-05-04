@@ -3,17 +3,48 @@ var map;
 
 var minValues = {};
 
+
 //declare the min value and max value in global scope 
 var dataStats = {};
-
+var attributes
+var bordercrossings
 var expressed = "Y2019-01"
-
-//var monthSelect = elem.target.options[elem.target.options.selectedIndex].value
-
-//var yearSelect = elem.target.options[elem.target.options.selectedIndex].value
 
 //function to instantiate the leaflet map
 function createMap(){
+
+    var oil_icon = L.icon({
+        iconUrl: 'lib/oil_barrel.png',
+        
+    
+        iconSize:     [18, 24], // size of the icon
+       // shadowSize:   [50, 64], // size of the shadow
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        //shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    var cities = L.layerGroup(); //create empty variable layer group that you will fill with array
+    var mLittleton = L.marker([39.61, -105.02], {icon:oil_icon}).bindPopup('This is Littleton, CO.').addTo(cities);
+    var mDenver = L.marker([39.74, -104.99],{icon:oil_icon}).bindPopup('This is Denver, CO.').addTo(cities);
+    var mAurora = L.marker([39.73, -104.8],{icon:oil_icon}).bindPopup('This is Aurora, CO.').addTo(cities);
+    var mGolden = L.marker([39.77, -105.23],{icon:oil_icon}).bindPopup('This is Golden, CO.').addTo(cities);
+  
+  
+  
+    var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+    var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+    var mbUrlgroov = 'https://api.mapbox.com/styles/v1/blinden/ckv0a1c4m0jqc14ofmm49yj72/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYmxpbmRlbiIsImEiOiJja3RicnN2aXQxejJnMm9yNXJ5ODdnZnlzIn0.xxMkVduVt5ll-Trxg1qBPQ'
+    var mbAttrgroov = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+  
+  
+    var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    var groovy = L.tileLayer(mbUrlgroov, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttrgroov});
+  
+
+
+
     map = L.map('map', {
         center: [50, 11],
         zoom: 4
@@ -23,28 +54,41 @@ function createMap(){
         //    [23, -35]
         //    ]
     });
-
-    //'https://api.mapbox.com/styles/v1/jinskeep/cl0im49qp000k15muijdwfann/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoiamluc2tlZXAiLCJhIjoiY2wwaWhwZWIwMDJxODNvb3Q1Mm1zMzJwMyJ9.YJAm8B6G0iBkf0wIiCKSfA'
+    map.options.layers = [grayscale, bordercrossings];
+    
 
     //Add custom base tilelayer
     var Stadia_AlidadeSmoothDark = L.tileLayer('https://api.mapbox.com/styles/v1/blinden/cl22cbrjy000o14l69xhpbm4r/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYmxpbmRlbiIsImEiOiJja3RicnN2aXQxejJnMm9yNXJ5ODdnZnlzIn0.xxMkVduVt5ll-Trxg1qBPQ', {
         maxZoom: 20,
         attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     }).addTo(map)
-        //call the getData function
-
-    getData(map); //add map at some point
+        //call the getData function, but not when the data is too big! It won't load in time
+    var baseLayers = {
+        'Grayscale': grayscale,
+        'Smooth Gray': Stadia_AlidadeSmoothDark, //when I move this line of code above 'Grayscale', the starting basemap is grayscale, but the legend is correct with smooth dark as the first option
+        'Streets': streets,
+        'Groovy': groovy
+        };
+    
+    var overlays = {
+        'Border Crossings': bordercrossings
+    
+            //'Cities' represents the text that you see for the button on the interface. cities (the blue one) is the variable in the code
+           
+        
+        };
+    console.log("this is border crossings", bordercrossings)
+    var layerControl = L.control.layers(baseLayers,overlays).addTo(map); 
+    var satellite = L.tileLayer(mbUrl, {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+    layerControl.addBaseLayer(satellite, "Satellite");
+    //getData(map); //add map at some point
 };
 
 
 
 function calcStats(data, attributes) {
    
-
-    //create empty array to store all data values
-    
-    //var year = data[0]
-    //var month = data[1]
+  
     //loop through each city
    for (var attribute of attributes) {
         var allValues = [];
@@ -64,24 +108,146 @@ function calcStats(data, attributes) {
         });
         dataStats.mean = sum /allValues.length; 
    
-        //Local year variable that pulls out the year
-        
-        //Comparing local year variable to the constraints
-        //split function - split - the date property on the hyphen First year second month assign local variable to year and month
-        //for retrieval same thing 
-        //loop through each year
-
 
     } 
     //console.log(minValues)
 
 };
 
+
+//BEGIN CHOROPLETH! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function makechoropleth(){
+    // control that shows state info on hover
+	var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = '<h4>2019</h4>' +  (props ?
+			'<b>' + props.ADMIN + '</b><br />' + props.Y2019 + ' meters^3 ' : 'Hover over a country!');
+			console.log("props:", props)
+	};
+	
+	info.addTo(map);
+
+ //This color scheme gives you purple as middle values
+	// function getColor(d) {
+	// 	return d >= 12215 ? '#F50000' :
+	// 		d >= 9855 ? '#E8005F' :
+	// 		d >= 7374 ? '#4600C2' :
+	// 		d >= 5152 ? '#9F00CE' :
+	// 		d >= 2520 ? '#3F13B5' :
+	// 		d >= -3702 ? '#4600C2' :
+	// 		d >= -7280 ? '#0009B5' : 
+	// 		'#fff5f0';
+	// }
+
+    function getColor(d) {
+		return d >= 12215 ? '#b2182b' :
+			d >= 9855 ? '#ef8a62' :
+			d >= 7374 ? '#fddbc7' :
+			d >= 5152 ? '#f7f7f7' :
+			d >= 2520 ? '#d1e5f0' :
+			d >= -3702 ? '#67a9cf' :
+			d >= -7280 ? '#2166ac' : 
+			'#fff5f0';
+	}
+
+	function style(feature) {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.7,
+			fillColor: getColor(feature.properties.Y2019)
+		};
+	}
+
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: '#FC4E2A',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+		info.update(layer.feature.properties);
+	}
+
+	var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+	/* global statesData */
+	geojson = L.geoJson(alleuro, {
+		style: style,
+		onEachFeature: onEachFeature,
+	}).addTo(map);
+	
+
+	map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+
+
+	var legend = L.control({position: 'bottomleft'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend');
+		
+        var grades = [12215, 9855, 7374, 5152, 2520, -3702, -7280];
+		var labels = [];
+		var from, to;
+
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+			to = grades[i + 1];
+
+            labels.push(
+				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+}
+
+//end choropleth function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
     //constant factor adjusts symbol sizes evenly
     //use conditional if else statement if value 0, eg if attValue == 0 return else return all else
-    var minRadius = .075;
+    var minRadius = .06;
     //flannery Appearance compensation formula
     var radius = 1.0083 * Math.pow(attValue/1,0.715) * minRadius;
     //console.log(radius)
@@ -143,15 +309,47 @@ function pointToLayer(feature, latlng, attributes){
     return layer;
 };
 
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
 //add circle markers or point features to the map
 function createPropSymbols(data, attributes){
     //create a Leaflet GeoJSON Layer and add it to map 
-    L.geoJson(data, {
+    bordercrossings = L.geoJson(data, {
         pointToLayer: function(feature, latlng){
             return pointToLayer(feature, latlng, attributes);
         }
-    }).addTo(map);
+    });
 };
+
+
+
+// function style(feature) {
+//     return {
+//         fillColor: getColor(feature.properties.density),
+//         weight: 2,
+//         opacity: 1,
+//         color: 'green',
+//         dashArray: '3',
+//         fillOpacity: 0.7
+//     };
+// }
+
+
+
+
+//FOR CHOROPLETH
+//create new function similar to createpropsymbols
+// Plug in json variable into parethesis in function
+// style : style
 
 //NEEDED FOR FINAL LAB
 function getCircleValues(attribute) {
@@ -192,7 +390,6 @@ function getCircleValues(attribute) {
 function updateLegend(attribute) {
     //create content for legend 
     var year = attribute.split("-")[0];
-    //var month = attribute.split("-")[1]
     //replace legend content
     document.querySelector("span.year").innerHTML = year;
     
@@ -241,7 +438,6 @@ function processData(data){
 
     //properties of the first feature in the dataset
     var properties = data.features[0].properties;
-    console.log(properties)
 
     //push each attribute name into the attribute array
     for (var attribute in properties){
@@ -258,126 +454,46 @@ function processData(data){
     return attributes;
 }; 
 
+function cascadingDropdown(attributes){ //Put attributes in parantheses?
+    var subjectObject = {
+        "Month": {
+          "January": ["2019", "2020", "2021", "2022"],
+          "February": ["2019", "2020", "2021", "2022"],
+          "March": ["2019", "2020", "2021", "2022"],
+          "April": ["2019", "2020", "2021", "2022"],
+          "May": ["2019", "2020", "2021", "2022"],
+          "June": ["2019", "2020", "2021", "2022"],
+          "July": ["2019", "2020", "2021", "2022"],
+          "August": ["2019", "2020", "2021", "2022"],
+          "September": ["2019", "2020", "2021", "2022"],
+          "October": ["2019", "2020", "2021", "2022"],
+          "November": ["2019", "2020", "2021", "2022"],
+          "December": ["2019", "2020", "2021", "2022"]
+        }
+      }
 
-
-    var months = { // This is a utility object to make it easier to work the particular format that our data requires
-        "January":"01"
-        ,"February":"02"
-        ,"March":"03"
-        ,"April":"04"
-        ,"May":"05"
-        ,"June":"06"
-        ,"July":"07"
-        ,"August":"08"
-        ,"September":"09"
-        ,"October":"10"
-        ,"November":"11"
-        ,"December":"12"
-    };
-    
-    
-    var monthsIndex = { // This is a set of key:value pairs that maps the particular label for each data item/index to the 0 to 36 index values that the update function requires
-        "Y2019-01": 0,
-    "Y2019-02": 1,
-    "Y2019-03": 2,
-    "Y2019-04": 3,
-    "Y2019-05": 4,
-    "Y2019-06": 5,
-    "Y2019-07": 6, 
-    "Y2019-08": 7,
-    "Y2019-09": 8,
-    "Y2019-10": 9,
-    "Y2019-11": 10,
-    "Y2019-12": 11,
-    "Y2020-01": 12,
-    "Y2020-02": 13,
-    "Y2020-03": 14,
-    "Y2020-04": 15,
-    "Y2020-05": 16,
-    "Y2020-06": 17,
-    "Y2020-07": 18,
-    "Y2020-08": 19,
-    "Y2020-09": 20,
-    "Y2020-10": 21,
-    "Y2020-11": 22,
-    "Y2020-12": 23,
-    "Y2021-01": 24,
-    "Y2021-02": 25,
-    "Y2021-03": 26,
-    "Y2021-04": 27,
-    "Y2021-05": 28,
-    "Y2021-06": 29,
-    "Y2021-07": 30,
-    "Y2021-08": 31,
-    "Y2021-09": 32,
-    "Y2021-10": 33,
-    "Y2021-11": 34,
-    "Y2021-12": 35,
-    "Y2022-01": 36
+     
+      window.onload = function() {
+        var monthSel = document.getElementById("month");
+        var yearSel = document.getElementById("year");
+        for (var y in subjectObject) {
+          monthSel.options[monthSel.options.length] = new Option(y, y);
+        }
+        monthSel.onchange = function() {
+          //empty Chapters- and Topics- dropdowns
+          //chapterSel.length = 1;
+          yearSel.length = 1;
+          var z = subjectObject[monthSel.value][this.value];
+          //display correct values
+          for (var i = 0; i < z.length; i++){
+            yearSel.options[yearSel.options.length] = new Option(z[i], z[i]);
+          }
+        }
+        
     }
-
-var yearSet = document.querySelector('#year-select') // Select the dropdown with the years so we can grab the value to make the index that will update the map
-
-console.log(monthSet); // Confirm it's the right element
-
-var monthSet = document.querySelector("#month-select"); // Same, but for months
-
-
-
-var changeButton = document.querySelector("#updateSymbolsButton") // Select the HTML element to receive an event listener and perform a function
-
-.addEventListener('click',function(){ // Add the event listener for the event 'click', and run a function (which we haven't given a specific name to b/c it is only getting called here and we don't need a human-friendly name for it)
-    console.log(monthSet.value); // double-check that it's the correct value.
-    var updateIndexString; // Create a variable to eventually fill with the string we'll use to grab the right index from our data
-    updateIndexString = "Y"+yearSet.value+"-"+months[monthSet.value]; // Actually build the string of text that we'll use to grab the right data index from our object above
-    console.log(updateIndexString); // Confirm it looks correct
-    var useThisIndex; // Create index to hold the value that we get from our months index
-    console.log(monthsIndex[updateIndexString]); // Confirm that using the string we built can accurately spit out the index we need
-    useThisIndex = monthsIndex[updateIndexString]; 
-    updatePropSymbols(globalAttributes[useThisIndex]) // The Leaflet magic that actually updates the map, using the index built from our dropdown-menu values, and the Attributes that the code generates
-});
-    
-    
-    
     
 
-
-
-function createDropDownFilter(attributes){
-    //loop to get year/month list
-    //var htmlToAdd = '';
-    var year = ["2019", "2020", "2021", "2022"]
-    //var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    year.forEach(function(item){
-        document.querySelector('#year-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
-
-    } )
-
-    document.querySelector('#year-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
-        console.log(elem.target.options[elem.target.options.selectedIndex].value)
-        return elem.target.options[elem.target.options.selectedIndex].value;
-                    //store as global variable as well as month
-    })
-    month.forEach(function(item){
-        document.querySelector('#month-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
-    })
-    document.querySelector('#month-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
-        console.log(elem.target.options[elem.target.options.selectedIndex].value)
-        return elem.target.options[elem.target.options.selectedIndex].value;
-                //store as global variable as well as month
-    })
-
-    //var monthSect = document.querySelector('#year-select')
-
-    //write a function thatll go through spit out the thing to grab Y2022-01
-    //have submit button trigger JS thatll look at year and month
-    //combine to string
-    //match that to 
-    
-   
-};
-
+}
 //Step 1: Create new sequence controls
 function createSequenceControls(attributes){
     var SequenceControl = L.Control.extend({
@@ -416,7 +532,7 @@ function createSequenceControls(attributes){
 
     //add step buttons
     steps.forEach(function(step){
-        step.addEventListener("click", function(){ //look into what event is for dropdown menu ,, may be change
+        step.addEventListener("click", function(){
             var index = document.querySelector('.range-slider').value;
             //console.log(index);
             //increment or decrement depending on button clicked
@@ -440,7 +556,7 @@ function createSequenceControls(attributes){
     //input listener for slider
     document.querySelector('.range-slider').addEventListener('input', function(){
         var index = this.value;
-        console.log(index);
+    //    console.log(index);
         updatePropSymbols(attributes[index]);
     });
 };
@@ -495,30 +611,36 @@ function createLegend(attributes) {
     map.addControl(new LegendControl());
 }    
 
- 
+
+
+  
 
 //function to retrieve the data and place it on the map
-function getData(map){ //add map to parantheses at some point
+function getData(){ //add map to parantheses at some point
     //load the data
     fetch("data/NetBorderX.geojson")
         .then(function(response){
             return response.json();
         })
         .then(function(json){
+            console.log("This is function getData:" , json)
             //createPropSymbols(json);
-            var attributes = processData(json);
-            globalAttributes = processData(json);
+            attributes = processData(json);
             //console.log(attributes)
-            calcStats(json, attributes)
+            calcStats(json,attributes)
             //create marker options
             //callfunction to create proportional symbols
-            createDropDownFilter(attributes);
+            cascadingDropdown();
             createPropSymbols(json, attributes);
-            //createSequenceControls(attributes);
+            createMap();
+            createSequenceControls(attributes);
             createLegend(attributes);
+            makechoropleth();
         })
     
 };
-document.addEventListener('DOMContentLoaded', createMap)    
+document.addEventListener('DOMContentLoaded', getData)    
+
+
 
 
