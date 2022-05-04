@@ -148,13 +148,13 @@ function makechoropleth(){
 	// }
 
     function getColor(d) {
-		return d >= 12215 ? '#b2182b' :
-			d >= 9855 ? '#ef8a62' :
-			d >= 7374 ? '#fddbc7' :
-			d >= 5152 ? '#f7f7f7' :
-			d >= 2520 ? '#d1e5f0' :
-			d >= -3702 ? '#67a9cf' :
-			d >= -7280 ? '#2166ac' : 
+		return d >= 246264 ? '#b2182b' :
+			d >= 115955 ? '#ef8a62' :
+			d >= 70798 ? '#fddbc7' :
+			d >= 41961 ? '#f7f7f7' :
+			d >= 11204 ? '#d1e5f0' :
+			d >= -45881 ? '#67a9cf' :
+			d >= -261174 ? '#2166ac' : 
 			'#fff5f0';
 	}
 
@@ -221,7 +221,7 @@ function makechoropleth(){
 
 		var div = L.DomUtil.create('div', 'info legend');
 		
-        var grades = [12215, 9855, 7374, 5152, 2520, -3702, -7280];
+        var grades = [246264, 115955, 70798, 41961, 11204, -45881, -261174];
 		var labels = [];
 		var from, to;
 
