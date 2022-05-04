@@ -243,6 +243,8 @@ function makechoropleth(){
 	legend.addTo(map);
 
     createSequenceChoro();
+
+    
 }
 
 
@@ -849,11 +851,7 @@ function getData(){ //add map to parantheses at some point
             createPropSymbols(json, attributes);
             createMap();
             //createSequenceControls(attributes);
-<<<<<<< Updated upstream
-            createSequenceChoro();
-=======
             //createSequenceChoro();
->>>>>>> Stashed changes
             createLegend(attributes);
             makechoropleth();
             
