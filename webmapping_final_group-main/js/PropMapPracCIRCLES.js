@@ -490,6 +490,8 @@ function createLegend(attributes) {
 function getData(map){ //add map to parantheses at some point
     //load the data
     fetch("data/NetBorderX.geojson")
+    
+    
         .then(function(response){
             return response.json();
         })
