@@ -8,6 +8,10 @@ var dataStats = {};
 
 var expressed = "Y2019-01"
 
+//var monthSelect = elem.target.options[elem.target.options.selectedIndex].value
+
+//var yearSelect = elem.target.options[elem.target.options.selectedIndex].value
+
 //function to instantiate the leaflet map
 function createMap(){
     map = L.map('map', {
@@ -36,17 +40,7 @@ function createMap(){
 
 function calcStats(data, attributes) {
    
-    //var properties = data.features[2].properties;
-    //var time =  data.properties[0]//.properties["2019-01"]; //City.properties["2019-01"];//.properties["2019-01"];//City.properties["2019-01"];
-    //console.log(time)
-    //var myArray = time.split("-")
-    //console.log(year)
-    //console.log(month)
-    //var attribute = attributes[0];
-    //console.log(attributes)
-    //var year = attribute.split("-")[0]
-    //var month = Number(attribute.split("-")[1])
-    //console.log(month)
+
     //create empty array to store all data values
     
     //var year = data[0]
@@ -76,26 +70,7 @@ function calcStats(data, attributes) {
         //split function - split - the date property on the hyphen First year second month assign local variable to year and month
         //for retrieval same thing 
         //loop through each year
-        /*for (var year = 2019; year <= 2022; year +=1){
-            for (var month = 1; month <= 12; month += 1) {
-                //get snowfall for current year
-                var value = City.properties[String(month)];
-                //add value to array
-                console.log(value)
-                allValues.push(value);
-            }
-            
-        }
 
-        //get min, max, mean stats for our array
-        dataStats.min = Math.min(...allValues);
-        dataStats.max = Math.max(...allValues);
-        //calculate meanValue
-
-        var sum = allValues.reduce(function (a,b) {
-            return a + b;
-        });
-        dataStats.mean = sum /allValues.length; */
 
     } 
     //console.log(minValues)
@@ -217,6 +192,7 @@ function getCircleValues(attribute) {
 function updateLegend(attribute) {
     //create content for legend 
     var year = attribute.split("-")[0];
+    //var month = attribute.split("-")[1]
     //replace legend content
     document.querySelector("span.year").innerHTML = year;
     
@@ -265,6 +241,7 @@ function processData(data){
 
     //properties of the first feature in the dataset
     var properties = data.features[0].properties;
+    console.log(properties)
 
     //push each attribute name into the attribute array
     for (var attribute in properties){
@@ -281,65 +258,126 @@ function processData(data){
     return attributes;
 }; 
 
-function cascadingDropdown(attributes){ //Put attributes in parantheses?
-    var subjectObject = {
-        "Month": {
-          "January": ["2019", "2020", "2021", "2022"],
-          "February": ["2019", "2020", "2021", "2022"],
-          "March": ["2019", "2020", "2021", "2022"],
-          "April": ["2019", "2020", "2021", "2022"],
-          "May": ["2019", "2020", "2021", "2022"],
-          "June": ["2019", "2020", "2021", "2022"],
-          "July": ["2019", "2020", "2021", "2022"],
-          "August": ["2019", "2020", "2021", "2022"],
-          "September": ["2019", "2020", "2021", "2022"],
-          "October": ["2019", "2020", "2021", "2022"],
-          "November": ["2019", "2020", "2021", "2022"],
-          "December": ["2019", "2020", "2021", "2022"]
-        }
-      }
 
-      //var attribute = attributes[0];
-      //console.log(attribute)
-      //var month = Number(attribute.split("-")[1])
-      //console.log(month)
-      //var year = attribute.split("-")[0]
-      //var yearY = year.split("Y")[1]
-      //console.log(year)
-      //console.log(yearY)
-      window.onload = function() {
-        var monthSel = document.getElementById("month");
-        var yearSel = document.getElementById("year");
-        for (var y in subjectObject) {
-          monthSel.options[monthSel.options.length] = new Option(y, y);
-        }
-        monthSel.onchange = function() {
-          //empty Chapters- and Topics- dropdowns
-          //chapterSel.length = 1;
-          yearSel.length = 1;
-          var z = subjectObject[monthSel.value][this.value];
-          //display correct values
-          for (var i = 0; i < z.length; i++){
-            yearSel.options[yearSel.options.length] = new Option(z[i], z[i]);
-          }
-        }
-        /*yearSel.onchange = function() {
-          //empty Chapters dropdown
-          chapterSel.length = 1;
-          //display correct values
-          var z = subjectObject[monthSel.value][this.value];
-          for (var i = 0; i < z.length; i++) {
-            //chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
-          }
-        }*/
+
+    var months = { // This is a utility object to make it easier to work the particular format that our data requires
+        "January":"01"
+        ,"February":"02"
+        ,"March":"03"
+        ,"April":"04"
+        ,"May":"05"
+        ,"June":"06"
+        ,"July":"07"
+        ,"August":"08"
+        ,"September":"09"
+        ,"October":"10"
+        ,"November":"11"
+        ,"December":"12"
+    };
+    
+    
+    var monthsIndex = { // This is a set of key:value pairs that maps the particular label for each data item/index to the 0 to 36 index values that the update function requires
+        "Y2019-01": 0,
+    "Y2019-02": 1,
+    "Y2019-03": 2,
+    "Y2019-04": 3,
+    "Y2019-05": 4,
+    "Y2019-06": 5,
+    "Y2019-07": 6, 
+    "Y2019-08": 7,
+    "Y2019-09": 8,
+    "Y2019-10": 9,
+    "Y2019-11": 10,
+    "Y2019-12": 11,
+    "Y2020-01": 12,
+    "Y2020-02": 13,
+    "Y2020-03": 14,
+    "Y2020-04": 15,
+    "Y2020-05": 16,
+    "Y2020-06": 17,
+    "Y2020-07": 18,
+    "Y2020-08": 19,
+    "Y2020-09": 20,
+    "Y2020-10": 21,
+    "Y2020-11": 22,
+    "Y2020-12": 23,
+    "Y2021-01": 24,
+    "Y2021-02": 25,
+    "Y2021-03": 26,
+    "Y2021-04": 27,
+    "Y2021-05": 28,
+    "Y2021-06": 29,
+    "Y2021-07": 30,
+    "Y2021-08": 31,
+    "Y2021-09": 32,
+    "Y2021-10": 33,
+    "Y2021-11": 34,
+    "Y2021-12": 35,
+    "Y2022-01": 36
     }
-    //document.querySelector('.range-slider').addEventListener('input', function(){
-    //    var index = this.value;
-    //    //console.log(index);
-    //    updatePropSymbols(attributes[index]);
-    //});
 
-}
+var yearSet = document.querySelector('#year-select') // Select the dropdown with the years so we can grab the value to make the index that will update the map
+
+console.log(monthSet); // Confirm it's the right element
+
+var monthSet = document.querySelector("#month-select"); // Same, but for months
+
+
+
+var changeButton = document.querySelector("#updateSymbolsButton") // Select the HTML element to receive an event listener and perform a function
+
+.addEventListener('click',function(){ // Add the event listener for the event 'click', and run a function (which we haven't given a specific name to b/c it is only getting called here and we don't need a human-friendly name for it)
+    console.log(monthSet.value); // double-check that it's the correct value.
+    var updateIndexString; // Create a variable to eventually fill with the string we'll use to grab the right index from our data
+    updateIndexString = "Y"+yearSet.value+"-"+months[monthSet.value]; // Actually build the string of text that we'll use to grab the right data index from our object above
+    console.log(updateIndexString); // Confirm it looks correct
+    var useThisIndex; // Create index to hold the value that we get from our months index
+    console.log(monthsIndex[updateIndexString]); // Confirm that using the string we built can accurately spit out the index we need
+    useThisIndex = monthsIndex[updateIndexString]; 
+    updatePropSymbols(globalAttributes[useThisIndex]) // The Leaflet magic that actually updates the map, using the index built from our dropdown-menu values, and the Attributes that the code generates
+});
+    
+    
+    
+    
+
+
+
+function createDropDownFilter(attributes){
+    //loop to get year/month list
+    //var htmlToAdd = '';
+    var year = ["2019", "2020", "2021", "2022"]
+    //var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    year.forEach(function(item){
+        document.querySelector('#year-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
+
+    } )
+
+    document.querySelector('#year-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
+        console.log(elem.target.options[elem.target.options.selectedIndex].value)
+        return elem.target.options[elem.target.options.selectedIndex].value;
+                    //store as global variable as well as month
+    })
+    month.forEach(function(item){
+        document.querySelector('#month-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
+    })
+    document.querySelector('#month-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
+        console.log(elem.target.options[elem.target.options.selectedIndex].value)
+        return elem.target.options[elem.target.options.selectedIndex].value;
+                //store as global variable as well as month
+    })
+
+    //var monthSect = document.querySelector('#year-select')
+
+    //write a function thatll go through spit out the thing to grab Y2022-01
+    //have submit button trigger JS thatll look at year and month
+    //combine to string
+    //match that to 
+    
+   
+};
+
 //Step 1: Create new sequence controls
 function createSequenceControls(attributes){
     var SequenceControl = L.Control.extend({
@@ -378,7 +416,7 @@ function createSequenceControls(attributes){
 
     //add step buttons
     steps.forEach(function(step){
-        step.addEventListener("click", function(){
+        step.addEventListener("click", function(){ //look into what event is for dropdown menu ,, may be change
             var index = document.querySelector('.range-slider').value;
             //console.log(index);
             //increment or decrement depending on button clicked
@@ -402,7 +440,7 @@ function createSequenceControls(attributes){
     //input listener for slider
     document.querySelector('.range-slider').addEventListener('input', function(){
         var index = this.value;
-    //    console.log(index);
+        console.log(index);
         updatePropSymbols(attributes[index]);
     });
 };
@@ -457,34 +495,7 @@ function createLegend(attributes) {
     map.addControl(new LegendControl());
 }    
 
-////// FROM CHAPTER 5 TRYING TO GET DATA TO LOAD
-/*function createPropSymbols(data){
-
-    var attribute = "City";
-    //create marker options
-    var geojsonMarkerOptions ={
-        radius: 8,
-        fillColor: "#ff7800",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
-
-    //create a Leaflet GeoJSON layer and add it to the map
-    L.geoJson(data, {
-        pointToLayer: function (feature, latlng) {
-
-            var attValue = Number(feature.properties[attribute]);
-
-            console.log(feature.properties, attValue);
-
-            return L.circleMarker(latlng, geojsonMarkerOptions);
-        }
-    }).addTo(map);
-};*/
-    
-//}    
+ 
 
 //function to retrieve the data and place it on the map
 function getData(map){ //add map to parantheses at some point
@@ -496,11 +507,12 @@ function getData(map){ //add map to parantheses at some point
         .then(function(json){
             //createPropSymbols(json);
             var attributes = processData(json);
+            globalAttributes = processData(json);
             //console.log(attributes)
             calcStats(json, attributes)
             //create marker options
             //callfunction to create proportional symbols
-            cascadingDropdown();
+            createDropDownFilter(attributes);
             createPropSymbols(json, attributes);
             //createSequenceControls(attributes);
             createLegend(attributes);
@@ -510,37 +522,3 @@ function getData(map){ //add map to parantheses at some point
 document.addEventListener('DOMContentLoaded', createMap)    
 
 
-//Step 3: Add circle markers for point features to the map
-// function createPropSymbols(data){
-//     //create marker options
-//     var geojsonMarkerOptions = {
-//         radius: 8,
-//         fillColor: "#ff7800",
-//         color: "#000",
-//         weight: 1,
-//         opacity: 1,
-//         fillOpacity: 0.8
-//     };
-
-//     //create a Leaflet GeoJSON layer and add it to the map
-//     L.geoJson(data, {
-//         pointToLayer: function (feature, latlng) {
-//             return L.circleMarker(latlng, geojsonMarkerOptions);
-//         }
-//     }).addTo(map);
-// };
-
-// //Step 2: Import GeoJSON data
-// function getData(map){
-//     //load the data
-//     fetch("data/NetBorderX.geojson")
-//         .then(function(response){
-//             if (!response.ok) {
-// 				throw new Error("HTTP error, status = " + response.status);
-// 			}
-//             return response.json();
-//         })
-//         .then(function(json){
-//             createPropSymbols(json);
-//         })
-// 

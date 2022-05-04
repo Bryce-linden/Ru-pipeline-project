@@ -2,7 +2,7 @@
 body{
     font-family: 'Garamond', serif;
     background-color:rgb(49, 49, 51);
-    /* color: rgb(242, 247, 213); */
+    color: rgb(242, 247, 213);
 }
 /*title div class style*/
 #title {
@@ -35,7 +35,7 @@ body{
 /*sequence box style*/
 .sequence-control-container {
     width: 300px;
-    height: 50px;
+    height: 70px;
     background-color: rgba(243, 187, 187, 0.8);
     padding: 10px;
     line-height: 45px;
@@ -84,27 +84,6 @@ body{
     float: right;
 }
 
-
-
-.info{ 
-    padding: 6px 8px; 
-    font: 14px/16px Arial, Helvetica, sans-serif;
-    background: rgba(255,255,255,0.8); 
-    box-shadow: 0 0 15px rgba(0,0,0,0.2); 
-    color:black;
-    border-radius: 8px; 
-} 
-    /* this controls the legend color in the top right for the variable and hover, as well as the bottom left legend*/
-
-    
- .info h4 { 
-    margin: 0 0 5px; 
-    color: #777;
-}
-
-
-.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; } */
-
 #reverse {
     float: left;
 }
@@ -114,12 +93,14 @@ body{
     height: 110px;
     font-weight: bold;
     color:black;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(243, 187, 187, 0.8);
     padding: 10px;
     text-align: center;
     border: solid rgb(180, 19, 19) 1px;
     font-family: 'Arial Narrow', sans-serif;
     font-size: 14px;
-    border-radius: 8px;
 }
 
+.legend-contol-container p{
+    margin: 1;
+}
