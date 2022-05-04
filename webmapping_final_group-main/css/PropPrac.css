@@ -26,6 +26,11 @@ body{
     
 }
 
+.leaflet-control-layers-toggle{
+    background: aqua;
+}
+
+
 /*text id div class style*/
 #textid {
     width: 95%; 

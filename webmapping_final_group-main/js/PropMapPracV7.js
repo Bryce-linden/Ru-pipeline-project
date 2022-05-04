@@ -8,7 +8,8 @@ var minValues = {};
 var dataStats = {};
 var attributes
 var bordercrossings
-var pipelinesL
+var choroplethlayer
+var pipelinejs
 var expressed = "Y2019-01"
 
 //function to instantiate the leaflet map
@@ -31,7 +32,7 @@ function createMap(){
     var mAurora = L.marker([39.73, -104.8],{icon:oil_icon}).bindPopup('This is Aurora, CO.').addTo(cities);
     var mGolden = L.marker([39.77, -105.23],{icon:oil_icon}).bindPopup('This is Golden, CO.').addTo(cities);
   
-    var pipelinesL = L.layerGroup();
+  
   
     var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
     var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
@@ -55,7 +56,12 @@ function createMap(){
         //    [23, -35]
         //    ]
     });
-    map.options.layers = [grayscale, bordercrossings, cities, pipelinesL];
+
+    makepipeline();
+    makechoropleth(map);
+
+
+    map.options.layers = [grayscale, bordercrossings, cities, pipelinejs, choroplethlayer];
     
 
     //Add custom base tilelayer
@@ -74,7 +80,8 @@ function createMap(){
     var overlays = {
         'Border Crossings': bordercrossings,
         'Cities': cities,
-        'Pipelines':pipelinesL
+        'Pipelines':pipelinejs,
+        'Choropleth': choroplethlayer
     
             //'Cities' represents the text that you see for the button on the interface. cities (the blue one) is the variable in the code
            
@@ -120,7 +127,7 @@ function calcStats(data, attributes) {
 
 //BEGIN CHOROPLETH! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function makechoropleth(){
+function makechoropleth(map){
     // control that shows state info on hover
 	var info = L.control();
 
@@ -183,16 +190,16 @@ function makechoropleth(){
 		});
 
 		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-			layer.bringToFront();
+			//layer.bringToFront();
 		}
 
 		info.update(layer.feature.properties);
 	}
 
-	var geojson;
+	
 
 	function resetHighlight(e) {
-		geojson.resetStyle(e.target);
+		choroplethlayer.resetStyle(e.target);
 		info.update();
 	}
 
@@ -209,9 +216,10 @@ function makechoropleth(){
 	}
 
 	/* global statesData */
-	geojson = L.geoJson(alleuro, {
+	choroplethlayer = L.geoJson(alleuro, {
 		style: style,
 		onEachFeature: onEachFeature,
+        pane:"overlayPane"
 	}).addTo(map);
 	
 
@@ -248,12 +256,23 @@ function makechoropleth(){
 
 
 function makepipeline(style, onEachFeature, getColor){
-    bordercrossings = L.geoJson(pipelinesL, {
+    pipelinejs = L.geoJson(pipelinesL, {
 		style: style,
 		onEachFeature: onEachFeature,
-	}).addTo(map);
+        pane:"shadowPane"
+
+	});
 }
 
+
+// function makepipeline(data, attributes){
+//     //create a Leaflet GeoJSON Layer and add it to map 
+//     pipelinejs = L.geoJson(data, {
+//         pointToLayer: function(feature, latlng){
+//             return pointToLayer(feature, latlng, attributes);
+//         }
+//     });
+// };
 
 
 
@@ -296,7 +315,8 @@ function pointToLayer(feature, latlng, attributes){
         color: "#000",
         weight: 1,
         opacity: 1,
-        fillOpacity: 0.8
+        fillOpacity: 0.8,
+        pane:"markerPane"
         
     };
 
@@ -742,42 +762,16 @@ function getData(){ //add map to parantheses at some point
             createSequenceControls(attributes);
             createSequenceChoro();
             createLegend(attributes);
-            makechoropleth();
-            makepipeline();
+           
             
         })
     
 };
 
 
-//function to retrieve the data and place it on the map
-function getDatapipe(){ //add map to parantheses at some point
-    //load the data
-    fetch("data/pipeline_routes/MainEuropePipelines_Project_WGS1984.geojson")
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(json){
-            console.log("This is function getData:" , json)
-            //createPropSymbols(json);
-            // attributes = processData(json);
-            //console.log(attributes)
-            // calcStats(json,attributes)
-            //create marker options
-            //callfunction to create proportional symbols
-            // cascadingDropdown();
-            // createPropSymbols(json, attributes);
-            // createMap();
-            // createSequenceControls(attributes);
-            // createSequenceChoro();
-            // createLegend(attributes);
-            // makechoropleth();
-            
-        })
-    
-};
 
-document.addEventListener('DOMContentLoaded', getData, getDatapipe)    
+
+document.addEventListener('DOMContentLoaded', getData)    
 
 
 
