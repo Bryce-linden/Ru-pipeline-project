@@ -30,7 +30,7 @@
     function setMap(){         
 
         //use Promise.all to parallelize asynchronous data loading       
-        var promises = [d3.csv("data/FINAL_net_gasImports_GDP.csv")];                    
+        var promises = [d3.csv("data/FINAL_net_gasImports_GDP2.csv")];                    
                     Promise.all(promises).then(callback);        
 
         //data parameter - retrieves data as an array
