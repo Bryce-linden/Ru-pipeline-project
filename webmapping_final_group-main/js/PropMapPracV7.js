@@ -8,6 +8,7 @@ var minValues = {};
 var dataStats = {};
 var attributes
 var bordercrossings
+var pipelinesL
 var expressed = "Y2019-01"
 
 //function to instantiate the leaflet map
@@ -30,7 +31,7 @@ function createMap(){
     var mAurora = L.marker([39.73, -104.8],{icon:oil_icon}).bindPopup('This is Aurora, CO.').addTo(cities);
     var mGolden = L.marker([39.77, -105.23],{icon:oil_icon}).bindPopup('This is Golden, CO.').addTo(cities);
   
-  
+    var pipelinesL = L.layerGroup();
   
     var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
     var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
@@ -54,7 +55,7 @@ function createMap(){
         //    [23, -35]
         //    ]
     });
-    map.options.layers = [grayscale, bordercrossings];
+    map.options.layers = [grayscale, bordercrossings, cities, pipelinesL];
     
 
     //Add custom base tilelayer
@@ -71,7 +72,9 @@ function createMap(){
         };
     
     var overlays = {
-        'Border Crossings': bordercrossings
+        'Border Crossings': bordercrossings,
+        'Cities': cities,
+        'Pipelines':pipelinesL
     
             //'Cities' represents the text that you see for the button on the interface. cities (the blue one) is the variable in the code
            
@@ -242,6 +245,17 @@ function makechoropleth(){
 }
 
 //end choropleth function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+function makepipeline(style, onEachFeature, getColor){
+    bordercrossings = L.geoJson(pipelinesL, {
+		style: style,
+		onEachFeature: onEachFeature,
+	}).addTo(map);
+}
+
+
+
 
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
@@ -729,11 +743,41 @@ function getData(){ //add map to parantheses at some point
             createSequenceChoro();
             createLegend(attributes);
             makechoropleth();
+            makepipeline();
             
         })
     
 };
-document.addEventListener('DOMContentLoaded', getData)    
+
+
+//function to retrieve the data and place it on the map
+function getDatapipe(){ //add map to parantheses at some point
+    //load the data
+    fetch("data/pipeline_routes/MainEuropePipelines_Project_WGS1984.geojson")
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(json){
+            console.log("This is function getData:" , json)
+            //createPropSymbols(json);
+            // attributes = processData(json);
+            //console.log(attributes)
+            // calcStats(json,attributes)
+            //create marker options
+            //callfunction to create proportional symbols
+            // cascadingDropdown();
+            // createPropSymbols(json, attributes);
+            // createMap();
+            // createSequenceControls(attributes);
+            // createSequenceChoro();
+            // createLegend(attributes);
+            // makechoropleth();
+            
+        })
+    
+};
+
+document.addEventListener('DOMContentLoaded', getData, getDatapipe)    
 
 
 

@@ -841,7 +841,7 @@ function getData(){ //add map to parantheses at some point
             createDropDownFilter(attributes);
             createPropSymbols(json, attributes);
             createMap();
-            createSequenceControls(attributes);
+            //createSequenceControls(attributes);
             createSequenceChoro();
             createLegend(attributes);
             makechoropleth();
