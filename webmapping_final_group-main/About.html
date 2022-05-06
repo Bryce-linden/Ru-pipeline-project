@@ -5,21 +5,21 @@
         <meta name="viewport" content="width=device-width">
             <title></title>
 
-        <!--put your external stylesheet links here-->        
-        <link rel="stylesheet" href="css/style_lineGraph.css">
+        <!--put your external stylesheet links here-->
+        <link rel="stylesheet" href="css/styleBryce.css">
         <link rel="stylesheet" href="lib/leaflet.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <!--<link rel="stylesheet" href="lib/Leaflet/leaflet.css">-->
-                
+        <!--[if IE<9]>
+            <link rel="stylesheet" href="css/style.ie.css">
+        <![endif]-->
+
+         <!--you can also place internal styles here;
+             place these within <style> tags-->
+        
     </head>
 
     <body>
-        <!--<div id="metric-modal"></div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>-->
-            
-               
-         <!-- Create a div where the graph will take place -->
-        
+
         <!-- Create the navbar -->
 	 <nav class="navbar navbar-expand-lg navbar-default">
         <!-- Container inside the navbar header to span the page -->
@@ -56,24 +56,33 @@
     
     <div class="jumbotron">
         <div class="container">
-            <h1><center>jumbotron text here</center></h1>
+            <h1><center>About Our Project</center></h1>
         </div>
     </div>
 
 
-        <div id="my_dataviz" style="margin-top:110px;"></div>     
+
+    
+    <div class="container-fluid">
+        <div class="row" style="margin-top:110px;"></div>
+            <div class="row" style="margin-left:40px">
+                <div class="col-md-6 " > 
+                    <h3>Here is the page where we have info about our project. To the right is a stock image
+                    </h3> 
+                    
+                </div>
+                <div class="col-md-6" style ="size: 50px;">  
+                        <img src="img/testvalve.jpg" width="700" height="500" alt="test value" class="center-block img-responsive"/>
+                </div>
+        </div>
+    </div>
+      
         
         
-        <!--put your external script links here-->
-        <!--<script type="text/javascript" src="lib/Leaflet/leaflet-src.js"></script>-->
-        <!--<script src="lib/d3.v3.js"></script>-->
-        <script src="lib/chart.js/dist/chart.min.js"></script>        
-        <script src="https://d3js.org/d3.v4.js"></script>
-        <script src='https://unpkg.com/simple-statistics@7.0.7/dist/simple-statistics.min.js'></script>
-        <script type="text/javascript" src="lib/d3-legend.min.js"></script>
-        <script type="text/javascript" src="lib/topojson.min.js"></script>
-        <script type="text/javascript" src="lib/d3.min.js"></script>        
-        <script type="text/javascript" src="js/main_bubbleChart_75per2.js"></script>   
-                
+        <script type="text/javascript" src="lib/leaflet-src.js"></script>
+        <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
+        <script type="text/javascript" src="data/pipeline_routes/MainEuropePipelines_Project_WGS1984.js"></script>
+        <script type="text/javascript" src="data/17eurocountries.js"></script>
+        <script type="text/javascript" src="js/PropMapPracV8.js"></script>
     </body>
 </html>
