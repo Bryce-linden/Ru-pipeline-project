@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+            <title></title>
+
+        <!--put your external stylesheet links here-->
+        <link rel="stylesheet" href="css/PropPrac.css">
+        <link rel="stylesheet" href="lib/leaflet.css">
+        <!--[if IE<9]>
+            <link rel="stylesheet" href="css/style.ie.css">
+        <![endif]-->
+
+         <!--you can also place internal styles here;
+             place these within <style> tags-->
+        
+    </head>
+
+    <body>
+        <div id="map"></div>
+        <div id="panel"></div>
+        <form name="form1" id="form1">
+            Year: <select name="year" id="year-select">
+                <option value="" selected="selected">Select Year</option>
+            </select>
+            <br><Br>
+            Month: <select name="month" id="month-select">
+                <option value="" selected="selected">Select Year First</option>
+            </select>
+            <br><br>
+            
+        </form>
+        <button id="updateSymbolsButton" value="Submit">Update Symbols</button>
+
+        Year: <select name="yearChoro" id="yearChoro-select">
+            <option value="" selected="selected">Select Year</option>
+        </select>
+        <br><Br>
+        <button id="updateChoroButton" value="Submit">Update Choro</button>
+        <!--put your initial page content here-->
+
+        <!--you can also use this space for internal scripts;
+        place these within <script> tags-->
+
+        <!--put your external script links here-->
+        
+        
+        <script type="text/javascript" src="lib/leaflet-src.js"></script>
+        <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
+        <script type="text/javascript" src="data/pipeline_routes/MainEuropePipelines_Project_WGS1984.js"></script>
+        <script type="text/javascript" src="data/17eurocountries.js"></script>
+        <script type="text/javascript" src="js/PropMapPracV9.js"></script>
+    </body>
+</html>
