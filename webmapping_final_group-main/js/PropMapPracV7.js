@@ -510,7 +510,7 @@ function processDataChoro(data){
 
     return attributes;
 }; 
-function cascadingDropdown(attributes){ //Put attributes in parantheses?
+/*function cascadingDropdown(attributes){ //Put attributes in parantheses?
     var subjectObject = {
         "Month": {
           "January": ["2019", "2020", "2021", "2022"],
@@ -549,7 +549,121 @@ function cascadingDropdown(attributes){ //Put attributes in parantheses?
     }
     
 
-}
+}*/
+
+    var months = { // This is a utility object to make it easier to work the particular format that our data requires
+        "January":"01"
+        ,"February":"02"
+        ,"March":"03"
+        ,"April":"04"
+        ,"May":"05"
+        ,"June":"06"
+        ,"July":"07"
+        ,"August":"08"
+        ,"September":"09"
+        ,"October":"10"
+        ,"November":"11"
+        ,"December":"12"
+    };
+
+
+    var monthsIndex = { // This is a set of key:value pairs that maps the particular label for each data item/index to the 0 to 36 index values that the update function requires
+        "Y2019-01": 0,
+    "Y2019-02": 1,
+    "Y2019-03": 2,
+    "Y2019-04": 3,
+    "Y2019-05": 4,
+    "Y2019-06": 5,
+    "Y2019-07": 6, 
+    "Y2019-08": 7,
+    "Y2019-09": 8,
+    "Y2019-10": 9,
+    "Y2019-11": 10,
+    "Y2019-12": 11,
+    "Y2020-01": 12,
+    "Y2020-02": 13,
+    "Y2020-03": 14,
+    "Y2020-04": 15,
+    "Y2020-05": 16,
+    "Y2020-06": 17,
+    "Y2020-07": 18,
+    "Y2020-08": 19,
+    "Y2020-09": 20,
+    "Y2020-10": 21,
+    "Y2020-11": 22,
+    "Y2020-12": 23,
+    "Y2021-01": 24,
+    "Y2021-02": 25,
+    "Y2021-03": 26,
+    "Y2021-04": 27,
+    "Y2021-05": 28,
+    "Y2021-06": 29,
+    "Y2021-07": 30,
+    "Y2021-08": 31,
+    "Y2021-09": 32,
+    "Y2021-10": 33,
+    "Y2021-11": 34,
+    "Y2021-12": 35,
+    "Y2022-01": 36
+    }
+
+var yearSet = document.querySelector('#year-select') // Select the dropdown with the years so we can grab the value to make the index that will update the map
+
+console.log(monthSet); // Confirm it's the right element
+
+var monthSet = document.querySelector("#month-select"); // Same, but for months
+
+
+
+var changeButton = document.querySelector("#updateSymbolsButton") // Select the HTML element to receive an event listener and perform a function
+
+.addEventListener('click',function(){ // Add the event listener for the event 'click', and run a function (which we haven't given a specific name to b/c it is only getting called here and we don't need a human-friendly name for it)
+    console.log(monthSet.value); // double-check that it's the correct value.
+    var updateIndexString; // Create a variable to eventually fill with the string we'll use to grab the right index from our data
+    updateIndexString = "Y"+yearSet.value+"-"+months[monthSet.value]; // Actually build the string of text that we'll use to grab the right data index from our object above
+    console.log(updateIndexString); // Confirm it looks correct
+    var useThisIndex; // Create index to hold the value that we get from our months index
+    console.log(monthsIndex[updateIndexString]); // Confirm that using the string we built can accurately spit out the index we need
+    useThisIndex = monthsIndex[updateIndexString]; 
+    updatePropSymbols(globalAttributes[useThisIndex]) // The Leaflet magic that actually updates the map, using the index built from our dropdown-menu values, and the Attributes that the code generates
+});
+
+
+
+function createDropDownFilter(attributes){
+//loop to get year/month list
+//var htmlToAdd = '';
+var year = ["2019", "2020", "2021", "2022"]
+//var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+year.forEach(function(item){
+    document.querySelector('#year-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
+
+} )
+
+document.querySelector('#year-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
+    console.log(elem.target.options[elem.target.options.selectedIndex].value)
+    return elem.target.options[elem.target.options.selectedIndex].value;
+                //store as global variable as well as month
+})
+month.forEach(function(item){
+    document.querySelector('#month-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
+})
+document.querySelector('#month-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
+    console.log(elem.target.options[elem.target.options.selectedIndex].value)
+    return elem.target.options[elem.target.options.selectedIndex].value;
+            //store as global variable as well as month
+})
+
+//var monthSect = document.querySelector('#year-select')
+
+//write a function thatll go through spit out the thing to grab Y2022-01
+//have submit button trigger JS thatll look at year and month
+//combine to string
+//match that to 
+
+
+};
 //Step 1: Create new sequence controls
 function createSequenceControls(attributes){
     var SequenceControl = L.Control.extend({
@@ -752,11 +866,12 @@ function getData(){ //add map to parantheses at some point
             console.log("This is function getData:" , json)
             //createPropSymbols(json);
             attributes = processData(json);
+            globalAttributes = processData(json);
             //console.log(attributes)
             calcStats(json,attributes)
             //create marker options
             //callfunction to create proportional symbols
-            cascadingDropdown();
+            createDropDownFilter(attributes);
             createPropSymbols(json, attributes);
             createMap();
             createSequenceControls(attributes);

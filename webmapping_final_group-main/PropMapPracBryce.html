@@ -20,17 +20,18 @@
     <body>
         <div id="map"></div>
         <div id="panel"></div>
-        <form name="form1" id="form1" action="/action_page.php">
-            Month: <select name="month" id="month">
-                <option value="" selected="selected">Select Month</option>
+        <form name="form1" id="form1">
+            Year: <select name="year" id="year-select">
+                <option value="" selected="selected">Select Year</option>
             </select>
             <br><Br>
-            Year: <select name="year" id="year">
-                <option value="" selected="selected">Select Month First</option>
+            Month: <select name="month" id="month-select">
+                <option value="" selected="selected">Select Year First</option>
             </select>
             <br><br>
-            <input type="submit" value="Submit">
+            
         </form>
+        <button id="updateSymbolsButton" value="Submit">Update Symbols</button>
         <!--put your initial page content here-->
 
         <!--you can also use this space for internal scripts;
