@@ -11,6 +11,9 @@ var bordercrossings
 var choroplethlayer
 var pipelinejs
 var expressed = "Y2019-01"
+var expressedChoro = "Y2019"
+var attributesChoro = [];
+
 
 //function to instantiate the leaflet map
 function createMap(){
@@ -124,7 +127,6 @@ function calcStats(data, attributes) {
 
 };
 
-
 //BEGIN CHOROPLETH! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function makechoropleth(map){
@@ -140,7 +142,7 @@ function makechoropleth(map){
 	info.update = function (props) {
 		this._div.innerHTML = '<h4>2019</h4>' +  (props ?
 			'<b>' + props.ADMIN + '</b><br />' + props.Y2019 + ' meters^3 ' : 'Hover over a country!');
-			console.log("props:", props)
+			console.log("this is props:", props)
 	};
 	
 	info.addTo(map);
@@ -175,7 +177,7 @@ function makechoropleth(map){
 			color: 'white',
 			dashArray: '3',
 			fillOpacity: 0.7,
-			fillColor: getColor(feature.properties.Y2019)
+			fillColor: getColor(feature.properties[expressedChoro])
 		};
 	}
 
@@ -199,7 +201,7 @@ function makechoropleth(map){
 	
 
 	function resetHighlight(e) {
-		choroplethlayer.resetStyle(e.target);
+		choroplethlayer.setStyle(style);
 		info.update();
 	}
 
@@ -215,18 +217,22 @@ function makechoropleth(map){
 		});
 	}
 
+    //var alleuro;
+    //var choroplethlayer;
 	/* global statesData */
 	choroplethlayer = L.geoJson(alleuro, {
 		style: style,
 		onEachFeature: onEachFeature,
         pane:"overlayPane"
 	}).addTo(map);
+    //console.log("this is the layerrrrr",choroplethlayer);
+    
 	
 
 	map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
 
 
-	var legend = L.control({position: 'bottomleft'});
+	var legend = L.control({position: 'topleft'});
 
 	legend.onAdd = function (map) {
 
@@ -249,29 +255,134 @@ function makechoropleth(map){
 		return div;
 	};
 
-    function createDropDownFilter(attributes){
-        //loop to get year/month list
-        //var htmlToAdd = '';
-        var year = ["2019", "2020", "2021", "2022"]
 
-        year.forEach(function(item){
-            document.querySelector('#yearChoro-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
-        
-        } )
-        
-        document.querySelector('#yearChoro-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
-            console.log(elem.target.options[elem.target.options.selectedIndex].value)
-            return elem.target.options[elem.target.options.selectedIndex].value;
+
+    
+    function createSequenceChoro(){
+        var SequenceControl = L.Control.extend({
+            options: {
+                position: 'bottomleft'
+            },
+
+            onAdd: function () {
+                //create the control container div with a particular class name 
+                var container = L.DomUtil.create('div', 'sequence-control-container');
+
+                //create range input element (slider)
+                container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
+
+                //add skip buttons
+                container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="lib/oil_barrel.png"></button>');
+
+                container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="lib/marker-icon.png"></button>');
+
+                L.DomEvent.disableClickPropagation(container);
+
+                return container;
+
+            }
+        });
+
+        map.addControl(new SequenceControl());
+        //add listeners after adding control
+        //set slider attributes
+        document.querySelector(".range-slider").max = 3;
+        document.querySelector(".range-slider").min = 0;
+        document.querySelector(".range-slider").value = 1;
+        document.querySelector(".range-slider").step = 1;
+
+        var steps = document.querySelectorAll('.step');
+
+        //add step buttons
+        steps.forEach(function(step){
+            step.addEventListener("click", function(){
+                var index = document.querySelector('.range-slider').value;
+                //console.log(index);
+                //increment or decrement depending on button clicked
+                if (step.id == 'forward'){
+                    index++;
+                    //if past the last attribute, wrap around to first attribute
+                    index = index > 3 ? 0 : index;
+                } else if (step.id == 'reverse'){
+                    index--;
+                    //if past the first attribute, wrap around to last attribute
+                    index = index < 0 ? 3 : index;
+                };
+
+                //update slider
+                document.querySelector('.range-slider').value = index;
+                //pass new attribute to update symbols
+                updateChoro(attributesChoro[index]);
+                
+                //makechoropleth();
+            })
         })
-    }
+
+        //input listener for slider
+        document.querySelector('.range-slider').addEventListener('input', function(){
+            var index = this.value;
+        //    console.log(index);
+            //makechoropleth();
+            updateChoro(attributesChoro[index]);
+            
+        });
+    };
+
+    function updateChoro(attributeChoro){
+        expressedChoro = attributeChoro;
+        map.eachLayer(function(layer){
+            if (layer.feature && layer.feature.properties[attributeChoro]){
+                //access feature properties
+                var props = layer.feature.properties;
+    
+                //update each feature's color based on new attribute values
+                var color = getColor(props[attributeChoro]);
+                layer.setStyle({fillColor:color});
+    
+                //add ski area  to popup content string
+                //var popupContent =  new PopupContent(props, attribute);
+    
+                
+    
+                //update popup content            
+                //popup = layer.getPopup();            
+                //popup.setContent(popupContent.formatted).update();
+            };
+        });
+    
+        //updateLegend(attribute);
+    };   
+
+    function processDataChoro(alleuro){
+        //empty array to hold attributes
+        console.log("this is choro data", alleuro)
+        //properties of the first feature in the dataset
+        var properties = alleuro.features[0].properties;
+    
+        //push each attribute name into the attribute array
+        for (var attribute in properties){
+            //console.log(attribute.indexOf("Y"))
+            //only take attributes with gas values
+            if (attribute.indexOf("Y") == 0){
+                attributesChoro.push(attribute);
+            };
+        };
+    
+        //check the resulg
+        //console.log(attributes);
+    
+        return attributesChoro;
+    }; 
+
+
+
 
 	legend.addTo(map);
-    createDropDownFilter(attributes);
+    createSequenceChoro();
+    processDataChoro(alleuro);
+    attributesChoro = processDataChoro(alleuro);
+    
 }
-
-//end choropleth function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
 function makepipeline(style, onEachFeature, getColor){
     pipelinejs = L.geoJson(pipelinesL, {
 		style: style,
@@ -315,7 +426,7 @@ function PopupContent(properties, attribute){
     this.gas = this.properties[attribute]; //this.gas is properties attribute
     
 
-    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Net import of Gas for " + this.year + " in the month of  " + this.month + ": </b>" + this.gas + " Whatever the unit is</p>";
+    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Net import of Gas for " + this.year + " in the month of  " + this.months + ": </b>" + this.gas + " Whatever the unit is</p>";
 
 };
 
@@ -456,7 +567,11 @@ function updateLegend(attribute) {
 
         document.querySelector("#" + key + "-text").textContent = Math.round(circleValues[key] * 100) / 100 + " Gas Unit of IMPORT/EXPORT";
     }
-};    
+};   
+
+//***********************************************Update Choropleth Function ******************************************** */
+
+//function updateChoropleth(attribute)
 
 function updatePropSymbols(attribute){
     map.eachLayer(function(layer){
@@ -508,8 +623,8 @@ function processData(data){
 
 function processDataChoro(data){
     //empty array to hold attributes
-    var attributes = [];
-
+    var attributesChoro = [];
+    console.log("this is choro data", data)
     //properties of the first feature in the dataset
     var properties = data.features[0].properties;
 
@@ -518,55 +633,16 @@ function processDataChoro(data){
         //console.log(attribute.indexOf("Y"))
         //only take attributes with gas values
         if (attribute.indexOf("Y") == 0){
-            attributes.push(attribute);
+            attributesChoro.push(attribute);
         };
     };
 
     //check the resulg
     //console.log(attributes);
 
-    return attributes;
+    return attributesChoro;
 }; 
-/*function cascadingDropdown(attributes){ //Put attributes in parantheses?
-    var subjectObject = {
-        "Month": {
-          "January": ["2019", "2020", "2021", "2022"],
-          "February": ["2019", "2020", "2021", "2022"],
-          "March": ["2019", "2020", "2021", "2022"],
-          "April": ["2019", "2020", "2021", "2022"],
-          "May": ["2019", "2020", "2021", "2022"],
-          "June": ["2019", "2020", "2021", "2022"],
-          "July": ["2019", "2020", "2021", "2022"],
-          "August": ["2019", "2020", "2021", "2022"],
-          "September": ["2019", "2020", "2021", "2022"],
-          "October": ["2019", "2020", "2021", "2022"],
-          "November": ["2019", "2020", "2021", "2022"],
-          "December": ["2019", "2020", "2021", "2022"]
-        }
-      }
 
-     
-      window.onload = function() {
-        var monthSel = document.getElementById("month");
-        var yearSel = document.getElementById("year");
-        for (var y in subjectObject) {
-          monthSel.options[monthSel.options.length] = new Option(y, y);
-        }
-        monthSel.onchange = function() {
-          //empty Chapters- and Topics- dropdowns
-          //chapterSel.length = 1;
-          yearSel.length = 1;
-          var z = subjectObject[monthSel.value][this.value];
-          //display correct values
-          for (var i = 0; i < z.length; i++){
-            yearSel.options[yearSel.options.length] = new Option(z[i], z[i]);
-          }
-        }
-        
-    }
-    
-
-}*/
 
     var months = { // This is a utility object to make it easier to work the particular format that our data requires
         "January":"01"
@@ -681,141 +757,6 @@ document.querySelector('#month-select').addEventListener("change", function(elem
 
 
 };
-//Step 1: Create new sequence controls
-function createSequenceControls(attributes){
-    var SequenceControl = L.Control.extend({
-        options: {
-            position: 'bottomright'
-        },
-
-        onAdd: function () {
-            //create the control container div with a particular class name 
-            var container = L.DomUtil.create('div', 'sequence-control-container');
-
-            //create range input element (slider)
-            container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
-
-            //add skip buttons
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="lib/oil_barrel.png"></button>');
-
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="lib/marker-icon.png"></button>');
-
-            L.DomEvent.disableClickPropagation(container);
-
-            return container;
-
-        }
-    });
-
-    map.addControl(new SequenceControl());
-    //add listeners after adding control
-    //set slider attributes
-    document.querySelector(".range-slider").max = 36;
-    document.querySelector(".range-slider").min = 0;
-    document.querySelector(".range-slider").value = 0;
-    document.querySelector(".range-slider").step = 1;
-
-    var steps = document.querySelectorAll('.step');
-
-    //add step buttons
-    steps.forEach(function(step){
-        step.addEventListener("click", function(){
-            var index = document.querySelector('.range-slider').value;
-            //console.log(index);
-            //increment or decrement depending on button clicked
-            if (step.id == 'forward'){
-                index++;
-                //if past the last attribute, wrap around to first attribute
-                index = index > 36 ? 0 : index;
-            } else if (step.id == 'reverse'){
-                index--;
-                //if past the first attribute, wrap around to last attribute
-                index = index < 0 ? 36 : index;
-            };
-
-            //update slider
-            document.querySelector('.range-slider').value = index;
-            //pass new attribute to update symbols
-            updatePropSymbols(attributes[index]);
-        })
-    })
-
-    //input listener for slider
-    document.querySelector('.range-slider').addEventListener('input', function(){
-        var index = this.value;
-    //    console.log(index);
-        updatePropSymbols(attributes[index]);
-    });
-};
-
-
-function createSequenceChoro(){
-    var SequenceControl = L.Control.extend({
-        options: {
-            position: 'bottomleft'
-        },
-
-        onAdd: function () {
-            //create the control container div with a particular class name 
-            var container = L.DomUtil.create('div', 'sequence-control-container');
-
-            //create range input element (slider)
-            container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
-
-            //add skip buttons
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="lib/oil_barrel.png"></button>');
-
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="lib/marker-icon.png"></button>');
-
-            L.DomEvent.disableClickPropagation(container);
-
-            return container;
-
-        }
-    });
-
-    map.addControl(new SequenceControl());
-    //add listeners after adding control
-    //set slider attributes
-    document.querySelector(".range-slider").max = 3;
-    document.querySelector(".range-slider").min = 0;
-    document.querySelector(".range-slider").value = 0;
-    document.querySelector(".range-slider").step = 1;
-
-    var steps = document.querySelectorAll('.step');
-
-    //add step buttons
-    steps.forEach(function(step){
-        step.addEventListener("click", function(){
-            var index = document.querySelector('.range-slider').value;
-            //console.log(index);
-            //increment or decrement depending on button clicked
-            if (step.id == 'forward'){
-                index++;
-                //if past the last attribute, wrap around to first attribute
-                index = index > 3 ? 0 : index;
-            } else if (step.id == 'reverse'){
-                index--;
-                //if past the first attribute, wrap around to last attribute
-                index = index < 0 ? 3 : index;
-            };
-
-            //update slider
-            document.querySelector('.range-slider').value = index;
-            //pass new attribute to update symbols
-            //updatePropSymbols(attributes[index]);
-            //makechoropleth();
-        })
-    })
-
-    //input listener for slider
-    document.querySelector('.range-slider').addEventListener('input', function(){
-        var index = this.value;
-    //    console.log(index);
-        //makechoropleth();
-        //updatePropSymbols(attributes[index]);
-    });
-};
 
 
 //function to create legend 
@@ -869,9 +810,6 @@ function createLegend(attributes) {
 }    
 
 
-
-  
-
 //function to retrieve the data and place it on the map
 function getData(){ //add map to parantheses at some point
     //load the data
@@ -891,8 +829,8 @@ function getData(){ //add map to parantheses at some point
             createDropDownFilter(attributes);
             createPropSymbols(json, attributes);
             createMap();
-            createSequenceControls(attributes);
-            createSequenceChoro();
+            //createSequenceControls(attributes);
+            //createSequenceChoro();
             createLegend(attributes);
            
             
@@ -903,4 +841,4 @@ function getData(){ //add map to parantheses at some point
 
 
 
-document.addEventListener('DOMContentLoaded', getData)    
+document.addEventListener('DOMContentLoaded', getData)
