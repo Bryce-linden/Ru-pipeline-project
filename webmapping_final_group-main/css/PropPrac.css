@@ -26,8 +26,27 @@ body{
     
 }
 
+/* This controls the div element that the element below(the one with the hamburger icon) lies in. Visualize this element as being 
+slightly larger than the -toggle element, which is one layer deeper. The layer after -toggle is -expanded */
+.leaflet-control-layers{
+    opacity: .9;
+    border-radius: 5px;
+}
+
+/* .leaflet-control-zoom{
+    height: 0px;
+    width: 0px;
+} */
+
+
+/* This is the hamburger icon in top right */
+/* The !important overrides the default leaflet setting because leaflet has a built in icon for this button but I never downloaded it */
 .leaflet-control-layers-toggle{
-    background-image:none
+    /* background-color: rgb(81, 165, 39); */
+    background-image: url("../img/hamburger.jpg") !important;
+    background-size: 50px;
+    opacity: .8;
+    border-radius: 20px;
 }
 
 
@@ -37,16 +56,7 @@ body{
     height:550px;
 
 }
-/*sequence box style*/
-.sequence-control-container {
-    width: 300px;
-    height: 50px;
-    background-color: rgba(243, 187, 187, 0.8);
-    padding: 10px;
-    line-height: 45px;
-    text-align: center;
-    border: solid rgb(180, 19, 19) 1px;
-}
+
 
 .dropdown-control-container {
     width: 300px;
@@ -61,7 +71,7 @@ body{
 /*style range slider style*/
 .range-slider {
     width: 175px;
-    fill:aqua;
+    background-color: aqua;
     height: 5px;
     background: white;
 }
@@ -73,6 +83,42 @@ body{
 .step img {
     width: 100%;
     height: auto;
+    /* padding-bottom: 10px; */
+}
+
+/*sequence box style (the thing in the bottom left)*/
+.sequence-control-container {
+    width: 320px;
+    height: 70px;
+    background-color: rgb(55, 67, 136);
+    padding: 10px;
+    line-height: 45px;
+    text-align: center;
+    border: solid rgb(7, 22, 108) 1px;
+    border-radius: 10px; 
+    opacity: .9;
+}
+
+/* This controls the reverse button, not the actual image, but the frame around the image */
+#reverse.step{
+    padding-bottom: 45px;
+    position: absolute;
+    left: 8px;
+    height:20px;
+    width:50px;
+    border-radius: 5px; 
+    opacity: .8;
+}
+
+/* This controls the forward button */
+#forward.step{
+    padding-bottom: 45px;
+    position:absolute;
+    right:8px;
+    height:50px;
+    width:50px;
+    border-radius: 5px; 
+    opacity: .8;
 }
 
 /*Panel box style from chapter 5 sequences box*/
@@ -113,9 +159,12 @@ body{
 #reverse {
     float: left;
 }
+
+
+
 /*legend style*/
 .legend-control-container {
-    width: 160px;
+    width: 180px;
     height: 110px;
     font-weight: bold;
     color:black;
