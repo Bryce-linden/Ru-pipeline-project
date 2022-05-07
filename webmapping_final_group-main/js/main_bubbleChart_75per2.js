@@ -6,7 +6,7 @@
     var expressed = attrArray[0]; //initial attribute    
 
     //chart frame dimensions
-    var chartWidth = window.innerWidth * 0.8 //minus sidebar wdith
+    var chartWidth = window.innerWidth * 0.82 
         chartHeight = 750,
         leftPadding = 40,
         rightPadding = 2,
@@ -17,11 +17,11 @@
 
     var x = d3.scaleLinear()
         .range([60, chartInnerWidth-20])//output minimum and maximum - pixel values on the page/map
-        .domain([0, 45]);
+        .domain([0, 44.5]);
 
     var y = d3.scaleLinear()        
         .range([chartInnerHeight -10, 50])
-        .domain([-14600, 14500]);    
+        .domain([-14600, 14000]);    
         
     //begin script when window loads
     window.onload = setMap();
@@ -76,9 +76,9 @@
             //add attribute name options
             var attrOptions = dropdown
                 .selectAll("attrOptions")
-                .data(attrArray)
+                .data(attrArray)                
                 .enter()
-                .append("option")
+                .append("option")                
                 .attr("value", function(d){ 
                     return d;
                 })
@@ -144,9 +144,9 @@
                 .attr("class", "bubble_chartTitle")
                 .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
                 .attr("x", chartWidth / 2)//assigns horizontal position
-                .attr("y", 25)//assign verticle position
+                .attr("y", 27)//assign verticle position
                 .text("Net Natural Gas Imports and Exports By Country for " + expressed)//text content
-                //.style("fill", "#810f7c");
+                
 
             //adding a title [class] to the chart
             var notation = chart.append("text")
@@ -155,7 +155,7 @@
                 .attr("x", chartWidth / 2)//assigns horizontal position
                 .attr("y", 740)//assign verticle position
                 .text("* Gas measurements taken in Million Cubic Meters at 15 degrees Celcius, 760mm Hg")//text content
-                //.style("fill", "#810f7c");
+                
             updateChart(circles, csvData.length, colorScale);
         };        
 
@@ -173,17 +173,15 @@
         function highlight(props){
             //change stroke
             var selected = d3.selectAll("." + props.country.replace("(", '').replace(')',"").replaceAll(/\s+/g, ''))
-                .style("stroke", "yellow")
+                .style("stroke", "red")
                 .style("stroke-width", "3")
                 setLabel(props);//calling set label
         };
 
-        function dehighlight(){            
-
+        function dehighlight(){ 
             var circles = d3.selectAll(".circle")
                 .style("stroke", "#000")
                 .style("stroke-width", "0.5")
-
                 d3.select(".bubble_infolabel")
                     .remove();
         };        
@@ -191,8 +189,7 @@
         //function to create dynamic label
         function setLabel(props){
             //label content
-            var labelAttribute = "<h1>" + props[expressed] +
-                "</h1><b>" + expressed + "</b>";
+            var labelAttribute = "<h1>" + props[expressed] + " million m³";
 
             //create info label div
             var infolabel = d3.select("body")
@@ -203,7 +200,11 @@
 
             var countyName = infolabel.append("div")
                 .attr("class", "bubble_labelname")
-                .html("<b>" + "Country: "+ props.country +"</b>");            
+                .html("<b>" + "Country: "+ props.country +"</b>");
+                
+            var dateLabel = infolabel.append("div")
+                .attr("class", "bubble_labelname")
+                .html("<b>" + "Date: "+ expressed +"</b>");
         };
 
         //function to move info label with mouse
@@ -246,21 +247,7 @@
             .delay(function(d,i){
                 return i * 30
             })
-            .duration(1000)
-            //sets radius
-            /*.attr("r",function(d){
-                //calculate the circle radius based on populations in array
-                var area = Math.abs(d[expressed] * .5);
-                if (area > 0){
-                    return Math.sqrt(area/Math.PI);//converts the area to the radius
-                }
-                else if (area == 0){
-                    return 1;//to display something for 0 values
-                }
-                else{
-                    return Math.abs(Math.sqrt(area/Math.PI));
-                }
-            })*/
+            .duration(1000)            
             .attr("r",function(d){
                 //calculate the circle radius based on populations in array
                 var area = Math.abs(d.GDP * .04);                
@@ -296,7 +283,7 @@
         var chartTitle = d3.select(".bubble_chartTitle")
             .text("Net Natural Gas Imports and Exports By Country for " + expressed)
 
-        createLegend(csvData, expressed, colorScale);
+        //createLegend(csvData, expressed, colorScale);
         //createSizeLegend(csvData, expressed, colorScale)
         };
 
@@ -315,8 +302,7 @@
             var colorLegend = d3.legendColor()                
                 .orient("verticle")
                 .ascending(true)
-                .scale(colorScale)
-                //.title(expressed)
+                .scale(colorScale)                
                 .title("Gas Flows (million m³)")
                 .labelFormat(",.2r")
                 .labelFormat("0")
@@ -326,32 +312,7 @@
 
             legend.select(".bubble_legend")
                 .call(colorLegend);                           
-        };
-
-        /*function createSizeLegend(csvData){
-            d3.select("body")            
-                .append("svg")
-                .attr("class", "size_legendBox");
-
-            var legendSize = d3.select("svg.size_legendBox");
-
-            legendSize.append("g")
-                .attr("class", "size_legend")
-                .attr("transform", "translate(10,15)");
-
-            var sizeLegend = d3.legendSize()                
-                .orient("verticle")
-                .cells(0, 500, 1000, 5000, 10000)
-                .ascending(true)
-                .scale(colorScale.domain)
-                .title(expressed)
-                .labelFormat(",.2r")
-                .labelFormat("0")                              
-                .labels(d3.legendHelpers.thresholdLabels)                                                
-
-            legend.select(".size_legend")
-                .call(sizeLegend);                           
-        };*/
+        };        
 
         function createSizeLegend(csvData){
             d3.select("body")            
@@ -406,22 +367,29 @@
                 .attr('x', xLabel-20)
                 .attr('y', function(d){ return yCircle - size(d)*2 } )
                 .text( function(d){ return d } )
-                .style("font-size", 10)
+                .style("font-size", 12)
                 .attr('alignment-baseline', 'middle')
 
             legendSize.append("text")
                 .attr("class", "sizeLegend_Title")
                 .attr("text-anchor", "left")//centers the text - without this centering would have to be done by offsetting x coordinate value
                 .attr("x", 15)//assigns horizontal position
-                .attr("y", 30)//assign verticle position
-                .text("Size = Avgerage GDP")//text content
+                .attr("y", 22)//assign verticle position
+                .text("Size = Average GDP")//text content
                 
-            legendSize .append("text")
+            legendSize.append("text")
                 .attr("class", "sizeLegend_Title")
                 .attr("text-anchor", "left")//centers the text - without this centering would have to be done by offsetting x coordinate value
                 .attr("x", 57)//assigns horizontal position
-                .attr("y", 45)//assign verticle position
+                .attr("y", 38)//assign verticle position
                 .text("per capita (€)")//text content
+
+            legendSize.append("text")
+                .attr("class", "sizeLegend_Title")
+                .attr("text-anchor", "left")//centers the text - without this centering would have to be done by offsetting x coordinate value
+                .attr("x", 57)//assigns horizontal position
+                .attr("y", 55)//assign verticle position
+                .text("2019 to 2022")//text content
         };
 })();
 
