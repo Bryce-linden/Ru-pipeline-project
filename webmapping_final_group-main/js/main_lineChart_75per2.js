@@ -4,9 +4,9 @@
     var structuredData = [];    
 
     // Set the dimensions of the canvas / graph
-    var margin = {top: 50, right: 20, bottom: 70, left: 50},
-        width = 1500 - margin.left - margin.right,
-        height = 700 - margin.top - margin.bottom;
+    var margin = {top: 50, right: 30, bottom: 110, left: 50},
+        width = window.innerWidth * 0.92,
+        height = 750 - margin.top - margin.bottom;
 
     window.onload = setChart();
 
@@ -33,6 +33,7 @@
             .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
+                .attr("class", "chart")
             .append("g")
                 .attr("transform", 
                     "translate(" + margin.left + "," + margin.top + ")");
@@ -41,9 +42,45 @@
             .attr("class", "chartTitle")
             .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
             .attr("x", width / 2)//assigns horizontal position
-            .attr("y", 0)//assign verticle position
-            .text("Natural Gas Flows At Border Crossings For Select European Countries (2019 to 2022)")//text content   
+            .attr("y", -10)//assign verticle position
+            .text("Natural Gas Flows At Border Crossings For Select European Countries (2019 to 2022)")//text content
+            
+        //adding a title [class] to the chart
+        var notation = svg.append("text")
+            .attr("class", "chartNotation")
+            .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
+            .attr("x", width / 2)//assigns horizontal position
+            .attr("y", 670)//assign verticle position
+            .text("* Toggle a Country's Border Crossings off and on by clicking on the Country in the Menu Above.")//text content
         
+        svg.append("text")
+            .attr("class", "chartNotation")
+            .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
+            .attr("x", width / 2)//assigns horizontal position
+            .attr("y", 688)//assign verticle position
+            .text("Move the cursor over a line to identify the specfic border crossing city and country.")//text content
+        
+        svg.append("text")
+            .attr("class", "valueNotation")
+            .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
+            .attr("x", width / 2)//assigns horizontal position
+            .attr("y", +15)//assign verticle position
+            .text("Gas flows measured in million meters³")//text content
+            
+        /*svg.append("text")
+            .attr("class", "valueNotation")
+            .attr("text-anchor", "left")//centers the text - without this centering would have to be done by offsetting x coordinate value
+            .attr("x", margin.left-100)//assigns horizontal position
+            .attr("y", -5)//assign verticle position
+            .text("measured in")//text content
+
+        svg.append("text")
+            .attr("class", "valueNotation")
+            .attr("text-anchor", "left")//centers the text - without this centering would have to be done by offsetting x coordinate value
+            .attr("x", margin.left-100)//assigns horizontal position
+            .attr("y", +10)//assign verticle position
+            .text("million meters³")//text content*/
+
         // Get the data
         d3.csv("data/BorderXing3.csv").then(function(data) {            
 
@@ -118,8 +155,8 @@
             dataNest2.forEach(function(d,i) {            
                 // Add the Legend
                 svg.append("text")            
-                .attr("x", (legendSpace/2)+i*legendSpace)  // space legend
-                .attr("y", height + (margin.bottom/2) + 10)            
+                .attr("x", (legendSpace/2)+i*legendSpace-20)  // space legend
+                .attr("y", height + (margin.bottom/2)-5)            
                     .attr("class", "legend")    // style the legend
                     .style("fill", function() { // Add the colours dynamically
                         return d.color = color(d.value[0].country); })
@@ -178,8 +215,8 @@
     function highlight(key, d){
         //change stroke
         var selected = d3.selectAll(".line" + key)
-            .style("stroke", "blue")
-            .style("stroke-width", "4")
+            .style("stroke", "red")
+            .style("stroke-width", "8")
             setLabel(d);//calling set label
         };
         

@@ -26,7 +26,7 @@
     //begin script when window loads
     window.onload = setMap();
 
-    //set up choropleth map
+    //get Data
     function setMap(){         
 
         //use Promise.all to parallelize asynchronous data loading       
@@ -50,7 +50,7 @@
             //calling create legend function
             createLegend(csvData, expressed, colorScale);
 
-            createSizeLegend(csvData, expressed, colorScale)
+            createSizeLegend(csvData, expressed, colorScale);
             
         };
     };
@@ -200,11 +200,11 @@
 
             var countyName = infolabel.append("div")
                 .attr("class", "bubble_labelname")
-                .html("<b>" + "Country: "+ props.country +"</b>");
+                .html("<b>" + "Country: "+ props.country + ",  " + "</b>" + "<b>" + "GDP: "+ props.GDP +"</b>");
                 
             var dateLabel = infolabel.append("div")
                 .attr("class", "bubble_labelname")
-                .html("<b>" + "Date: "+ expressed +"</b>");
+                .html("<b>" + "Date: "+ expressed +"</b>");            
         };
 
         //function to move info label with mouse
@@ -281,10 +281,7 @@
             .style("stroke-width", "0.8")       
         
         var chartTitle = d3.select(".bubble_chartTitle")
-            .text("Net Natural Gas Imports and Exports By Country for " + expressed)
-
-        //createLegend(csvData, expressed, colorScale);
-        //createSizeLegend(csvData, expressed, colorScale)
+            .text("Net Natural Gas Imports and Exports By Country for " + expressed)        
         };
 
         //function to create legend based on colorScale
@@ -313,7 +310,7 @@
             legend.select(".bubble_legend")
                 .call(colorLegend);                           
         };        
-
+        //function to create a size legend for GDP values
         function createSizeLegend(csvData){
             d3.select("body")            
                 .append("svg")
@@ -323,7 +320,7 @@
 
             // The scale you use for bubble size
             var size = d3.scaleSqrt()
-                .domain([1, 100])  // What's in the data, let's say it is percentage
+                .domain([1, 100])  // What's in the data
                 .range([1, 2])  // Size in pixel
             // Add legend: circles
             var valuesToShow = [5000, 35000, 90000]
