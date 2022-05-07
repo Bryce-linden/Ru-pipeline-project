@@ -272,9 +272,9 @@ function makechoropleth(map){
                 container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
 
                 //add skip buttons
-                container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="lib/oil_barrel.png"></button>');
+                container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="img/backwardarrow.png"></button>');
 
-                container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="lib/marker-icon.png"></button>');
+                container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="img/forwardarrow.png"></button>');
 
                 L.DomEvent.disableClickPropagation(container);
 
