@@ -33,6 +33,11 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     border-radius: 5px;
 }
 
+/* .leaflet-control-zoom{
+    height: 0px;
+    width: 0px;
+} */
+
 
 /* This is the hamburger icon in top right */
 /* The !important overrides the default leaflet setting because leaflet has a built in icon for this button but I never downloaded it */
