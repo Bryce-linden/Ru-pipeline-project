@@ -288,7 +288,7 @@ function makechoropleth(map){
         //set slider attributes
         document.querySelector(".range-slider").max = 3;
         document.querySelector(".range-slider").min = 0;
-        document.querySelector(".range-slider").value = 1;
+        document.querySelector(".range-slider").value = 0;
         document.querySelector(".range-slider").step = 1;
 
         var steps = document.querySelectorAll('.step');
