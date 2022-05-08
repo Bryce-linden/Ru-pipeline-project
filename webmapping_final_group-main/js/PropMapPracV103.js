@@ -237,7 +237,7 @@ function makechoropleth(map){
 		var div = L.DomUtil.create('div', 'info legend');
 		
         var grades = [246264, 115955, 70798, 41961, 11204, -45881, -261174];
-		var labels = [];
+		var labels = ["Net Import/Exports of Gas per Year"];
 		var from, to;
 
 		for (var i = 0; i < grades.length; i++) {
@@ -246,7 +246,7 @@ function makechoropleth(map){
 
             labels.push(
 				'<i style="background:' + getColor(from + 1) + '"></i> ' +
-				from.toLocaleString("en-US") + (to ? '&ndash;' + to.toLocaleString("en-US") : '+'));
+				from.toLocaleString("en-US") + (to ? ' to ' + to.toLocaleString("en-US") : ' and below'));
 		}
 
 		div.innerHTML = labels.join('<br>');
