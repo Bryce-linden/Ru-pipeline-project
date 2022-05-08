@@ -338,6 +338,8 @@ function makechoropleth(map){
                 //update each feature's color based on new attribute values
                 var color = getColor(props[attributeChoro]);
                 layer.setStyle({fillColor:color});
+
+            
     
                 //add ski area  to popup content string
                 //var popupContent =  new PopupContent(props, attribute);
@@ -426,7 +428,7 @@ function PopupContent(properties, attribute){
     this.gas = this.properties[attribute]; //this.gas is properties attribute
     
 
-    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Net import of Gas for " + this.year + " in the month of  " + this.months + ": </b>" + this.gas + " Whatever the unit is</p>";
+    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Net import of Gas for " + this.year + " in the month of  " + this.month + ": </b>" + this.gas + " Cubic Meters</p>";
 
 };
 
@@ -793,7 +795,7 @@ function createLegend(attributes) {
                 var textY = i * 20 + 10;
 
                 //text string 
-                svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + Math.round(dataStats[circles[i]] *100) / 100 + " inches" + "</text>";
+                svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + Math.round(dataStats[circles[i]] *100) / 100 + " Cubic Meters" + "</text>";
             }
 
             //close svg string
