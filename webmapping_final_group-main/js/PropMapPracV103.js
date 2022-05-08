@@ -138,12 +138,25 @@ function makechoropleth(map){
 	};
 
 	info.update = function (props) {
-		this._div.innerHTML = '<h4>2019</h4>' +  (props ?
-			'<b>' + props.ADMIN + '</b><br />' + props.Y2019.toLocaleString("en-US") + ' meters^3 ' : 'Hover over a country!');
-			console.log("this is props:", props)
+        this._div.innerHTML = '<h4>2019</h4>' +  (props ?
+                '<b>' + props.ADMIN + '</b><br />' + props.Y2019.toLocaleString("en-US") + ' meters^3 ' : 'Hover over a country!');
+                console.log("this is props:", props)
 	};
 	
 	info.addTo(map);
+
+    function PopupContent(properties, attributeChoro){  
+        //add the city popup content string
+        this.properties = properties;
+        this.attribute = attributeChoro;
+        this.year = attributeChoro.indexOf("Y"); // index for year 
+        //this.month = attribute.split("-")[1] // index for month
+        this.gas = this.properties[attributeChoro]; //this.gas is properties attribute
+        
+    
+        this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.year + " in the month of  " + this.month + ": </b>" + this.gas + " million meters^3</p>";
+    
+    };
 
  //This color scheme gives you purple as middle values
 	// function getColor(d) {
@@ -341,7 +354,7 @@ function makechoropleth(map){
                 layer.setStyle({fillColor:color});
     
                 //add ski area  to popup content string
-                //var popupContent =  new PopupContent(props, attribute);
+                //var popupContent =  new PopupContent(props, attributeChoro);
     
                 
     
@@ -622,27 +635,6 @@ function processData(data){
 }; 
 
 
-function processDataChoro(data){
-    //empty array to hold attributes
-    var attributesChoro = [];
-    console.log("this is choro data", data)
-    //properties of the first feature in the dataset
-    var properties = data.features[0].properties;
-
-    //push each attribute name into the attribute array
-    for (var attribute in properties){
-        //console.log(attribute.indexOf("Y"))
-        //only take attributes with gas values
-        if (attribute.indexOf("Y") == 0){
-            attributesChoro.push(attribute);
-        };
-    };
-
-    //check the resulg
-    //console.log(attributes);
-
-    return attributesChoro;
-}; 
 
 
     var months = { // This is a utility object to make it easier to work the particular format that our data requires
