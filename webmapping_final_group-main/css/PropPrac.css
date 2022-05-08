@@ -164,7 +164,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
 
 /*legend style*/
 .legend-control-container {
-    width: 180px;
+    width: 240px;
     height: 110px;
     font-weight: bold;
     color:black;
