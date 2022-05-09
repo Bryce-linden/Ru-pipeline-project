@@ -147,7 +147,7 @@ function makechoropleth(map){
         console.log(units)
         console.log("theeeeeee", year)
         this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (props ?
-                '<b>' + props.ADMIN + '</b><br/>' + props.Y2019.toLocaleString("en-US") + ' meters^3 in the year: ' + year : 'Hover over a country!');
+                '<b>' + props.ADMIN + '</b><br/>' + props.Y2019.toLocaleString("en-US") + ' meters^3 in: ' + year : 'Hover over a country!');
                 console.log("this is props:", props)
 	};
 	
