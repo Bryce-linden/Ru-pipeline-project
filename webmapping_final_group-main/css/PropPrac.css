@@ -86,7 +86,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     /* padding-bottom: 10px; */
 }
 
-/*sequence box style (the thing in the bottom left)*/
+/*sequence box style (the thing in the bottom left with the arrows)*/
 .sequence-control-container {
     width: 320px;
     height: 70px;
@@ -153,8 +153,53 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     color: #777;
 }
 
+/* This is the choropleth legend in the top left, mess with the bottom function to move the function up. I 
+guess you can think of it as having 14 extra pixels along the bottom of the element. This is different than
+margin or padding which extend the element in those pixels, not just move it */
+.legend { 
+    text-align: left; 
+    line-height: 18px; 
+    color: #555; 
+    position: absolute;
+    margin-bottom: 10px;
+    bottom: 14px;
+} 
 
-.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; } */
+
+.legend i { 
+    width: 18px; 
+    height: 18px; 
+    float: left; 
+    margin-right: 8px;
+    opacity: 0.7; 
+
+} 
+
+/* These control the zoom in and out buttons, mess with the top function to move the tool down */
+.leaflet-control-zoom-in{
+    text-align: left; 
+    line-height: 18px; 
+    color: #555; 
+    position: absolute;
+    margin-bottom: 10px;
+    top: 162px !important;
+    border-radius: 2px;
+
+}
+.leaflet-control-zoom-out{
+    text-align: left; 
+    line-height: 18px; 
+    color: #555; 
+    position: absolute;
+    margin-bottom: 10px;
+    top: 200px !important;
+    border-radius: 2px;
+
+
+}
+
+
+
 
 #reverse {
     float: left;
@@ -167,7 +212,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     border-radius: 0px;
 }
 
-/*legend style*/
+/*legend style (this is the legend in the bottom right with the prop symbols*/
 .legend-control-container {
     width: 240px;
     height: 110px;
@@ -204,3 +249,13 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     font-size: 16px;
     padding: 10px;
 }
+
+.navbar-default-hover > li > a {
+    color:crimson !important;
+}
+
+.nav-link{
+    color:crimson;
+}
+
+
