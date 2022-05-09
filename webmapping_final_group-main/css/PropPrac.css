@@ -25,6 +25,22 @@ body{
     /*vertical-align: top;*/
     
 }
+#updateButtons{
+    float: right;
+}
+/*#form1{
+    float: right;
+}
+#year-select {
+    float: right;
+}
+#month-select {
+    float: right;
+}
+#updateSymbolsButton {
+    float:right;
+}*/
+
 
 /* This controls the div element that the element below(the one with the hamburger icon) lies in. Visualize this element as being 
 slightly larger than the -toggle element, which is one layer deeper. The layer after -toggle is -expanded */

@@ -16,6 +16,7 @@ var expressedChoro = "Y2019"
 var attributesChoro = [];
 
 
+
 //function to instantiate the leaflet map
 function createMap(){
 
@@ -139,16 +140,26 @@ function makechoropleth(map){
 		return this._div;
 	};
 
-	info.update = function (props) {
+	info.update = function (attributesChoro, props) { //was props
+        //var attributesChoro = alleuro;
+        //attributesChoro = [];
+        //var props = attributesChoro.features
+        //console.log("props?",props)
+        //expressedChoro = attributesChoro;
+        //attributesChoro = processDataChoro(alleuro);
+        //console.log("Data?", attributesChoro)
         var year = expressedChoro.split("Y")[1];
-        var admin = alleuro.features.ADMIN
-        console.log(admin)
-        var units = alleuro.features.properties
-        console.log(units)
-        console.log("theeeeeee", year)
-        this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (props ?
-                '<b>' + props.ADMIN + '</b><br/>' + props.Y2019.toLocaleString("en-US") + ' meters^3 in: ' + year : 'Hover over a country!');//m³
-                console.log("this is props:", props)
+        //var properties = alleuro.features[0].properties
+        //console.log("ThIS IS PROPERTIES", properties)
+        //this.gas is properties attribute
+        //var admin = features.properties.ADMIN
+        //console.log(admin)
+        //var units = layer.features.properties
+        //console.log("FUCKKKK YOU",units)
+        //console.log("theeeeeee", year)
+        this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (attributesChoro ?
+                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro.Y2019 + ' meters^3 in: ' + year : 'Hover over a country!');
+                //console.log("this is props:", props)
 	};
 	
 	info.addTo(map); 
@@ -383,6 +394,7 @@ function makechoropleth(map){
         console.log("this is choro data", alleuro)
         //properties of the first feature in the dataset
         var properties = alleuro.features[0].properties;
+        console.log("yippee Kaiaiii",properties)
     
         //push each attribute name into the attribute array
         for (var attribute in properties){
@@ -446,12 +458,12 @@ function PopupContent(properties, attribute){
     //add the city popup content string
     this.properties = properties;
     this.attribute = attribute;
-    this.year = attribute.split("-")[0]; // index for year 
+    this.year = attribute.split("-")[0].split("Y")[1]; // index for year 
     this.month = attribute.split("-")[1] // index for month
     this.gas = this.properties[attribute]; //this.gas is properties attribute
     
 
-    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.year + " in the month of  " + this.month + ": </b>" + this.gas + " million meters^3</p>";
+    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.month+"/" + this.year + " (month/year)" + ": </b>" + this.gas + " million meters^3</p>";
 
 };
 
@@ -740,7 +752,7 @@ year.forEach(function(item){
 
 document.querySelector('#year-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
     console.log(elem.target.options[elem.target.options.selectedIndex].value)
-    return elem.target.options[elem.target.options.selectedIndex].value;
+    //return elem.target.options[elem.target.options.selectedIndex].value;
                 //store as global variable as well as month
 })
 month.forEach(function(item){
@@ -748,7 +760,7 @@ month.forEach(function(item){
 })
 document.querySelector('#month-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
     console.log(elem.target.options[elem.target.options.selectedIndex].value)
-    return elem.target.options[elem.target.options.selectedIndex].value;
+    //return elem.target.options[elem.target.options.selectedIndex].value;
             //store as global variable as well as month
 })
 
