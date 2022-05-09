@@ -193,12 +193,12 @@ function makechoropleth(map){
 	// }
 
     function getColor(d) {
-		return d >= 95000 ? '#b2182b' :
-			d >= 55000 ? '#ef8a62' :
-			d >= 25000 ? '#fddbc7' :
-			d >= -5000 ? '#f7f7f7' :
-			d >= -35000 ? '#d1e5f0' :
-			d >= -65000 ? '#67a9cf' :
+		return d >= 94000 ? '#b2182b' :
+			d >= 54999 ? '#ef8a62' :
+			d >= 24999 ? '#fddbc7' :
+			d >= -4999 ? '#f7f7f7' :
+			d >= -34999 ? '#d1e5f0' :
+			d >= -64999 ? '#67a9cf' :
 			d >= -100000 ? '#2166ac' : 
 			'#fff5f0';
 	}
