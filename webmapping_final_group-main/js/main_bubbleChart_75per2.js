@@ -301,7 +301,7 @@
                 .ascending(true)
                 .scale(colorScale)                
                 .title("Gas Flows (million m³)")
-                .labelFormat(",.2r")
+                .labelFormat(",.2r")                                
                 .labelFormat("0")
                 .shapeWidth(35)
                 .shapeHeight(35)                              
