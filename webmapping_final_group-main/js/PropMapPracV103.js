@@ -249,7 +249,7 @@ function makechoropleth(map){
 
 		var div = L.DomUtil.create('div', 'info legend');
 		
-        var grades = [246264, 115955, 70798, 41961, 11204, -45881, -261174];
+        var grades = [95000, 55000, 25000, -5000, -35000, -65000, -100000];
 		var labels = ["Net Import/Exports of Gas per Year"];
 		var from, to;
 
