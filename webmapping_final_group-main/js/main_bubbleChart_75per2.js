@@ -154,7 +154,7 @@
                 .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
                 .attr("x", chartWidth / 2)//assigns horizontal position
                 .attr("y", 740)//assign verticle position
-                .text("* Gas measurements taken in Million Cubic Meters at 15 degrees Celcius, 760mm Hg")//text content
+                .text("* Gas measurements taken in Million Cubic Meters (mil. m³) at 15 degrees Celcius, 760mm Hg")//text content
                 
             updateChart(circles, csvData.length, colorScale);
         };        
@@ -224,7 +224,7 @@
             //horizontal label coordinate, testing for overflow
             var x = event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1; 
             //vertical label coordinate, testing for overflow
-            var y = event.clientY < 75 ? y2 : y1; 
+            var y = event.clientY < 25 ? y2 : y1; 
 
             d3.select(".bubble_infolabel")
                 .style("left", x + "px")
@@ -300,7 +300,7 @@
                 .orient("verticle")
                 .ascending(true)
                 .scale(colorScale)                
-                .title("Gas Flows (million m³)")
+                .title("Import / Export (mil. m³)")
                 .labelFormat(",.2r")                                
                 .labelFormat("0")
                 .shapeWidth(35)

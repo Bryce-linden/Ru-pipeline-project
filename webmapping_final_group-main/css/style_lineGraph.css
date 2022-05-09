@@ -114,14 +114,14 @@ body { font: 12px Arial;}
 /*styling callout container*/
 .bubble_infolabel {
     margin: 0 10px 0 0;
-    position: absolute;	
+    position: fixed;	
     height: 100px;
     min-width: 40px;
     color: #fff;
     background-color: #2d2783;
     border: solid thin #fff;
     padding: 5px 10px;
-    top: -75px;
+    /*top: -75px;*/
     border-radius: 10px;
 }
 /*styling callout text*/
@@ -133,15 +133,15 @@ body { font: 12px Arial;}
 }
 
 .bubble_chart {
-    display: inline-block;
-    /*position: absolute;
+    /*display: inline-block;
+    position: absolute;
     right: 5px;
     top: 260px;*/
     /*position: right;*/    
     background-color: rgb(4, 0, 115);
     border: medium solid #999;
     /*float: right;*/
-    margin: 0px 0px 0px 260px;    
+    margin: 10px 0px 0px 260px;    
 }
 
 .bubble_chartTitle {
@@ -178,7 +178,7 @@ body { font: 12px Arial;}
 /*style for menu dropdown*/
 .bubble_dropdown {    
     position: absolute;
-    top: 275px;
+    top: 260px;
     left: 17px;
     z-index: 100;    
     font-family: sans-serif;
@@ -196,7 +196,7 @@ body { font: 12px Arial;}
 /*styling for legend*/
 .bubble_legendBox {
     position: absolute;
-    top: 330px;
+    top: 320px;
     left: 20px;
     z-index: 50;
     height: 450px;
@@ -224,7 +224,7 @@ body { font: 12px Arial;}
 /*styling for legend*/
 .size_legendBox {
     position: absolute;
-    top: 810px;
+    top: 800px;
     left: 20px;
     z-index: 50;
     height: 170px;
@@ -241,4 +241,21 @@ body { font: 12px Arial;}
 .sizeLegend_Title {
 	font-size: 14px;
 	font-weight: bold;		
+}
+
+#myInfo {    
+    position: absolute;
+    top: 990px;
+    display: inline-block;    
+    padding-left: 20px;
+    padding-right: 20px;    
+    padding-bottom: 10px;
+    padding-top: 10px;    
+    text-align: justify;        
+    color:#fff;
+    background-color: rgb(4, 0, 115);
+    border: medium solid #999;   
+    /*width: 255px;*/
+    height: calc(100vh - 600px);
+    overflow-y:auto;
 }
