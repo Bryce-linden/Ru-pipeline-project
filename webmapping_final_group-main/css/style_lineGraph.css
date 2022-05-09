@@ -1,12 +1,10 @@
 /*Add CSS styles here*/
 
-/* When there is no data ...*/
-
 .line {
 	fill: none;
 	stroke: steelblue;
 	stroke-width: 2px;
-  }
+}
 
 
 path { 
@@ -60,13 +58,14 @@ path {
 }
 
 .chart {
-    position: absolute;
+    display: block;
+    /*position: absolute;
     left: 15px;
-    top: 150px;
+    top: 250px;*/    
     background-color: rgb(245, 245, 245);
     border: medium solid #999;
     float: inline;
-    margin: 10px 10px 0 0;
+    margin: auto;    
 }
 
 .chartTitle {
@@ -109,8 +108,7 @@ body { font: 12px Arial;}
 	fill: none;
 	stroke: rgb(188, 188, 188);
 	stroke-width: 2;
-	shape-rendering: crispEdges;
-	
+	shape-rendering: crispEdges;	
 }
 
 /*styling callout container*/
@@ -135,11 +133,15 @@ body { font: 12px Arial;}
 }
 
 .bubble_chart {
-    position: right;
+    display: inline-block;
+    /*position: absolute;
+    right: 5px;
+    top: 260px;*/
+    /*position: right;*/    
     background-color: rgb(4, 0, 115);
     border: medium solid #999;
-    float: right;
-    margin: 0px 20px 0px 0px;
+    /*float: right;*/
+    margin: 0px 0px 0px 260px;    
 }
 
 .bubble_chartTitle {
@@ -174,11 +176,11 @@ body { font: 12px Arial;}
     cursor: pointer; 
 }
 /*style for menu dropdown*/
-.bubble_dropdown {
+.bubble_dropdown {    
     position: absolute;
-    top: 220px;
-    left: 18px;
-    z-index: 100;
+    top: 275px;
+    left: 17px;
+    z-index: 100;    
     font-family: sans-serif;
     font-size: 1.3em;
     font-weight: bold;
@@ -194,7 +196,7 @@ body { font: 12px Arial;}
 /*styling for legend*/
 .bubble_legendBox {
     position: absolute;
-    top: 300px;
+    top: 330px;
     left: 20px;
     z-index: 50;
     height: 450px;
@@ -222,7 +224,7 @@ body { font: 12px Arial;}
 /*styling for legend*/
 .size_legendBox {
     position: absolute;
-    top: 780px;
+    top: 810px;
     left: 20px;
     z-index: 50;
     height: 170px;

@@ -189,7 +189,7 @@
         //function to create dynamic label
         function setLabel(props){
             //label content
-            var labelAttribute = "<h1>" + props[expressed] + " million m³";
+            var labelAttribute = "<h1>" + d3.format(',')(props[expressed]) + " million m³";
 
             //create info label div
             var infolabel = d3.select("body")
@@ -200,7 +200,7 @@
 
             var countyName = infolabel.append("div")
                 .attr("class", "bubble_labelname")
-                .html("<b>" + "Country: "+ props.country + ",  " + "</b>" + "<b>" + "GDP: "+ props.GDP +"</b>");
+                .html("<b>" + "Country: "+ props.country + ",  " + "</b>" + "<b>" + "GDP: "+ "€" + d3.format(',')(props.GDP) + "</b>");
                 
             var dateLabel = infolabel.append("div")
                 .attr("class", "bubble_labelname")
