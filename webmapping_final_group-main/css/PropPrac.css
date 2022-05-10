@@ -47,6 +47,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
 .leaflet-control-layers{
     opacity: .9;
     border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* .leaflet-control-zoom{
@@ -55,9 +56,18 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
 } */
 
 
+
+/* This controls the choropleth legend in the top left
+Changing the max width puts the title text on two lines */
 .info.legend.leaflet-control{
     max-width: 250px;
 }
+
+/* This controls the little color swatches for the choropleth legend in the top right */
+/* .info.legend.leaflet-control i{
+     top:200px;
+    position:relative; 
+} */
 
 /* This is the hamburger icon in top right */
 /* The !important overrides the default leaflet setting because leaflet has a built in icon for this button but I never downloaded it */
@@ -125,6 +135,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     transform: scale(0);
     transition: 0.6s ease;
     transition-property: transform;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .popup-screen.active .popup-box{
@@ -134,6 +145,11 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
 .nav-link:hover{
     background-color: rgb(166, 190, 242);
     border-radius: 5px;
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++++This #body tag turns all the fonts into Montserrat +++++++++ */
+#body{
+    font-family: 'Montserrat', sans-serif;
 }
 
 
@@ -147,6 +163,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     opacity: 0.5;
     transition: 0.3s ease;
     transition-property: opacity;
+    
 }
 
 .close-btn:hover{
@@ -159,6 +176,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     font-size: 2.1 px;
     font-weight: 800;
     margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 #form1{
@@ -171,6 +189,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     padding: 8px;
     padding-bottom:20px;
     opacity: .9;
+    font-family: 'Montserrat', sans-serif;
 }
 
 
@@ -190,6 +209,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     line-height: 45px;
     text-align: center;
     border: solid rgb(180, 19, 19) 1px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /*style range slider style*/
@@ -253,6 +273,7 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
     vertical-align: top;
     text-align: center;
     line-height: 42px;
+    font-family: 'Montserrat', sans-serif;
 }
  
 #forward {
@@ -263,7 +284,8 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
 
 .info{ 
     padding: 6px 8px; 
-    font: 14px/16px Arial, Helvetica, sans-serif;
+    font-family:'Montserrat', sans-serif;
+    font: 14px/17px 'Montserrat', sans-serif;
     background: rgba(255,255,255,0.8); 
     box-shadow: 0 0 15px rgba(0,0,0,0.2); 
     color:black;
@@ -275,6 +297,8 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
  .info h4 { 
     margin: 0 0 5px; 
     color: #777;
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* This is the choropleth legend in the top left, mess with the bottom function to move the function up. I 
@@ -284,9 +308,11 @@ margin or padding which extend the element in those pixels, not just move it */
     text-align: left; 
     line-height: 18px; 
     color: #555; 
+    font-weight: 500;
     position: absolute;
     margin-bottom: 10px;
     bottom: 14px;
+    /* font: px 'Montserrat', sans-serif !important; */
 } 
 
 
@@ -334,19 +360,20 @@ margin or padding which extend the element in those pixels, not just move it */
     color: rgb(138, 34, 34);
     padding: 3%;
     border-radius: 0px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 /*legend style (this is the legend in the bottom right with the prop symbols*/
 .legend-control-container {
-    width: 240px;
+    width: 250px;
     height: 110px;
-    font-weight: bold;
+    font-weight: 500;
     color:black;
     background-color: rgba(255,255,255,0.8);
     padding: 10px;
     text-align: center;
     border: solid rgb(180, 19, 19) 1px;
-    font-family: 'Arial Narrow', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     border-radius: 8px;
 }
