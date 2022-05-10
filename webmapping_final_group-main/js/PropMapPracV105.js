@@ -704,7 +704,8 @@ function processData(data){
     "Y2021-10": 33,
     "Y2021-11": 34,
     "Y2021-12": 35,
-    "Y2022-01": 36
+    "Y2022-01": 36,
+    "Y2022-02": 37
     }
 
 var yearSet = document.querySelector('#year-select') // Select the dropdown with the years so we can grab the value to make the index that will update the map
