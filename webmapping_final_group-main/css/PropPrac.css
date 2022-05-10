@@ -30,6 +30,7 @@ body{
 }
 #updateButtons{
     float: right;
+    height:20px;
 }
 /*#form1{
     float: right;
@@ -180,6 +181,11 @@ Changing the max width puts the title text on two lines */
     font-weight: 800;
     margin-bottom: 20px;
     font-family: 'Montserrat', sans-serif;
+}
+
+#updatebuttons{
+    top:50px;
+    position: absolute
 }
 
 #form1{
@@ -364,6 +370,14 @@ margin or padding which extend the element in those pixels, not just move it */
     padding: 3%;
     border-radius: 0px;
     font-family: 'Montserrat', sans-serif;
+}
+
+#bottompattern{
+    background-image: url("../img/connections.jpg") !important;
+    height:180px;
+    top:200px;
+    position: static;
+    z-index: 9999999999999999999999999999;
 }
 
 /*legend style (this is the legend in the bottom right with the prop symbols*/
