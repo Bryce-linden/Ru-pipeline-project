@@ -305,7 +305,7 @@
                 .labelFormat("0")
                 .shapeWidth(35)
                 .shapeHeight(35)                              
-                .labels(d3.legendHelpers.thresholdLabels)            
+                .labels(d3.legendHelpers.thresholdLabels)
 
             legend.select(".bubble_legend")
                 .call(colorLegend);                           

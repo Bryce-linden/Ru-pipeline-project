@@ -56,7 +56,7 @@ function createMap(){
 
     map.options.layers = [grayscale, bordercrossings, pipelinejs, choroplethlayer];
     
-
+    bordercrossings.addTo(map)
     //Add custom base tilelayer
     var Stadia_AlidadeSmoothDark = L.tileLayer('https://api.mapbox.com/styles/v1/blinden/cl22cbrjy000o14l69xhpbm4r/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYmxpbmRlbiIsImEiOiJja3RicnN2aXQxejJnMm9yNXJ5ODdnZnlzIn0.xxMkVduVt5ll-Trxg1qBPQ', {
         maxZoom: 14,
@@ -148,7 +148,7 @@ function makechoropleth(map){
         //var units = layer.features.properties
         //console.log("theeeeeee", year)
         this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (attributesChoro ?
-                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro.Y2019.toLocaleString("en-US") + ' meters³ in: ' + year : 'Hover over a country!');
+                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro[expressedChoro].toLocaleString("en-US") + ' meters³ in: ' + year : 'Hover over a country!');
                 //console.log("this is props:", props)
 	};
 	
@@ -406,7 +406,7 @@ function makechoropleth(map){
 
 
 	legend.addTo(map);
-    // createSequenceChoro();
+    createSequenceChoro();
     processDataChoro(alleuro);
     attributesChoro = processDataChoro(alleuro);
     
