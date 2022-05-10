@@ -182,14 +182,14 @@ function makechoropleth(map){
 	// 		'#fff5f0';
 	// }
 
-    function getColor(d) {
-		return d >= 94000 ? '#b2182b' :
-			d >= 54999 ? '#ef8a62' :
-			d >= 24999 ? '#fddbc7' :
-			d >= -4999 ? '#f7f7f7' :
-			d >= -34999 ? '#d1e5f0' :
-			d >= -64999 ? '#67a9cf' :
-			d >= -100000 ? '#2166ac' : 
+    function getColor(expressedChoro) {
+		return expressedChoro >= 56000 ? '#b2182b' :
+        expressedChoro >= 26000 ? '#ef8a62' :
+        expressedChoro >= -4000 ? '#fddbc7' :
+        expressedChoro >= -34000 ? '#f7f7f7' :
+        expressedChoro >= -64000 ? '#d1e5f0' :
+        expressedChoro >= -96000 ? '#67a9cf' :
+        expressedChoro >= -100000 ? '#2166ac' : 
 			'#fff5f0';
 	}
     
