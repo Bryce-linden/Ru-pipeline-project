@@ -5,7 +5,7 @@
 
     // Set the dimensions of the canvas / graph
     var margin = {top: 50, right: 30, bottom: 110, left: 50},
-        width = window.innerWidth * 0.92,
+        width = window.innerWidth * 0.93,
         height = 750 - margin.top - margin.bottom;
 
     window.onload = setChart();
@@ -82,7 +82,7 @@
             .text("million meters³")//text content*/
 
         // Get the data
-        d3.csv("data/BorderXing3.csv").then(function(data) {            
+        d3.csv("data/BorderXing4.csv").then(function(data) {            
 
             data.forEach(function(item){                
                 attrArray.forEach(function(date){
