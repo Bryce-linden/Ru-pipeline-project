@@ -245,17 +245,18 @@ body { font: 12px Arial;}
 
 #myInfo {    
     position: absolute;
-    top: 990px;
+    bottom: -420px;
     display: inline-block;    
     padding-left: 20px;
     padding-right: 20px;    
     padding-bottom: 10px;
-    padding-top: 10px;    
+    padding-top: 10px;
+    font-family: sans-serif;  
     text-align: justify;        
-    color:#fff;
-    background-color: rgb(4, 0, 115);
-    border: medium solid #999;   
-    /*width: 255px;*/
+    color:rgb(85, 85, 85);
+    background-color: rgb(230, 230, 230);
+    border: medium solid #999;    
     height: calc(100vh - 600px);
     overflow-y:auto;
+    margin: auto;
 }

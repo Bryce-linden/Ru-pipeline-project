@@ -154,7 +154,7 @@
                 .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
                 .attr("x", chartWidth / 2)//assigns horizontal position
                 .attr("y", 740)//assign verticle position
-                .text("* Gas measurements taken in Million Cubic Meters (mil. m³) at 15 degrees Celcius, 760mm Hg")//text content
+                .text("* Gas measurements taken in Million Cubic Meters (mil. m³) at 15 degrees Celcius, 760mm Hg / Postive Values = Imports, Negative Values = Exports")//text content
                 
             updateChart(circles, csvData.length, colorScale);
         };        
@@ -200,7 +200,7 @@
 
             var countyName = infolabel.append("div")
                 .attr("class", "bubble_labelname")
-                .html("<b>" + "Country: "+ props.country + ",  " + "</b>" + "<b>" + "GDP: "+ "€" + d3.format(',')(props.GDP) + "</b>");
+                .html("<b>" + "Country: "+ props.country + ",  " + "</b>" + "<b>" + "Avg GDP per capita: "+ "€" + d3.format(',')(props.GDP) + "</b>");
                 
             var dateLabel = infolabel.append("div")
                 .attr("class", "bubble_labelname")
