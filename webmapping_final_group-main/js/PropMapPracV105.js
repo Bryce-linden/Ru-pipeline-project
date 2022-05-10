@@ -402,7 +402,7 @@ function PopupContent(properties, attribute){
     this.gas = this.properties[attribute]; //this.gas is properties attribute
     
 
-    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.month+"/" + this.year + " (month/year)" + ": </b>" + this.gas.toLocaleString("en-US") + " million meters³</p>";
+    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.month+"/" + this.year + " (month/year)" + ": </b>" + this.gas.toLocaleString("en-US") + " Million Meters³</p>";
 
 };
 
