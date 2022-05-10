@@ -406,7 +406,7 @@ function makechoropleth(map){
 
 
 	legend.addTo(map);
-    createSequenceChoro();
+    // createSequenceChoro();
     processDataChoro(alleuro);
     attributesChoro = processDataChoro(alleuro);
     
@@ -417,7 +417,7 @@ function makepipeline(style, onEachFeature, getColor){
 		onEachFeature: onEachFeature,
         pane:"shadowPane"
 
-	});
+	}).addTo(map);
 }
 
 
