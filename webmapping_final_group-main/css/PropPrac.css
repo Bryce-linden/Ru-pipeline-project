@@ -55,6 +55,10 @@ slightly larger than the -toggle element, which is one layer deeper. The layer a
 } */
 
 
+.info.legend.leaflet-control{
+    max-width: 250px;
+}
+
 /* This is the hamburger icon in top right */
 /* The !important overrides the default leaflet setting because leaflet has a built in icon for this button but I never downloaded it */
 .leaflet-control-layers-toggle{
@@ -302,7 +306,7 @@ margin or padding which extend the element in those pixels, not just move it */
     color: #555; 
     position: absolute;
     margin-bottom: 10px;
-    top: 162px !important;
+    top: 180px !important;
     border-radius: 2px;
 
 }
@@ -312,7 +316,7 @@ margin or padding which extend the element in those pixels, not just move it */
     color: #555; 
     position: absolute;
     margin-bottom: 10px;
-    top: 200px !important;
+    top: 218px !important;
     border-radius: 2px;
 
 

@@ -261,7 +261,7 @@ function makechoropleth(map){
 		var div = L.DomUtil.create('div', 'info legend');
 		
         var grades = [95000, 55000, 25000, -5000, -35000, -65000, -100000];
-		var labels = ["Net Import/Exports of Gas per Year in Meters^3"];
+		var labels = ["Net Import/Exports of Gas per Year in Million Meters^3"];
 		var from, to;
 
 		for (var i = 0; i < grades.length; i++) {
@@ -272,6 +272,7 @@ function makechoropleth(map){
 				'<i style="background:' + getColor(from + 1) + '"></i> ' +
 				from.toLocaleString("en-US") + (to ? ' to ' + to.toLocaleString("en-US") : ' and below'));
 		}
+            
 
 		div.innerHTML = labels.join('<br>');
         // console.log(labels)
