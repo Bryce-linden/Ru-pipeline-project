@@ -39,6 +39,7 @@ function createMap(){
     map = L.map('map', {
         center: [50, 11],
         zoom: 4,
+        minZoom: 3.5
         // maxZoom: 5,
         // maxBounds: [
         //    [55, 43],
@@ -453,7 +454,7 @@ function PopupContent(properties, attribute){
     this.gas = this.properties[attribute]; //this.gas is properties attribute
     
 
-    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.month+"/" + this.year + " (month/year)" + ": </b>" + this.gas + " million meters³</p>";
+    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.month+"/" + this.year + " (month/year)" + ": </b>" + this.gas.toLocaleString("en-US") + " million meters³</p>";
 
 };
 
@@ -703,7 +704,8 @@ function processData(data){
     "Y2021-10": 33,
     "Y2021-11": 34,
     "Y2021-12": 35,
-    "Y2022-01": 36
+    "Y2022-01": 36,
+    "Y2022-02": 37
     }
 
 var yearSet = document.querySelector('#year-select') // Select the dropdown with the years so we can grab the value to make the index that will update the map
