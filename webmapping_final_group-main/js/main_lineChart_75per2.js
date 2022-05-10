@@ -198,12 +198,12 @@
 
         //use coordinates of mousemove event to set label coordinates
         var x1 = event.clientX + 10,
-            y1 = event.clientY - 75,
+            y1 = event.clientY - 25,
             x2 = event.clientX - labelWidth - 10,
             y2 = event.clientY + 25;
 
         //horizontal label coordinate, testing for overflow
-        var x = event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1; 
+        var x = event.clientX > window.innerWidth - labelWidth - 50 ? x2 : x1; 
         //vertical label coordinate, testing for overflow
         var y = event.clientY < 75 ? y2 : y1; 
 

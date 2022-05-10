@@ -222,7 +222,7 @@
                 y2 = event.clientY + 25;
 
             //horizontal label coordinate, testing for overflow
-            var x = event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1; 
+            var x = event.clientX > window.innerWidth - labelWidth - 50 ? x2 : x1; 
             //vertical label coordinate, testing for overflow
             var y = event.clientY < 25 ? y2 : y1; 
 
