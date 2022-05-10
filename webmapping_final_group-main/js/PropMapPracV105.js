@@ -119,7 +119,7 @@ function calcStats(data, attributes) {
 };
 
 //BEGIN CHOROPLETH! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+//Funciton to make choropleth
 function makechoropleth(map){
     // control that shows state info on hover
 	var info = L.control();
@@ -131,22 +131,10 @@ function makechoropleth(map){
 		return this._div;
 	};
 
-	info.update = function (attributesChoro, props) { //was props
-        //var attributesChoro = alleuro;
-        //attributesChoro = [];
-        //var props = attributesChoro.features
-        //console.log("props?",props)
-        //expressedChoro = attributesChoro;
-        //attributesChoro = processDataChoro(alleuro);
-        //console.log("Data?", attributesChoro)
+	info.update = function (attributesChoro, props) { 
+
         var year = expressedChoro.split("Y")[1];
-        //var properties = alleuro.features[0].properties
-        //console.log("ThIS IS PROPERTIES", properties)
-        //this.gas is properties attribute
-        //var admin = features.properties.ADMIN
-        //console.log(admin)
-        //var units = layer.features.properties
-        //console.log("theeeeeee", year)
+
         this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (attributesChoro ?
                 '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro[expressedChoro].toLocaleString("en-US") + ' Million Meters³ in: ' + year : 'Hover over a country!');
                 //console.log("this is props:", props)
@@ -154,33 +142,6 @@ function makechoropleth(map){
 	
 	info.addTo(map); 
 
-   /* function PopupContent(props, attributeChoro){  
-        //add the city popup content string
-        this.properties = props;
-        this.attribute = attributeChoro;
-        this.year = attributeChoro.indexOf("Y"); // index for year 
-        //this.month = attribute.split("-")[1] // index for month
-        this.gas = this.properties[attributeChoro]; //this.gas is properties attribute
-        
-    
-        this.formatted = '<h4>2019</h4>' +  (props ?
-            '<b>' + props.ADMIN + '</b><br />' + props.Y2019.toLocaleString("en-US") + ' meters³ ' : 'Hover over a country!');
-            console.log("this is props:", props)
-
-        PopupContent.addTo(map);
-    };*/
-
- //This color scheme gives you purple as middle values
-	// function getColor(d) {
-	// 	return d >= 12215 ? '#F50000' :
-	// 		d >= 9855 ? '#E8005F' :
-	// 		d >= 7374 ? '#4600C2' :
-	// 		d >= 5152 ? '#9F00CE' :
-	// 		d >= 2520 ? '#3F13B5' :
-	// 		d >= -3702 ? '#4600C2' :
-	// 		d >= -7280 ? '#0009B5' : 
-	// 		'#fff5f0';
-	// }
 
     function getColor(expressedChoro) {
 		return expressedChoro >= 56000 ? '#b2182b' :
@@ -215,7 +176,7 @@ function makechoropleth(map){
 		});
 
 		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-			//layer.bringToFront();
+			
 		}
         info.update(layer.feature.properties);
 	}
@@ -239,15 +200,14 @@ function makechoropleth(map){
 		});
 	}
 
-    //var alleuro;
-    //var choroplethlayer;
+   
 	/* global statesData */
 	choroplethlayer = L.geoJson(alleuro, {
 		style: style,
 		onEachFeature: onEachFeature,
         pane:"overlayPane"
 	}).addTo(map);
-    //console.log("this is the layerrrrr",choroplethlayer);
+    
     
 	
 
@@ -275,9 +235,6 @@ function makechoropleth(map){
             
 
 		div.innerHTML = labels.join('<br>');
-        // console.log(labels)
-        // console.log(typeof from)
-        // console.log(typeof to)
 		return div;
 	};
 
@@ -421,15 +378,6 @@ function makepipeline(style, onEachFeature, getColor){
 }
 
 
-// function makepipeline(data, attributes){
-//     //create a Leaflet GeoJSON Layer and add it to map 
-//     pipelinejs = L.geoJson(data, {
-//         pointToLayer: function(feature, latlng){
-//             return pointToLayer(feature, latlng, attributes);
-//         }
-//     });
-// };
-
 
 
 //calculate the radius of each proportional symbol
@@ -522,26 +470,7 @@ function createPropSymbols(data, attributes){
 
 
 
-// function style(feature) {
-//     return {
-//         fillColor: getColor(feature.properties.density),
-//         weight: 2,
-//         opacity: 1,
-//         color: 'green',
-//         dashArray: '3',
-//         fillOpacity: 0.7
-//     };
-// }
 
-
-
-
-//FOR CHOROPLETH
-//create new function similar to createpropsymbols
-// Plug in json variable into parethesis in function
-// style : style
-
-//NEEDED FOR FINAL LAB
 function getCircleValues(attribute) {
     //start with min at highest possible and max at lowest possible number
     var min = Infinity, 
@@ -599,9 +528,7 @@ function updateLegend(attribute) {
     }
 };   
 
-//***********************************************Update Choropleth Function ******************************************** */
 
-//function updateChoropleth(attribute)
 
 function updatePropSymbols(attribute){
     map.eachLayer(function(layer){
