@@ -1,7 +1,7 @@
 
 //anonymous function to wrap script
 (function(){   
-        
+    //variables for dates array and csv data    
     var attrArray = ["January, 2019","February, 2019","March, 2019","April, 2019","May, 2019","June, 2019","July, 2019","August, 2019","September, 2019","October, 2019","November, 2019","December, 2019","January, 2020","February, 2020","March, 2020","April, 2020","May, 2020","June, 2020","July, 2020","August, 2020","September, 2020","October, 2020","November, 2020","December, 2020","January, 2021","February, 2021","March, 2021","April, 2021","May, 2021","June, 2021","July, 2021","August, 2021","September, 2021","October, 2021","November, 2021","December, 2021","January, 2022","February, 2022"]
     var expressed = attrArray[0]; //initial attribute    
 
@@ -15,8 +15,9 @@
         chartInnerHeight = chartHeight - topBottomPadding * 2,
         translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
 
+    //creating a linear scale for the chart, setting ranges and domains for values
     var x = d3.scaleLinear()
-        .range([60, chartInnerWidth-20])//output minimum and maximum - pixel values on the page/map
+        .range([60, chartInnerWidth-20])
         .domain([0, 44.5]);
 
     var y = d3.scaleLinear()        
@@ -35,7 +36,7 @@
 
         //data parameter - retrieves data as an array
         function callback(data){ 
-                    
+            //loop through csv data        
             csvData = data[0];            
 
             //create the color scale
@@ -47,15 +48,15 @@
             //calling create dropdown
             createDropdown(csvData);
 
-            //calling create legend function
+            //calling create legend function for gas flow values
             createLegend(csvData, expressed, colorScale);
 
-            createSizeLegend(csvData, expressed, colorScale);
-            
+            //calling ize legend for GDP values
+            createSizeLegend(csvData, expressed, colorScale);            
         };
     };
 
-        //function to create a DROPDOWN MENU for attribute selection
+        //function to create a DROPDOWN MENU for date attribute selection
         function createDropdown(csvData){
             //add select element
             var dropdown = d3
@@ -94,7 +95,8 @@
 
             //recreate the color scale
             var colorScale = makeColorScale(csvData);
-                    
+
+            //variable for the circle markers        
             var circles = d3.selectAll(".circle")
 
             updateChart(circles, csvData.length, colorScale);                
@@ -106,43 +108,43 @@
             var chart = d3.select("body") //get the <body> HTML element from the DOM
                 //method chaining
                 .append("svg") //put a new svg in the body
-                .attr("width", chartWidth)  //assign the width set to w
-                .attr("height", chartHeight) //assign the height set to h                
-                .attr("class", "bubble_chart") //always assign a class (as the block name) for styling and future selection                
-                //.style("background-color", "rgba(0,109,44,0.2)"); //only put a semicolon at the end of the block!                            
+                .attr("width", chartWidth)  
+                .attr("height", chartHeight)                
+                .attr("class", "bubble_chart")                                             
 
             //appending innerRect block to the container variable
             var innerRect = chart.append("rect")
-                .datum(400) //a single value is a DATUM - method applied to the variable
+                .datum(400) 
                 .attr("width", chartInnerWidth - 60)
                 .attr("height", chartInnerHeight - 60)                
-                .attr("class", "bubble_innerRect") //class name
+                .attr("class", "bubble_innerRect") 
                 .attr("x", 50) //position from left on the x (horizontal) axis
                 .attr("y", 40) //position from top on the y (vertical) axis
                 .style("fill", "rgb(150, 150, 150");        
 
-            //appends a circle for every item in dataValues array
+            //appends a circle for every item in the csv data array
             var circles = chart.selectAll(".circle")                
                 .data(csvData)
                 .enter()
                 .append("circle")
                 .attr("class","circles")
                 .attr("class", function(d){
-                    return "circle " + d.country.replace("(", '').replace(')',"").replaceAll(/\s+/g, '');
-                })                
-               
-            var yAxis = d3.axisLeft(y);//creating a y axis generator
+                    return "circle " + d.country.replace("(", '').replace(')',"").replaceAll(/\s+/g, '');//removing charaters
+                })
 
-            var axis = chart.append("g")//creating an axis g element and adding it to the axis
+            //creating a y axis generator   
+            var yAxis = d3.axisLeft(y);
+
+            //creating an axis g element and adding it to the axis
+            var axis = chart.append("g")
                 .attr("class", "bubble_axis")
-                .attr("transform", "translate(50, -10)")
-                //basically translates the x,y coordinates of the axis
+                .attr("transform", "translate(50, -10)")                
                 .call(yAxis);
             
             //adding a title [class] to the chart
             var title = chart.append("text")
                 .attr("class", "bubble_chartTitle")
-                .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
+                .attr("text-anchor", "middle")
                 .attr("x", chartWidth / 2)//assigns horizontal position
                 .attr("y", 27)//assign verticle position
                 .text("Net Natural Gas Imports and Exports By Country for " + expressed)//text content
@@ -151,7 +153,7 @@
             //adding a title [class] to the chart
             var notation = chart.append("text")
                 .attr("class", "bubble_chartNotation")
-                .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
+                .attr("text-anchor", "middle")
                 .attr("x", chartWidth / 2)//assigns horizontal position
                 .attr("y", 740)//assign verticle position
                 .text("* Gas measurements taken in Million Cubic Meters (mil. m³) at 15 degrees Celcius, 760mm Hg / Postive Values = Imports, Negative Values = Exports")//text content
@@ -168,8 +170,9 @@
                 .domain([-10000, -5000, -2500, -1000, -500, 0, 500, 1000, 5000, 10000])
                 .range(["#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0", "#f7f7f7", "#fddbc7", "#f4a582", "#d6604d", "#b2182b", "#67001f"]);
             return colorScale; 
-        };        
+        };
 
+        //function for highlight on hover
         function highlight(props){
             //change stroke
             var selected = d3.selectAll("." + props.country.replace("(", '').replace(')',"").replaceAll(/\s+/g, ''))
@@ -178,6 +181,7 @@
                 setLabel(props);//calling set label
         };
 
+        //function for dehighlight after removing cursor
         function dehighlight(){ 
             var circles = d3.selectAll(".circle")
                 .style("stroke", "#000")
@@ -191,7 +195,7 @@
             //label content
             var labelAttribute = "<h1>" + d3.format(',')(props[expressed]) + " million m³";
 
-            //create info label div
+            //create info label div and adding data to callout labels
             var infolabel = d3.select("body")
                 .append("div")
                 .attr("class", "bubble_infolabel")
@@ -233,7 +237,8 @@
 
         //function to update chart circles and titles based on attribute slection
         function updateChart(circles, csvData, colorScale){
-            circles.on("mouseover", function(event, d){//event is referring to element being selected
+            //calling on the highlight functions on hover and setting timed transitions
+            circles.on("mouseover", function(event, d){
                 highlight(d)
             })
             .on("mouseout", function(event, d){
@@ -249,7 +254,7 @@
             })
             .duration(1000)            
             .attr("r",function(d){
-                //calculate the circle radius based on populations in array
+                //calculate the circle radius based on GDP values in csv
                 var area = Math.abs(d.GDP * .04);                
                     return Math.sqrt(area/Math.PI);//converts the area to the radius                                   
             })
@@ -267,7 +272,7 @@
                     return Math.min(y(d[expressed])), Math.max(y(d[expressed])) - 10
                 }
             })
-            //applies color conditionally                        
+            //applies style - color and stroke                        
             .style("fill", function(d){
                 var value = d[expressed];
                 if (value !== 0){
@@ -279,12 +284,12 @@
             })
             .style("stroke", "#000")
             .style("stroke-width", "0.8")       
-        
-        var chartTitle = d3.select(".bubble_chartTitle")
-            .text("Net Natural Gas Imports and Exports By Country for " + expressed)        
+            //adds dynamic title
+            var chartTitle = d3.select(".bubble_chartTitle")
+                .text("Net Natural Gas Imports and Exports By Country for " + expressed)        
         };
 
-        //function to create legend based on colorScale
+        //function to create legend based on manual breaks colorScale
         function createLegend(csvData, expressed, colorScale){
             d3.select("body")            
                 .append("svg")
@@ -296,6 +301,7 @@
                 .attr("class", "bubble_legend")
                 .attr("transform", "translate(15,15)");
 
+            //adding legend title and style
             var colorLegend = d3.legendColor()                
                 .orient("verticle")
                 .ascending(true)
@@ -308,8 +314,9 @@
                 .labels(d3.legendHelpers.thresholdLabels)
 
             legend.select(".bubble_legend")
-                .call(colorLegend);                           
-        };        
+                .call(colorLegend);//calling d3 colorlegend                           
+        };
+
         //function to create a size legend for GDP values
         function createSizeLegend(csvData){
             d3.select("body")            
@@ -319,17 +326,18 @@
             var legendSize = d3.select("svg.size_legendBox");
             var myFormat = d3.format(',');
 
-            // The scale you use for bubble size
+            //setting the scale for bubble size in legend
             var size = d3.scaleSqrt()
-                .domain([1, 100])  // What's in the data
-                .range([1, 2])  // Size in pixel
+                .domain([1, 100])  
+                .range([1, 2])//Size in pixel
 
-            // Add legend: circles
+            //Add legend circles with manual breaks and position elements
             var valuesToShow = [5000, 35000, 90000]
             var xCircle = 60
             var xLabel = 150
-            var yCircle = 150            
+            var yCircle = 150
 
+            //creating and styling legend circles
             legendSize
             .selectAll("size_legend")
             .data(valuesToShow)
@@ -343,19 +351,8 @@
                 })
                 .style("fill", "none")
                 .attr("stroke", "black")            
-            
-            var from, to;
-    
-            /*for (var i = 0; i < valuesToShow.length; i++) {
-                from = valuesToShow[i];
-                to = valuesToShow[i + 1];
-    
-                xLabel.push(
-                    '<i style="background:' + getColor(from + 1) + '"></i> ' +
-                    from.toLocaleString("en-US") + (to ? ' to ' + to.toLocaleString("en-US") : ' and below'));
-            }*/
 
-            // Add legend: segments
+            //Add legend dashed line segments
             legendSize
             .selectAll("size_legend")
             .data(valuesToShow)
@@ -368,7 +365,7 @@
                 .attr('stroke', 'black')
                 .style('stroke-dasharray', ('2,2'))
 
-            // Add legend: labels
+            //Add legend labels
             legendSize
             .selectAll("size_legend")
             .data(valuesToShow)
@@ -380,23 +377,24 @@
                 .style("font-size", 14)
                 .attr('alignment-baseline', 'middle')
 
+            //adding legend title in segments
             legendSize.append("text")
                 .attr("class", "sizeLegend_Title")
-                .attr("text-anchor", "left")//centers the text - without this centering would have to be done by offsetting x coordinate value
+                .attr("text-anchor", "left")
                 .attr("x", 15)//assigns horizontal position
                 .attr("y", 22)//assign verticle position
                 .text("Size = Average GDP")//text content
                 
             legendSize.append("text")
                 .attr("class", "sizeLegend_Title")
-                .attr("text-anchor", "left")//centers the text - without this centering would have to be done by offsetting x coordinate value
+                .attr("text-anchor", "left")
                 .attr("x", 57)//assigns horizontal position
                 .attr("y", 38)//assign verticle position
                 .text("per capita (€)")//text content
 
             legendSize.append("text")
                 .attr("class", "sizeLegend_Title")
-                .attr("text-anchor", "left")//centers the text - without this centering would have to be done by offsetting x coordinate value
+                .attr("text-anchor", "left") 
                 .attr("x", 57)//assigns horizontal position
                 .attr("y", 55)//assign verticle position
                 .text("2019 to 2022")//text content
