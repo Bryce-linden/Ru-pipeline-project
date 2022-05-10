@@ -101,7 +101,7 @@ path {
 /*information box for line chart*/
 #myInfo1 {    
     position: absolute;
-    bottom: -370px;
+    bottom: -570px;
     display: inline-block;    
     padding-left: 20px;
     padding-right: 20px;    
@@ -112,7 +112,7 @@ path {
     color:rgb(85, 85, 85);
     background-color: rgb(230, 230, 230);
     border: medium solid #999;    
-    height: calc(80vh - 450px);       
+    height: calc(110vh - 500px);       
     overflow-y:auto;
     margin: auto;
 }
@@ -193,7 +193,7 @@ body { font: 12px Arial;}
 /*style for bubble chart dropdown menu*/
 .bubble_dropdown {    
     position: absolute;
-    top: 260px;
+    top: 220px;
     left: 18px;
     z-index: 100;    
     font-family: 'Montserrat', sans-serif;
@@ -211,7 +211,7 @@ body { font: 12px Arial;}
 /*styling for bubble chart legend box*/
 .bubble_legendBox {
     position: absolute;
-    top: 320px;
+    top: 280px;
     left: 20px;
     z-index: 50;
     height: 450px;
@@ -233,7 +233,7 @@ body { font: 12px Arial;}
 /*styling for bubble chart size legend*/
 .size_legendBox {
     position: absolute;
-    top: 800px;
+    top: 760px;
     left: 20px;
     z-index: 50;
     height: 170px;
@@ -254,7 +254,7 @@ body { font: 12px Arial;}
 /*information box for bubble chart*/
 #myInfo2 {    
     position: absolute;
-    bottom: -425px;
+    bottom: -585px;
     display: inline-block;    
     padding-left: 20px;
     padding-right: 20px;    
@@ -265,7 +265,7 @@ body { font: 12px Arial;}
     color:rgb(85, 85, 85);
     background-color: rgb(230, 230, 230);
     border: medium solid #999;    
-    height: calc(100vh - 600px);
+    height: calc(110vh - 500px);
     overflow-y:auto;
     margin: auto;
 }
