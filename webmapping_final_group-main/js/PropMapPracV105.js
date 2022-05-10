@@ -148,7 +148,7 @@ function makechoropleth(map){
         //console.log("FUCKKKK YOU",units)
         //console.log("theeeeeee", year)
         this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (attributesChoro ?
-                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro.Y2019.toLocaleString("en-US") + ' meters^3 in: ' + year : 'Hover over a country!');
+                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro.Y2019.toLocaleString("en-US") + ' meters³ in: ' + year : 'Hover over a country!');
                 //console.log("this is props:", props)
 	};
 	
@@ -164,7 +164,7 @@ function makechoropleth(map){
         
     
         this.formatted = '<h4>2019</h4>' +  (props ?
-            '<b>' + props.ADMIN + '</b><br />' + props.Y2019.toLocaleString("en-US") + ' meters^3 ' : 'Hover over a country!');
+            '<b>' + props.ADMIN + '</b><br />' + props.Y2019.toLocaleString("en-US") + ' meters³ ' : 'Hover over a country!');
             console.log("this is props:", props)
 
         PopupContent.addTo(map);
@@ -261,7 +261,7 @@ function makechoropleth(map){
 		var div = L.DomUtil.create('div', 'info legend');
 		
         var grades = [95000, 55000, 25000, -5000, -35000, -65000, -100000];
-		var labels = ["Net Import/Exports of Gas per Year in Million Meters^3"];
+		var labels = ["Net Import/Exports of Gas per Year in Million Meters³"];
 		var from, to;
 
 		for (var i = 0; i < grades.length; i++) {
@@ -454,7 +454,7 @@ function PopupContent(properties, attribute){
     this.gas = this.properties[attribute]; //this.gas is properties attribute
     
 
-    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.month+"/" + this.year + " (month/year)" + ": </b>" + this.gas + " million meters^3</p>";
+    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.month+"/" + this.year + " (month/year)" + ": </b>" + this.gas + " million meters³</p>";
 
 };
 
@@ -593,7 +593,7 @@ function updateLegend(attribute) {
         document.querySelector("#" + key).setAttribute("cy", 54 - radius);
         document.querySelector("#" + key).setAttribute("r", radius)
 
-        document.querySelector("#" + key + "-text").textContent = Math.round(circleValues[key] * 100) / 100 + " million meters^3";
+        document.querySelector("#" + key + "-text").textContent = Math.round(circleValues[key] * 100) / 100 + " million meters³";
     }
 };   
 
@@ -806,7 +806,7 @@ function createLegend(attributes) {
                 console.log("this is round number", round_number)
 
                 //text string 
-                svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + round_number.toLocaleString("en-US") + " million meters^3" + "</text>";
+                svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + round_number.toLocaleString("en-US") + " million meters³" + "</text>";
             }
 
             //close svg string
