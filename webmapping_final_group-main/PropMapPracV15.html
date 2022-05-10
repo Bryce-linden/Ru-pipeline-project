@@ -133,10 +133,10 @@
     
                 closeBtn.addEventListener("click", () => {
                     popupScreen.classList.remove("active"); //this closes the popupscreen when you click on the X
-                    document.cookie = "WebsiteName=testWebsite; max-age=" + 24 * 60 * 60;
-                });
+                    document.cookie = "Gas-cookie=testWebsite; max-age=" + 20 * 60; 
+                }); //cookie has twenty minutes before it expires
     
-                const WebsiteCookie = document.cookie.indexOf("WebsiteName=");
+                const WebsiteCookie = document.cookie.indexOf("Gas-cookie=");
     
                 if(WebsiteCookie != -1){
                     popupScreen.style.display = "none"; //This hides the popup screen if the cookie is still active and not expired
