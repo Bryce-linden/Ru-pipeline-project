@@ -39,6 +39,7 @@ function createMap(){
     map = L.map('map', {
         center: [50, 11],
         zoom: 4,
+        minZoom: 3.5
         // maxZoom: 5,
         // maxBounds: [
         //    [55, 43],
