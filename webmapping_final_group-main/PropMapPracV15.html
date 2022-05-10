@@ -94,7 +94,11 @@
             </div>
             
             
+            
             <div id="map"></div>
+
+
+            
             <div id="updateButtons">
                 <form name="form1" id="form1">
                     Year: <select name="year" id="year-select">
@@ -132,7 +136,7 @@
                     document.cookie = "WebsiteName=testWebsite; max-age=" + 24 * 60 * 60;
                 });
     
-                const WebsiteCookie = document.cookie.indexOf("=testWebsite");
+                const WebsiteCookie = document.cookie.indexOf("WebsiteName=");
     
                 if(WebsiteCookie != -1){
                     popupScreen.style.display = "none"; //This hides the popup screen if the cookie is still active and not expired

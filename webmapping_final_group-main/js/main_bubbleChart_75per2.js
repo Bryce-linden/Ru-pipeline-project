@@ -377,7 +377,7 @@
                 .attr('x', xLabel-20)
                 .attr('y', function(d){ return yCircle - size(d)*2 } )
                 .text( function(d){ return d } )
-                .style("font-size", 12)
+                .style("font-size", 14)
                 .attr('alignment-baseline', 'middle')
 
             legendSize.append("text")
