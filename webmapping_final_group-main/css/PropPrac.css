@@ -108,7 +108,7 @@ Changing the max width puts the title text on two lines */
     backdrop-filter: blur(10px) !important;
     width: 100% !important;
     height: 100vh !important;
-    display: flex !important;
+    display: flex; /* DO NOT PUT !IMPORTANT here, you need the display to change from flex to none with the cookie setup. The cookie couldn't override the !important, so it wasn't working */
     justify-content: center !important;
     align-items: center !important;
     visibility: hidden;
