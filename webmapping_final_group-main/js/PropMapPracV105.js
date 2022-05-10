@@ -148,7 +148,7 @@ function makechoropleth(map){
         //var units = layer.features.properties
         //console.log("theeeeeee", year)
         this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (attributesChoro ?
-                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro[expressedChoro].toLocaleString("en-US") + ' meters³ in: ' + year : 'Hover over a country!');
+                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro[expressedChoro].toLocaleString("en-US") + ' Million Meters³ in: ' + year : 'Hover over a country!');
                 //console.log("this is props:", props)
 	};
 	
