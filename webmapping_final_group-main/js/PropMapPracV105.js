@@ -145,10 +145,9 @@ function makechoropleth(map){
         //var admin = features.properties.ADMIN
         //console.log(admin)
         //var units = layer.features.properties
-        //console.log("FUCKKKK YOU",units)
         //console.log("theeeeeee", year)
         this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (attributesChoro ?
-                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro.Y2019.toLocaleString("en-US") + ' meters^3 in: ' + year : 'Hover over a country!');
+                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro.Y2022.toLocaleString("en-US") + ' meters^3 in: ' + year : 'Hover over a country!');
                 //console.log("this is props:", props)
 	};
 	
