@@ -197,7 +197,7 @@ body { font: 12px Arial;}
 .bubble_dropdown {    
     position: absolute;
     top: 260px;
-    left: 17px;
+    left: 18px;
     z-index: 100;    
     font-family: 'Montserrat', sans-serif;
     font-size: 1.3em;
@@ -218,7 +218,7 @@ body { font: 12px Arial;}
     left: 20px;
     z-index: 50;
     height: 450px;
-    width: 185px;
+    width: 210px;
     font-family: 'Montserrat', sans-serif;
     font-size: 1em;
     font-weight: bold;
@@ -246,7 +246,7 @@ body { font: 12px Arial;}
     left: 20px;
     z-index: 50;
     height: 170px;
-    width: 185px;
+    width: 210px;
     font-family: 'Montserrat', sans-serif;
     font-size: 1em;
     font-weight: bold;

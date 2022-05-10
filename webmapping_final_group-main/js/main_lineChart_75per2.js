@@ -51,7 +51,7 @@
             .attr("text-anchor", "middle")//centers the text - without this centering would have to be done by offsetting x coordinate value
             .attr("x", width / 2)//assigns horizontal position
             .attr("y", 670)//assign verticle position
-            .text("* Toggle a Country's Border Crossings off and on by clicking on the Country in the Menu Above.")//text content
+            .text("* All Country Border Crossings are on by Default. Toggle a Country's Border Crossings off and on by clicking on the Country in the Menu Above.")//text content
         
         svg.append("text")
             .attr("class", "chartNotation")
