@@ -20,23 +20,7 @@ var attributesChoro = [];
 //function to instantiate the leaflet map
 function createMap(){
 
-    var oil_icon = L.icon({
-        iconUrl: 'lib/oil_barrel.png',
-        
     
-        iconSize:     [18, 24], // size of the icon
-       // shadowSize:   [50, 64], // size of the shadow
-        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-        //shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-    });
-
-    // var cities = L.layerGroup(); //create empty variable layer group that you will fill with array
-    // var mLittleton = L.marker([39.61, -105.02], {icon:oil_icon}).bindPopup('This is Littleton, CO.').addTo(cities);
-    // var mDenver = L.marker([39.74, -104.99],{icon:oil_icon}).bindPopup('This is Denver, CO.').addTo(cities);
-    // var mAurora = L.marker([39.73, -104.8],{icon:oil_icon}).bindPopup('This is Aurora, CO.').addTo(cities);
-    // var mGolden = L.marker([39.77, -105.23],{icon:oil_icon}).bindPopup('This is Golden, CO.').addTo(cities);
-  
   
   
     var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
@@ -55,10 +39,13 @@ function createMap(){
     map = L.map('map', {
         center: [50, 11],
         zoom: 4,
-        maxZoom: 5,
-        //maxBounds: [
-        //    [65, -155],
-        //    [23, -35]
+        // maxZoom: 5,
+        // maxBounds: [
+        //    [55, 43],
+        //    [18, 17],
+        //    [40,52],
+        //    [70,70]
+
         //    ]
     });
 
@@ -71,7 +58,8 @@ function createMap(){
 
     //Add custom base tilelayer
     var Stadia_AlidadeSmoothDark = L.tileLayer('https://api.mapbox.com/styles/v1/blinden/cl22cbrjy000o14l69xhpbm4r/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYmxpbmRlbiIsImEiOiJja3RicnN2aXQxejJnMm9yNXJ5ODdnZnlzIn0.xxMkVduVt5ll-Trxg1qBPQ', {
-        maxZoom: 5,
+        maxZoom: 14,
+        minZoom: 3,
         attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     }).addTo(map)
         //call the getData function, but not when the data is too big! It won't load in time
@@ -81,6 +69,8 @@ function createMap(){
         'Streets': streets,
         };
     
+    map.scrollWheelZoom.disable(); //disables the scrolling wheel zoom capability
+
     var overlays = {
         'Border Crossings': bordercrossings,
         'Pipelines':pipelinejs,

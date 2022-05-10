@@ -22,6 +22,7 @@
 
     <body>
     
+       
         <div class="popup-screen">
             <div class="popup-box">
                 <i class="fas fa-times close-btn"></i>
@@ -33,6 +34,7 @@
             </div>
 
         </div>
+        
 
             <!-- Create the navbar -->
             <nav class="navbar navbar-expand-lg navbar-default">
@@ -92,45 +94,45 @@
             </div>
 
    
-
+            <script type="text/javascript">
+                const popupScreen = document.querySelector(".popup-screen");
+                const popupBox = document.querySelector(".popup-box");
+                const closeBtn = document.querySelector(".close-btn");
+                
+                window.addEventListener("load", () => {
+                    setTimeout(() => {
+                        popupScreen.classList.add("active");
+                    }, 1); //the number here governs the amount of time before the popup occurs. 1000 is one second
+                });
+    
+    
+                closeBtn.addEventListener("click", () => {
+                    popupScreen.classList.remove("active"); //this closes the popupscreen when you click on the X
+                    document.cookie = "WebsiteName=testWebsite; max-age=" + 24 * 60 * 60;
+                });
+    
+                const WebsiteCookie = document.cookie.indexOf("=testWebsite");
+    
+                if(WebsiteCookie != -1){
+                    popupScreen.style.display = "none"; //This hides the popup screen if the cookie is still active and not expired
+                }
+                else{
+                    popupScreen.style.display = "flex"; //this shows the popup screen if the cookie is expired
+                }
+    
+            </script>
         <!--put your initial page content here-->
 
         <!--you can also use this space for internal scripts;
         place these within <script> tags-->
 
         <!--put your external script links here-->
-        <script type="text/javascript">
-            const popupScreen = document.querySelector(".popup-screen");
-            const popupBox = document.querySelector(".popup-box");
-            const closeBtn = document.querySelector(".close-btn");
-            
-            window.addEventListener("load", () => {
-                setTimeout(() => {
-                    popupScreen.classList.add("active");
-                }, 1); //the number here governs the amount of time before the popup occurs. 1000 is one second
-            });
-
-
-            closeBtn.addEventListener("click", () => {
-                popupScreen.classList.remove("active"); //this closes the popupscreen when you click on the X
-                document.cookie = "WebsiteName=testWebsite; max-age=" + 24 * 60 * 60;
-            });
-
-            const WebsiteCookie = document.cookie.indexOf("=testWebsite");
-
-            if(WebsiteCookie != -1){
-                popupScreen.style.display = "none"; //This hides the popup screen if the cookie is still active and not expired
-            }
-            else{
-                popupScreen.style.display = "flex"; //this shows the popup screen if the cookie is expired
-            }
-
-        </script>
+        
         
         <script type="text/javascript" src="lib/leaflet-src.js"></script>
         <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
         <script type="text/javascript" src="data/pipeline_routes/MainEuropePipelines_Project_WGS1984.js"></script>
         <script type="text/javascript" src="data/17eurocountries_correct.js"></script>
-        <script type="text/javascript" src="js/PropMapPracV104.js"></script>
+        <script type="text/javascript" src="js/PropMapPracV105.js"></script>
     </body>
 </html>
