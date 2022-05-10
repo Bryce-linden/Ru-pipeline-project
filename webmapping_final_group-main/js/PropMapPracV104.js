@@ -76,8 +76,8 @@ function createMap(){
     }).addTo(map)
         //call the getData function, but not when the data is too big! It won't load in time
     var baseLayers = {
-        'Grayscale': grayscale,
-        'Smooth Gray': Stadia_AlidadeSmoothDark, //when I move this line of code above 'Grayscale', the starting basemap is grayscale, but the legend is correct with smooth dark as the first option
+        'Smooth Gray': Stadia_AlidadeSmoothDark,
+        'Grayscale': grayscale, //when I move this line of code above 'Grayscale', the starting basemap is grayscale, but the legend is correct with smooth dark as the first option
         'Streets': streets,
         };
     
@@ -271,7 +271,7 @@ function makechoropleth(map){
 		var div = L.DomUtil.create('div', 'info legend');
 		
         var grades = [95000, 55000, 25000, -5000, -35000, -65000, -100000];
-		var labels = ["Net Import/Exports of Gas per Year"];
+		var labels = ["Net Import/Exports of Gas per Year in Meters^3"];
 		var from, to;
 
 		for (var i = 0; i < grades.length; i++) {
@@ -810,6 +810,9 @@ function createLegend(attributes) {
 
                 //round the number
                 var round_number = Math.round(dataStats[circles[i]] *100) / 100
+               
+                round_number === Math.round(round_number)
+                console.log("this is round number", round_number)
 
                 //text string 
                 svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + round_number.toLocaleString("en-US") + " million meters^3" + "</text>";
