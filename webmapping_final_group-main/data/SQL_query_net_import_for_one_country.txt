@@ -1,0 +1,290 @@
+SELECT 'Poland' as country, 
+		sum(x19jan) as x19jan, 
+		sum(x19feb) as x19feb, 
+		sum(x19mar) as x19mar, 
+		sum(x19apr) as x19apr,
+		sum(x19may) as x19may, 
+		sum(x19jun) as x19jun, 
+		sum(x19jul) as x19jul,
+		sum(x19aug) as x19aug,
+		sum(x19sep) as x19sep,
+		sum(x19oct) as x19oct, 
+		sum(x19nov) as x19nov, 
+		sum(x19dec) as x19dec,
+		
+		sum(x20jan) as x20jan, 
+		sum(x20feb) as x20feb, 
+		sum(x20mar) as x20mar, 
+		sum(x20apr) as x20apr,
+		sum(x20may) as x20may, 
+		sum(x20jun) as x20jun, 
+		sum(x20jul) as x20jul,
+		sum(x20aug) as x20aug,
+		sum(x20sep) as x20sep,
+		sum(x20oct) as x20oct, 
+		sum(x20nov) as x20nov, 
+		sum(x20dec) as x20dec,
+		
+		sum(x21jan) as x21jan, 
+		sum(x21feb) as x21feb, 
+		sum(x21mar) as x21mar, 
+		sum(x21apr) as x21apr,
+		sum(x21may) as x21may, 
+		sum(x21jun) as x21jun, 
+		sum(x21jul) as x21jul,
+		sum(x21aug) as x21aug,
+		sum(x21sep) as x21sep,
+		sum(x21oct) as x21oct, 
+		sum(x21nov) as x21nov, 
+		sum(x21dec) as x21dec,
+		
+		sum(x22jan) as x22jan, 
+		sum(x22feb) as x22feb
+		
+FROM 
+
+
+	(SELECT *
+	FROM 
+
+		(
+		SELECT borderpoint, entry, "exit",
+			(CASE
+					WHEN "exit" = 'Poland' THEN x19jan * -1
+					WHEN "entry" = 'Poland' THEN x19jan * 1
+					END
+			) AS "x19jan",
+
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19feb * -1
+				WHEN "entry" = 'Poland' THEN x19feb * 1
+				END 
+			) AS "x19feb",
+
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19mar * -1
+				WHEN "entry" = 'Poland' THEN x19mar * 1
+				END 
+			) AS "x19mar",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19apr * -1
+				WHEN "entry" = 'Poland' THEN x19apr * 1
+				END 
+			) AS "x19apr",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19may * -1
+				WHEN "entry" = 'Poland' THEN x19may * 1
+				END 
+			) AS "x19may",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19jun * -1
+				WHEN "entry" = 'Poland' THEN x19jun * 1
+				END 
+			) AS "x19jun",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19jul * -1
+				WHEN "entry" = 'Poland' THEN x19jul * 1
+				END 
+			) AS "x19jul",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19aug * -1
+				WHEN "entry" = 'Poland' THEN x19aug * 1
+				END
+			 
+			) AS "x19aug",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19sep * -1
+				WHEN "entry" = 'Poland' THEN x19sep * 1
+				END 
+			) AS "x19sep",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19oct * -1
+				WHEN "entry" = 'Poland' THEN x19oct * 1
+				END 
+			) AS "x19oct",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19nov * -1
+				WHEN "entry" = 'Poland' THEN x19nov * 1
+				END 
+			) AS "x19nov",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x19dec * -1
+				WHEN "entry" = 'Poland' THEN x19dec * 1
+				END 
+			) AS "x19dec",
+			
+			(CASE
+					WHEN "exit" = 'Poland' THEN x20jan * -1
+					WHEN "entry" = 'Poland' THEN x20jan * 1
+					END
+			) AS "x20jan",
+
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20feb * -1
+				WHEN "entry" = 'Poland' THEN x20feb * 1
+				END 
+			) AS "x20feb",
+
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20mar * -1
+				WHEN "entry" = 'Poland' THEN x20mar * 1
+				END 
+			) AS "x20mar",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20apr * -1
+				WHEN "entry" = 'Poland' THEN x20apr * 1
+				END 
+			) AS "x20apr",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20may * -1
+				WHEN "entry" = 'Poland' THEN x20may * 1
+				END 
+			) AS "x20may",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20jun * -1
+				WHEN "entry" = 'Poland' THEN x20jun * 1
+				END 
+			) AS "x20jun",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20jul * -1
+				WHEN "entry" = 'Poland' THEN x20jul * 1
+				END 
+			) AS "x20jul",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20aug * -1
+				WHEN "entry" = 'Poland' THEN x20aug * 1
+				END
+			 
+			) AS "x20aug",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20sep * -1
+				WHEN "entry" = 'Poland' THEN x20sep * 1
+				END 
+			) AS "x20sep",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20oct * -1
+				WHEN "entry" = 'Poland' THEN x20oct * 1
+				END 
+			) AS "x20oct",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20nov * -1
+				WHEN "entry" = 'Poland' THEN x20nov * 1
+				END 
+			) AS "x20nov",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x20dec * -1
+				WHEN "entry" = 'Poland' THEN x20dec * 1
+				END 
+			) AS "x20dec",
+			
+			(CASE
+					WHEN "exit" = 'Poland' THEN x21jan * -1
+					WHEN "entry" = 'Poland' THEN x21jan * 1
+					END
+			) AS "x21jan",
+
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21feb * -1
+				WHEN "entry" = 'Poland' THEN x21feb * 1
+				END 
+			) AS "x21feb",
+
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21mar * -1
+				WHEN "entry" = 'Poland' THEN x21mar * 1
+				END 
+			) AS "x21mar",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21apr * -1
+				WHEN "entry" = 'Poland' THEN x21apr * 1
+				END 
+			) AS "x21apr",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21may * -1
+				WHEN "entry" = 'Poland' THEN x21may * 1
+				END 
+			) AS "x21may",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21jun * -1
+				WHEN "entry" = 'Poland' THEN x21jun * 1
+				END 
+			) AS "x21jun",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21jul * -1
+				WHEN "entry" = 'Poland' THEN x21jul * 1
+				END 
+			) AS "x21jul",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21aug * -1
+				WHEN "entry" = 'Poland' THEN x21aug * 1
+				END
+			 
+			) AS "x21aug",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21sep * -1
+				WHEN "entry" = 'Poland' THEN x21sep * 1
+				END 
+			) AS "x21sep",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21oct * -1
+				WHEN "entry" = 'Poland' THEN x21oct * 1
+				END 
+			) AS "x21oct",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21nov * -1
+				WHEN "entry" = 'Poland' THEN x21nov * 1
+				END 
+			) AS "x21nov",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x21dec * -1
+				WHEN "entry" = 'Poland' THEN x21dec * 1
+				END 
+			) AS "x21dec",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x22jan * -1
+				WHEN "entry" = 'Poland' THEN x22jan * 1
+				END 
+			) AS "x22jan",
+			
+			(CASE
+				WHEN "exit" = 'Poland' THEN x22feb * -1
+				WHEN "entry" = 'Poland' THEN x22feb * 1
+				END 
+			) AS "x22feb"
+		
+
+		FROM
+			borderpoints19_22
+		) as subquery1
+
+	WHERE "x19jan" IS NOT NULL) as subquery2
+
+
