@@ -579,9 +579,11 @@ function getCircleValues(attribute) {
 
 function updateLegend(attribute) {
     //create content for legend 
-    var year = attribute.split("-")[0];
+    var year = attribute.split("-")[0].split("Y")[1];
+    var month = attribute.split("-")[1]
     //replace legend content
     document.querySelector("span.year").innerHTML = year;
+    document.querySelector("span.month").innerHTML = month;
     
     //get the max, mean and min values as an object
     var circleValues = getCircleValues(attribute);
@@ -778,7 +780,7 @@ function createLegend(attributes) {
             //create the control container with a particular class name 
             var container = L.DomUtil.create("div", "legend-control-container");
 
-            container.innerHTML = '<p class="temporalLegend">Borderpoint Gas Flow <span class="year">2019</span></p>';
+            container.innerHTML = '<p class="temporalLegend">Borderpoint Gas Flow <span class="month">01</span>/<span class="year">2019</span></p>';
 
             //Start attribute legend svg string
             var svg = '<svg id="attribute-legend" width="260px" height="60px">';
