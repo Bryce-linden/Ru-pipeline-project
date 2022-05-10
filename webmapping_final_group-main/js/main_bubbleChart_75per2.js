@@ -305,7 +305,7 @@
                 .labelFormat("0")
                 .shapeWidth(35)
                 .shapeHeight(35)                              
-                .labels(d3.legendHelpers.thresholdLabels)                                                
+                .labels(d3.legendHelpers.thresholdLabels)            
 
             legend.select(".bubble_legend")
                 .call(colorLegend);                           
@@ -317,16 +317,18 @@
                 .attr("class", "size_legendBox");
 
             var legendSize = d3.select("svg.size_legendBox");
+            var myFormat = d3.format(',');
 
             // The scale you use for bubble size
             var size = d3.scaleSqrt()
                 .domain([1, 100])  // What's in the data
                 .range([1, 2])  // Size in pixel
+
             // Add legend: circles
             var valuesToShow = [5000, 35000, 90000]
             var xCircle = 60
             var xLabel = 150
-            var yCircle = 150
+            var yCircle = 150            
 
             legendSize
             .selectAll("size_legend")
@@ -340,7 +342,18 @@
                     return Math.sqrt(area/Math.PI);
                 })
                 .style("fill", "none")
-                .attr("stroke", "black")
+                .attr("stroke", "black")            
+            
+            var from, to;
+    
+            /*for (var i = 0; i < valuesToShow.length; i++) {
+                from = valuesToShow[i];
+                to = valuesToShow[i + 1];
+    
+                xLabel.push(
+                    '<i style="background:' + getColor(from + 1) + '"></i> ' +
+                    from.toLocaleString("en-US") + (to ? ' to ' + to.toLocaleString("en-US") : ' and below'));
+            }*/
 
             // Add legend: segments
             legendSize

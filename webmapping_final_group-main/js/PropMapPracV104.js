@@ -6,7 +6,7 @@ var minValues = {};
 
 //declare the min value and max value in global scope 
 var dataStats = {};
-var attributes
+var attributes = [];
 var bordercrossings
 var choroplethlayer
 var pipelinejs
@@ -140,45 +140,29 @@ function makechoropleth(map){
 		return this._div;
 	};
 
-	info.update = function (attributesChoro, props) { //was props
-        //var attributesChoro = alleuro;
-        //attributesChoro = [];
-        //var props = attributesChoro.features
-        //console.log("props?",props)
-        //expressedChoro = attributesChoro;
-        //attributesChoro = processDataChoro(alleuro);
-        //console.log("Data?", attributesChoro)
+	info.update = function (attributesChoro) { //was props
+
         var year = expressedChoro.split("Y")[1];
-        //var properties = alleuro.features[0].properties
-        //console.log("ThIS IS PROPERTIES", properties)
-        //this.gas is properties attribute
-        //var admin = features.properties.ADMIN
-        //console.log(admin)
-        //var units = layer.features.properties
-        //console.log("FUCKKKK YOU",units)
-        //console.log("theeeeeee", year)
-        this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (attributesChoro ?
-                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro.Y2019.toLocaleString("en-US") + ' meters^3 in: ' + year : 'Hover over a country!');
-                //console.log("this is props:", props)
+            this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (attributesChoro ?
+                    '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro.Y2022 + ' meters^3 in: ' + year : 'Hover over a country!');
+
+                 //console.log("this is props:", props)
 	};
 	
 	info.addTo(map); 
 
-   /* function PopupContent(props, attributeChoro){  
+
+   /*function PopupContent(properties, attributeChoro){  
         //add the city popup content string
-        this.properties = props;
+        this.properties = properties;
         this.attribute = attributeChoro;
         this.year = attributeChoro.indexOf("Y"); // index for year 
         //this.month = attribute.split("-")[1] // index for month
         this.gas = this.properties[attributeChoro]; //this.gas is properties attribute
-        
-    
-        this.formatted = '<h4>2019</h4>' +  (props ?
-            '<b>' + props.ADMIN + '</b><br />' + props.Y2019.toLocaleString("en-US") + ' meters^3 ' : 'Hover over a country!');
-            console.log("this is props:", props)
 
-        PopupContent.addTo(map);
-    };*/
+        this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.month+"/" + this.year + " (month/year)" + ": </b>" + this.gas + " million meters^3</p>";
+        
+    }; */
 
  //This color scheme gives you purple as middle values
 	// function getColor(d) {
@@ -259,7 +243,7 @@ function makechoropleth(map){
 	}).addTo(map);
     //console.log("this is the layerrrrr",choroplethlayer);
     
-	
+	//var popupContent = new PopupContent(feature.properties, expressed);
 
 	map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
 
@@ -375,14 +359,13 @@ function makechoropleth(map){
                 layer.setStyle({fillColor:color});
     
                 //add ski area  to popup content string
-                //var popupContent =  info.update();
-        
-    
-                
-    
+                //var popupContent =  new PopupContent(properties, attributeChoro);
+
+            
+
                 //update popup content            
                 //popup = layer.getPopup();            
-                //popup.info.update();
+                //info.update(attributesChoro[index])
             };
         });
     
@@ -397,11 +380,11 @@ function makechoropleth(map){
         console.log("yippee Kaiaiii",properties)
     
         //push each attribute name into the attribute array
-        for (var attribute in properties){
+        for (var attributeChoro in properties){
             //console.log(attribute.indexOf("Y"))
             //only take attributes with gas values
-            if (attribute.indexOf("Y") == 0){
-                attributesChoro.push(attribute);
+            if (attributeChoro.indexOf("Y") == 0){
+                attributesChoro.push(attributeChoro);
             };
         };
     
@@ -415,7 +398,7 @@ function makechoropleth(map){
 
 
 	legend.addTo(map);
-    createSequenceChoro();
+    //createSequenceChoro();
     processDataChoro(alleuro);
     attributesChoro = processDataChoro(alleuro);
     

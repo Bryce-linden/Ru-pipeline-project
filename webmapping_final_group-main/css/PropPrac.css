@@ -8,15 +8,18 @@ body{
 #title {
     padding: 5px;
 }
+
 /*Popup style*/
 .leaflet-popup-content p {
+    font-family: 'Montserrat', sans-serif;
+    /*color: #061d33;*/
     margin: 0.2em 0;
 }
-/*popup image parameters*/
-.popupImage{
-    width: 100%;
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background: #016377 !important;
+    color: #f8f9fa !important;
+    box-shadow: 0 3px 14px rgb(0 0 0 / 40%);
 }
-
 /*Map div class style*/
 #map {
     height: 600px;
