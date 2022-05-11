@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width">
             <title></title>
 
-        <!--put your external stylesheet links here-->        
+        <!-- external stylesheet links -->        
         <link rel="stylesheet" href="css/style_lineGraph.css">
         <link rel="stylesheet" href="lib/leaflet.css">
         <link rel="stylesheet" href="css/style.css">
@@ -13,17 +13,11 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
-        <!--<link rel="stylesheet" href="lib/Leaflet/leaflet.css">-->
                 
     </head>
 
     <body>
-        <!--<div id="metric-modal"></div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>-->
-            
-               
-         <!-- Create a div where the graph will take place -->
-        
+                
         <!-- Create the navbar -->
 	 <nav class="navbar navbar-expand-lg navbar-default">
         <!-- Container inside the navbar header to span the page -->
@@ -57,33 +51,33 @@
         </div> <!-- end .container-fluid -->
     </nav> <!-- end navigation bar --> 
 
-    
+    <!-- div for style bar on top of bubble chart page -->
     <div class="jumbotron">
         <div class="container" style="height:35px" !important>
             <h1><center></center></h1>
         </div>
     </div>
 
-
+    <!-- div for additional text in bubble chart -->
     <div id="myInfo2" style="margin-top:10px;" style="line-height: 1.5;">
         <center><h4>Supplemental Information</h4></center>
         <h6><p>Gross Domestic Product (GDP) per capita is displayed in the chart rather than nominal GDP because it is a global standard and provides insight into a 
-            country’s wealth in relation to its population. Therefore, it is a better measure of overall prosperity by indicating how a country's wealth is distributed. 
+            country’s wealth in relation to its population. Therefore, it is a better measure of overall prosperity. 
             A country may have a relatively high GDP in relation to other countries, but if its population is disproportionately higher than its GDP, it may not be 
-            considered as prosperous as nominal GDP indicates. For example, Germany has a nominal GDP of approximately €3.5 million and is the most prosperous country 
-            by that standard, but due to its high population, Germany is at the median GDP per capita. By this measure, small countries with a high GDP like Luxembourg 
-            are shown to be prosperous than countries like Germany. One downside to GDP per capita is that it does not provide insight into how a county’s wealth is 
-            distributed. A country may appear prosperous, but if all that wealth is in the hands of a few, the data can be misleading.</p></h6>
+            considered as prosperous when compared to the nominal GDP figures. For example, Germany has a nominal GDP of approximately €3.5 million and is the most prosperous country 
+            in Europe by that standard, but due to its high population, Germany is at the median GDP per capita. By this measure, small countries with a high GDP like Luxembourg 
+            are shown to be more prosperous than countries like Germany. One downside to GDP per capita is that it does not provide insight into how a county’s wealth is 
+            distributed. A country may appear prosperous, but if most of the country's wealth is in the hands of a few, the data can be misleading.</p></h6>
 
         <h6><p>Although the primary focus of this examination is imports and exports between Russia and the largest European countries, all other nations with 
             available import and export data were included here to provide a better overall comparison of the regional natural gas trade. Throughout the period 
             examined, Germany, Italy, France, Spain, Poland, the United Kingdom, and Turkey are consistently the principal importers of natural gas while Russia, 
-            Norway, Ukraine, Belarus, Tunisia, and the Netherlands are the principal exporters. Increases in the natural gas imports and exports of these countries 
+            Norway, Ukraine, Belarus, Tunisia, and the Netherlands are the principal exporters. Increases in natural gas imports and exports for these countries 
             increases significantly during winter months as expected. Other countries not listed above have comparatively smaller sized imports and exports without 
             major shifts during the winter and summer months.</p></h6>
     
-        <h6><p>Additionally, the data shows a fundamental shift in Russia's natural gas exports in May of 2019. Prior to that month, Russia had the highest export 
-            values with Norway just below Russia. After May 2019, Russia's exports to Europe decrease dramatically and Norway becomes the leading exporter with 
+        <h6><p>Additionally, the data shows a fundamental shift in Russia's natural gas exports in May 2019. Prior to that month, Russia had the highest export 
+            values followed by Norway. After May 2019, Russia's exports to Europe decrease dramatically and Norway becomes the leading exporter with 
             small export increases for the Netherlands, Belarus, and Ukraine. It is unclear if these shifts are due to possible inconsistencies in the data or 
             sociopolitical catalysts.</p></h6>
 
@@ -92,20 +86,17 @@
             control of the Soviet Union and became states within the newly formed Council for Mutual Economic Assistance (COMECON). Western European countries rebuilt 
             their economies with the aid of the United States’ Marshall Plan (European Recovery Program) and formed trade alliances with each other, which took various 
             forms throughout the late 20th century. These events set the stage for the Cold War (1947-1991) between eastern and western powers with the Soviet Union and 
-            the United States being the principal combatants. Between 1988 and 1991, the Soviet dissolved marking the end of the Cold War. The European Union (EU) was 
+            the United States being the principal adversaries. Between 1988 and 1991, the Soviet Union dissolved marking the end of the Cold War. The European Union (EU) was 
             formed in 1993, and over the next few decades, former Soviet COMECON countries joined the EU as independent countries. However, many of these former Soviet 
-            countries like Belarus and Ukraine had difficulty transitioning to a market economy and suffered from government corruption leading to widespread poverty. 
+            countries, like Belarus and Ukraine, had difficulty transitioning to a market economy and suffered from government corruption leading to widespread poverty. 
             Russian aggression and intimidation also played a role, specifically in the case of Ukraine, Russia’s seizure of Crimea in 2014. Interestingly, Belarus and 
             Ukraine were two of the strongest economic states under the former Soviet Union but have since become two of the poorest countries in Europe. Belarus is not 
-            part of the EU and Ukraine joined in 2016. Former Soviet states joining or attempting to join the EU or United Nations is one of the catalysts for the recent 
+            yet part of the EU and Ukraine joined in 2016. Former Soviet states joining or attempting to join the EU or United Nations is one of the catalysts for the recent 
             Russian aggression in Ukraine and this conflict seems to be bringing about a new Cold War.</p></h6>
 
-    </div>     
+    </div>        
         
-        
-        <!--put your external script links here-->
-        <!--<script type="text/javascript" src="lib/Leaflet/leaflet-src.js"></script>-->
-        <!--<script src="lib/d3.v3.js"></script>-->
+        <!-- external script links -->
         <script src="lib/chart.js/dist/chart.min.js"></script>        
         <script src="https://d3js.org/d3.v4.js"></script>
         <script src='https://unpkg.com/simple-statistics@7.0.7/dist/simple-statistics.min.js'></script>
