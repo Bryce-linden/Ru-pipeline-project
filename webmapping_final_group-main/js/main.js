@@ -1,3 +1,4 @@
+//575 Final Project Source Code
 //declare map variable in global scope
 var map;
 
