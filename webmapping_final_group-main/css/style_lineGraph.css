@@ -108,13 +108,17 @@ path {
     padding-bottom: 10px;
     padding-top: 10px;
     font-family: 'Montserrat', sans-serif;  
-    text-align: justify;        
+    text-align: justify;                
     color:rgb(85, 85, 85);
     background-color: rgb(230, 230, 230);
     border: medium solid #999;    
     height: calc(110vh - 500px);       
     overflow-y:auto;
     margin: auto;
+}
+/*adjusting text line height*/
+P {
+    line-height: 1.5;
 }
 
 /*STYLING FOR BUBBLE CHART*/
