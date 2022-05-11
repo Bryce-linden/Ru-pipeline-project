@@ -4,7 +4,7 @@ var map;
 var minValues = {};
 
 
-//declare the min value and max value in global scope 
+//declare the variables in global scope 
 var dataStats = {};
 var attributes
 var bordercrossings
