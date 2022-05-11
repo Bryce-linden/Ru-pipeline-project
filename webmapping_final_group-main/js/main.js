@@ -4,75 +4,78 @@ var map;
 var minValues = {};
 
 
-//declare the min value and max value in global scope 
+//declare the variables in global scope 
 var dataStats = {};
 var attributes
 var bordercrossings
+var choroplethlayer
+var pipelinejs
 var expressed = "Y2019-01"
-var alleuro;
+var expressedAdmin = "Germany"
+var expressedChoro = "Y2019"
+var attributesChoro = [];
+
+
 
 //function to instantiate the leaflet map
 function createMap(){
 
-    var oil_icon = L.icon({
-        iconUrl: 'lib/oil_barrel.png',
-        
     
-        iconSize:     [18, 24], // size of the icon
-       // shadowSize:   [50, 64], // size of the shadow
-        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-        //shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-    });
-
-    var cities = L.layerGroup(); //create empty variable layer group that you will fill with array
-    var mLittleton = L.marker([39.61, -105.02], {icon:oil_icon}).bindPopup('This is Littleton, CO.').addTo(cities);
-    var mDenver = L.marker([39.74, -104.99],{icon:oil_icon}).bindPopup('This is Denver, CO.').addTo(cities);
-    var mAurora = L.marker([39.73, -104.8],{icon:oil_icon}).bindPopup('This is Aurora, CO.').addTo(cities);
-    var mGolden = L.marker([39.77, -105.23],{icon:oil_icon}).bindPopup('This is Golden, CO.').addTo(cities);
-  
   
   
     var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
-    var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+    var mbAttr = ' &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
     var mbUrlgroov = 'https://api.mapbox.com/styles/v1/blinden/ckv0a1c4m0jqc14ofmm49yj72/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYmxpbmRlbiIsImEiOiJja3RicnN2aXQxejJnMm9yNXJ5ODdnZnlzIn0.xxMkVduVt5ll-Trxg1qBPQ'
-    var mbAttrgroov = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+    var mbAttrgroov = ' &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
   
   
     var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
     var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
-    //var groovy = L.tileLayer(mbUrlgroov, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttrgroov});
+    // var groovy = L.tileLayer(mbUrlgroov, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttrgroov});
   
 
 
 
     map = L.map('map', {
         center: [50, 11],
-        zoom: 4
-        //minZoom: 3,
-        //maxBounds: [
-        //    [65, -155],
-        //    [23, -35]
+        zoom: 4,
+        minZoom: 3.5
+        // maxZoom: 5,
+        // maxBounds: [
+        //    [55, 43],
+        //    [18, 17],
+        //    [40,52],
+        //    [70,70]
+
         //    ]
     });
-    map.options.layers = [grayscale, bordercrossings];
-    
 
+    makepipeline();
+    makechoropleth(map);
+
+
+    map.options.layers = [grayscale, bordercrossings, pipelinejs, choroplethlayer];
+    
+    bordercrossings.addTo(map)
     //Add custom base tilelayer
     var Stadia_AlidadeSmoothDark = L.tileLayer('https://api.mapbox.com/styles/v1/blinden/cl22cbrjy000o14l69xhpbm4r/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYmxpbmRlbiIsImEiOiJja3RicnN2aXQxejJnMm9yNXJ5ODdnZnlzIn0.xxMkVduVt5ll-Trxg1qBPQ', {
-        maxZoom: 20,
+        maxZoom: 14,
+        minZoom: 3,
         attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     }).addTo(map)
         //call the getData function, but not when the data is too big! It won't load in time
     var baseLayers = {
-        'Grayscale': grayscale,
-        'Smooth Gray': Stadia_AlidadeSmoothDark, //when I move this line of code above 'Grayscale', the starting basemap is grayscale, but the legend is correct with smooth dark as the first option
+        'Smooth Gray': Stadia_AlidadeSmoothDark,
+        'Grayscale': grayscale, //when I move this line of code above 'Grayscale', the starting basemap is grayscale, but the legend is correct with smooth dark as the first option
         'Streets': streets,
-        //'Groovy': groovy
         };
     
+    map.scrollWheelZoom.disable(); //disables the scrolling wheel zoom capability
+
     var overlays = {
-        'Border Crossings': bordercrossings
+        'Border Crossings': bordercrossings,
+        'Pipelines':pipelinejs,
+        'Choropleth': choroplethlayer
     
             //'Cities' represents the text that you see for the button on the interface. cities (the blue one) is the variable in the code
            
@@ -115,12 +118,13 @@ function calcStats(data, attributes) {
 
 };
 
-
 //BEGIN CHOROPLETH! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function makechoropleth(){
+//Function to make choropleth. Everything in this function is taken from the choropleth tutorial on leaflet. 
+//I put it in a single function to make it easy to call everything at once
+function makechoropleth(map){
     // control that shows state info on hover
 	var info = L.control();
+    
 
 	info.onAdd = function (map) {
 		this._div = L.DomUtil.create('div', 'info');
@@ -128,37 +132,33 @@ function makechoropleth(){
 		return this._div;
 	};
 
-	info.update = function (props) {
-		this._div.innerHTML = '<h4>2019</h4>' +  (props ?
-			'<b>' + props.ADMIN + '</b><br />' + props.Y2019 + ' meters^3 ' : 'Hover over a country!');
-			console.log("props:", props)
+	info.update = function (attributesChoro, props) { 
+
+        var year = expressedChoro.split("Y")[1];
+
+        this._div.innerHTML = '<h4>Net Import/Export</h4>' +  (attributesChoro ?
+                '<b>' + attributesChoro.ADMIN + '</b><br/>' + attributesChoro[expressedChoro].toLocaleString("en-US") + ' Million Meters³ in: ' + year : 'Hover over a country!');
+                //console.log("this is props:", props)
 	};
 	
-	info.addTo(map);
+	info.addTo(map); 
 
- //This color scheme gives you purple as middle values
-	// function getColor(d) {
-	// 	return d >= 12215 ? '#F50000' :
-	// 		d >= 9855 ? '#E8005F' :
-	// 		d >= 7374 ? '#4600C2' :
-	// 		d >= 5152 ? '#9F00CE' :
-	// 		d >= 2520 ? '#3F13B5' :
-	// 		d >= -3702 ? '#4600C2' :
-	// 		d >= -7280 ? '#0009B5' : 
-	// 		'#fff5f0';
-	// }
 
-    function getColor(d) {
-		return d >= 246264 ? '#b2182b' :
-			d >= 115955 ? '#ef8a62' :
-			d >= 70798 ? '#fddbc7' :
-			d >= 41961 ? '#f7f7f7' :
-			d >= 11204 ? '#d1e5f0' :
-			d >= -45881 ? '#67a9cf' :
-			d >= -261174 ? '#2166ac' : 
+    //We had a problem here where we were setting the first color value equal to the top range of 95,000. Since the operator is 
+    // variable >= value, you don't need the top value of 95,000. 
+    function getColor(expressedChoro) {
+		return expressedChoro >= 56000 ? '#b2182b' :
+        expressedChoro >= 26000 ? '#ef8a62' :
+        expressedChoro >= -4000 ? '#fddbc7' :
+        expressedChoro >= -34000 ? '#f7f7f7' :
+        expressedChoro >= -64000 ? '#d1e5f0' :
+        expressedChoro >= -96000 ? '#67a9cf' :
+        expressedChoro >= -100000 ? '#2166ac' : 
 			'#fff5f0';
-	}   
-
+	}
+    
+    //this function controls the default stroke options for the choropleth
+    //dashArray makes the stroke dashed
 	function style(feature) {
 		return {
 			weight: 2,
@@ -166,10 +166,11 @@ function makechoropleth(){
 			color: 'white',
 			dashArray: '3',
 			fillOpacity: 0.7,
-			fillColor: getColor(feature.properties.Y2019)
+			fillColor: getColor(feature.properties[expressedChoro])
 		};
 	}
 
+    //This function highlights the choropleth when you hover over it.
 	function highlightFeature(e) {
 		var layer = e.target;
 
@@ -181,22 +182,23 @@ function makechoropleth(){
 		});
 
 		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-			layer.bringToFront();
+			
 		}
-
-		info.update(layer.feature.properties);
+        info.update(layer.feature.properties);
 	}
 
-	var geojson;
-
+	
+    //This function resets the highlight. It resets the choropleth layer by setting it equal to the function style which has the default stroke
 	function resetHighlight(e) {
-		geojson.resetStyle(e.target);
+		choroplethlayer.setStyle(style);
 		info.update();
 	}
 
+    //this function zooms the map when you click on a country
 	function zoomToFeature(e) {
 		map.fitBounds(e.target.getBounds());
 	}
+
 
 	function onEachFeature(feature, layer) {
 		layer.on({
@@ -206,24 +208,28 @@ function makechoropleth(){
 		});
 	}
 
-	/* global statesData */
-	geojson = L.geoJson(alleuro, {
+   
+	//this pulls the data from the 17eurocountries_correct javascript. The script is already connected in html and alleuro is the variable set in the js
+	choroplethlayer = L.geoJson(alleuro, {
 		style: style,
 		onEachFeature: onEachFeature,
+        pane:"overlayPane" //overlay pane to make it above certain features but below others. This is important to set if you can't see the features
 	}).addTo(map);
+    
+    
 	
 
-	map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+	map.attributionControl.addAttribution(' &copy; <a href="https://www.iea.org/data-and-statistics/data-product/gas-trade-flows">IEA Gas Data</a>');
 
-
-	var legend = L.control({position: 'bottomleft'});
+    //builds the choropleth legend
+	var legend = L.control({position: 'topleft'});
 
 	legend.onAdd = function (map) {
 
 		var div = L.DomUtil.create('div', 'info legend');
 		
-        var grades = [246264, 115955, 70798, 41961, 11204, -45881, -261174];
-		var labels = [];
+        var grades = [95000, 55000, 25000, -5000, -35000, -65000, -100000];
+		var labels = ["Net Import/Exports of Gas per Year in Million Meters³"];
 		var from, to;
 
 		for (var i = 0; i < grades.length; i++) {
@@ -232,24 +238,147 @@ function makechoropleth(){
 
             labels.push(
 				'<i style="background:' + getColor(from + 1) + '"></i> ' +
-				from + (to ? '&ndash;' + to : '+'));
+				from.toLocaleString("en-US") + (to ? ' to ' + to.toLocaleString("en-US") : ' and below'));
 		}
+            
 
 		div.innerHTML = labels.join('<br>');
 		return div;
 	};
+
+
+
+    //This is the sequence control for the choropleth. It sequences through the 4 years 
+    function createSequenceChoro(){
+        var SequenceControl = L.Control.extend({
+            options: {
+                position: 'bottomleft'
+            },
+
+            onAdd: function () {
+                //create the control container div with a particular class name 
+                var container = L.DomUtil.create('div', 'sequence-control-container');
+
+                //create range input element (slider)
+                container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
+
+                //add skip buttons
+                container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="img/backwardarrow.png"></button>');
+
+                container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="img/forwardarrow.png"></button>');
+
+                L.DomEvent.disableClickPropagation(container);
+
+                return container;
+
+            }
+        });
+
+        map.addControl(new SequenceControl());
+        //add listeners after adding control
+        //set slider attributes
+        document.querySelector(".range-slider").max = 3;
+        document.querySelector(".range-slider").min = 0;
+        document.querySelector(".range-slider").value = 0;
+        document.querySelector(".range-slider").step = 1;
+
+        var steps = document.querySelectorAll('.step');
+
+        //add step buttons
+        steps.forEach(function(step){
+            step.addEventListener("click", function(){
+                var index = document.querySelector('.range-slider').value;
+                //console.log(index);
+                //increment or decrement depending on button clicked
+                if (step.id == 'forward'){
+                    index++;
+                    //if past the last attribute, wrap around to first attribute
+                    index = index > 3 ? 0 : index;
+                } else if (step.id == 'reverse'){
+                    index--;
+                    //if past the first attribute, wrap around to last attribute
+                    index = index < 0 ? 3 : index;
+                };
+
+                //update slider
+                document.querySelector('.range-slider').value = index;
+                //pass new attribute to update symbols
+                updateChoro(attributesChoro[index]);
+                
+                //makechoropleth();
+            })
+        })
+
+        //input listener for slider
+        document.querySelector('.range-slider').addEventListener('input', function(){
+            var index = this.value;
+        //    console.log(index);
+            //makechoropleth();
+            updateChoro(attributesChoro[index]);
+            
+        });
+    };
+
+    //This updates the choropleth when you change the sequence
+    function updateChoro(attributeChoro){
+        expressedChoro = attributeChoro;
+        map.eachLayer(function(layer){
+            if (layer.feature && layer.feature.properties[attributeChoro]){
+                //access feature properties
+                var props = layer.feature.properties;
     
+                //update each feature's color based on new attribute values
+                var color = getColor(props[attributeChoro]);
+                layer.setStyle({fillColor:color});
+    
+            };
+        });
+    
+        //updateLegend(attribute);
+    };   
+
+    //function to process the alleuro data, pulling the necessary attributes
+    function processDataChoro(alleuro){
+        //empty array to hold attributes
+        console.log("this is choro data", alleuro)
+        //properties of the first feature in the dataset
+        var properties = alleuro.features[0].properties;
+        console.log("Hello user",properties)
+    
+        //push each attribute name into the attribute array
+        for (var attribute in properties){
+            //console.log(attribute.indexOf("Y"))
+            //only take attributes with gas values
+            if (attribute.indexOf("Y") == 0){
+                attributesChoro.push(attribute);
+            };
+        };
+    
+        return attributesChoro;
+    }; 
+
+
+
 
 	legend.addTo(map);
-
     createSequenceChoro();
-
+    processDataChoro(alleuro);
+    attributesChoro = processDataChoro(alleuro); //set attributesChoro
     
 }
 
+//this adds the pipeline layer built from the js file preconnected to the html
+function makepipeline(style, onEachFeature){
+    pipelinejs = L.geoJson(pipelinesL, {
+		style: style,
+		onEachFeature: onEachFeature,
+        pane:"shadowPane" //set the pane so it is above the choropleth but below the prop symbols
+
+	}).addTo(map); //add .addTo(map) to make the pipeline appear when you start the program
+} 
 
 
-//end choropleth function ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 //calculate the radius of each proportional symbol
 function calcPropRadius(attValue) {
@@ -268,12 +397,12 @@ function PopupContent(properties, attribute){
     //add the city popup content string
     this.properties = properties;
     this.attribute = attribute;
-    this.year = attribute.split("-")[0]; // index for year 
+    this.year = attribute.split("-")[0].split("Y")[1]; // index for year 
     this.month = attribute.split("-")[1] // index for month
     this.gas = this.properties[attribute]; //this.gas is properties attribute
     
 
-    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Net import of Gas for " + this.year + " in the month of  " + this.month + ": </b>" + this.gas + " Whatever the unit is</p>";
+    this.formatted = "<p><b>Border Crossing:</b> " + this.properties.City + "</p><p><b>Imports & Exports of Gas for " + this.month+"/" + this.year + " (month/year)" + ": </b>" + this.gas.toLocaleString("en-US") + " Million Meters³</p>";
 
 };
 
@@ -290,7 +419,8 @@ function pointToLayer(feature, latlng, attributes){
         color: "#000",
         weight: 1,
         opacity: 1,
-        fillOpacity: 0.8
+        fillOpacity: 0.8,
+        pane:"markerPane"
         
     };
 
@@ -340,26 +470,7 @@ function createPropSymbols(data, attributes){
 
 
 
-// function style(feature) {
-//     return {
-//         fillColor: getColor(feature.properties.density),
-//         weight: 2,
-//         opacity: 1,
-//         color: 'green',
-//         dashArray: '3',
-//         fillOpacity: 0.7
-//     };
-// }
 
-
-
-
-//FOR CHOROPLETH
-//create new function similar to createpropsymbols
-// Plug in json variable into parethesis in function
-// style : style
-
-//NEEDED FOR FINAL LAB
 function getCircleValues(attribute) {
     //start with min at highest possible and max at lowest possible number
     var min = Infinity, 
@@ -395,11 +506,14 @@ function getCircleValues(attribute) {
 
 };
 
+//update the borderpoint gas flow legend
 function updateLegend(attribute) {
     //create content for legend 
-    var year = attribute.split("-")[0];
+    var year = attribute.split("-")[0].split("Y")[1];
+    var month = attribute.split("-")[1]
     //replace legend content
     document.querySelector("span.year").innerHTML = year;
+    document.querySelector("span.month").innerHTML = month;
     
     //get the max, mean and min values as an object
     var circleValues = getCircleValues(attribute);
@@ -411,10 +525,12 @@ function updateLegend(attribute) {
         document.querySelector("#" + key).setAttribute("cy", 54 - radius);
         document.querySelector("#" + key).setAttribute("r", radius)
 
-        document.querySelector("#" + key + "-text").textContent = Math.round(circleValues[key] * 100) / 100 + " Gas Unit of IMPORT/EXPORT";
+        document.querySelector("#" + key + "-text").textContent = Math.round(circleValues[key] * 100) / 100 + " million meters³";
     }
-};    
+};   
 
+
+//updates the size of the prop symbols
 function updatePropSymbols(attribute){
     map.eachLayer(function(layer){
         if (layer.feature && layer.feature.properties[attribute]){
@@ -452,78 +568,18 @@ function processData(data){
         //console.log(attribute.indexOf("Y"))
         //only take attributes with gas values
         if (attribute.indexOf("Y") == 0){
-            attributes.push(attribute);
+            attributes.push(attribute); //push the chosen attributes into the empty array created above
         };
     };
 
-    //check the resulg
+    //check the result
     //console.log(attributes);
 
     return attributes;
 }; 
 
 
-function processDataChoro(data){
-    //empty array to hold attributes
-    var attributes = [];
 
-    //properties of the first feature in the dataset
-    var properties = data.features[0].properties;
-
-    //push each attribute name into the attribute array
-    for (var attribute in properties){
-        //console.log(attribute.indexOf("Y"))
-        //only take attributes with gas values
-        if (attribute.indexOf("Y") == 0){
-            attributes.push(attribute);
-        };
-    };
-
-    //check the resulg
-    //console.log(attributes);
-
-    return attributes;
-}; 
-function cascadingDropdown(attributes){ //Put attributes in parantheses?
-    var subjectObject = {
-        "Month": {
-          "January": ["2019", "2020", "2021", "2022"],
-          "February": ["2019", "2020", "2021", "2022"],
-          "March": ["2019", "2020", "2021", "2022"],
-          "April": ["2019", "2020", "2021", "2022"],
-          "May": ["2019", "2020", "2021", "2022"],
-          "June": ["2019", "2020", "2021", "2022"],
-          "July": ["2019", "2020", "2021", "2022"],
-          "August": ["2019", "2020", "2021", "2022"],
-          "September": ["2019", "2020", "2021", "2022"],
-          "October": ["2019", "2020", "2021", "2022"],
-          "November": ["2019", "2020", "2021", "2022"],
-          "December": ["2019", "2020", "2021", "2022"]
-        }
-      }
-
-     
-      window.onload = function() {
-        var monthSel = document.getElementById("month");
-        var yearSel = document.getElementById("year");
-        for (var y in subjectObject) {
-          monthSel.options[monthSel.options.length] = new Option(y, y);
-        }
-        monthSel.onchange = function() {
-          //empty Chapters- and Topics- dropdowns
-          //chapterSel.length = 1;
-          yearSel.length = 1;
-          var z = subjectObject[monthSel.value][this.value];
-          //display correct values
-          for (var i = 0; i < z.length; i++){
-            yearSel.options[yearSel.options.length] = new Option(z[i], z[i]);
-          }
-        }
-        
-    }
-    
-
-}
 
     var months = { // This is a utility object to make it easier to work the particular format that our data requires
         "January":"01"
@@ -578,7 +634,8 @@ function cascadingDropdown(attributes){ //Put attributes in parantheses?
     "Y2021-10": 33,
     "Y2021-11": 34,
     "Y2021-12": 35,
-    "Y2022-01": 36
+    "Y2022-01": 36,
+    "Y2022-02": 37
     }
 
 var yearSet = document.querySelector('#year-select') // Select the dropdown with the years so we can grab the value to make the index that will update the map
@@ -605,175 +662,32 @@ var changeButton = document.querySelector("#updateSymbolsButton") // Select the 
 
 
 function createDropDownFilter(attributes){
-    //loop to get year/month list
-    //var htmlToAdd = '';
-    var year = ["2019", "2020", "2021", "2022"]
-    //var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    year.forEach(function(item){
-        document.querySelector('#year-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
+//loop to get year/month list
+//var htmlToAdd = '';
+var year = ["2019", "2020", "2021", "2022"]
+//var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+year.forEach(function(item){
+    document.querySelector('#year-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
 
-    } )
+} )
 
-    document.querySelector('#year-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
-        console.log(elem.target.options[elem.target.options.selectedIndex].value)
-        return elem.target.options[elem.target.options.selectedIndex].value;
-                    //store as global variable as well as month
-    })
-    month.forEach(function(item){
-        document.querySelector('#month-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
-    })
-    document.querySelector('#month-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
-        console.log(elem.target.options[elem.target.options.selectedIndex].value)
-        return elem.target.options[elem.target.options.selectedIndex].value;
+document.querySelector('#year-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
+    console.log(elem.target.options[elem.target.options.selectedIndex].value)
+    //return elem.target.options[elem.target.options.selectedIndex].value;
                 //store as global variable as well as month
-    })
-
-    //var monthSect = document.querySelector('#year-select')
-
-    //write a function thatll go through spit out the thing to grab Y2022-01
-    //have submit button trigger JS thatll look at year and month
-    //combine to string
-    //match that to 
-    
-   
-};
-
-//Step 1: Create new sequence controls
-function createSequenceControls(attributes){
-    var SequenceControl = L.Control.extend({
-        options: {
-            position: 'bottomright'
-        },
-
-        onAdd: function () {
-            //create the control container div with a particular class name 
-            var container = L.DomUtil.create('div', 'sequence-control-container');
-
-            //create range input element (slider)
-            container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
-
-            //add skip buttons
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="lib/oil_barrel.png"></button>');
-
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="lib/marker-icon.png"></button>');
-
-            L.DomEvent.disableClickPropagation(container);
-
-            return container;
-
-        }
-    });
-
-    map.addControl(new SequenceControl());
-    //add listeners after adding control
-    //set slider attributes
-    document.querySelector(".range-slider").max = 36;
-    document.querySelector(".range-slider").min = 0;
-    document.querySelector(".range-slider").value = 0;
-    document.querySelector(".range-slider").step = 1;
-
-    var steps = document.querySelectorAll('.step');
-
-    //add step buttons
-    steps.forEach(function(step){
-        step.addEventListener("click", function(){
-            var index = document.querySelector('.range-slider').value;
-            //console.log(index);
-            //increment or decrement depending on button clicked
-            if (step.id == 'forward'){
-                index++;
-                //if past the last attribute, wrap around to first attribute
-                index = index > 36 ? 0 : index;
-            } else if (step.id == 'reverse'){
-                index--;
-                //if past the first attribute, wrap around to last attribute
-                index = index < 0 ? 36 : index;
-            };
-
-            //update slider
-            document.querySelector('.range-slider').value = index;
-            //pass new attribute to update symbols
-            updatePropSymbols(attributes[index]);
-        })
-    })
-
-    //input listener for slider
-    document.querySelector('.range-slider').addEventListener('input', function(){
-        var index = this.value;
-    //    console.log(index);
-        updatePropSymbols(attributes[index]);
-    });
-};
+})
+month.forEach(function(item){
+    document.querySelector('#month-select').insertAdjacentHTML('beforeend','<option value="'+ item +'">' + item + '</option>');
+})
+document.querySelector('#month-select').addEventListener("change", function(elem){ //look into what event is for dropdown menu ,, may be change
+    console.log(elem.target.options[elem.target.options.selectedIndex].value)
+    //return elem.target.options[elem.target.options.selectedIndex].value;
+            //store as global variable as well as month
+})
 
 
-function createSequenceChoro(){
 
-    var SequenceControl = L.Control.extend({
-        options: {
-            position: 'bottomleft'
-        },
-
-        onAdd: function () {
-            //create the control container div with a particular class name 
-            var container = L.DomUtil.create('div', 'sequence-control-container');
-
-            //create range input element (slider)
-            container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">');
-
-            //add skip buttons
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="reverse" title="Reverse"><img src="lib/oil_barrel.png"></button>');
-
-            container.insertAdjacentHTML('beforeend', '<button class ="step" id="forward" title="Forward"><img src="lib/marker-icon.png"></button>');
-
-            L.DomEvent.disableClickPropagation(container);
-
-            return container;
-
-        }
-    });
-
-    map.addControl(new SequenceControl());
-    //add listeners after adding control
-    //set slider attributes
-    document.querySelector(".range-slider").max = 3;
-    document.querySelector(".range-slider").min = 0;
-    document.querySelector(".range-slider").value = 0;
-    document.querySelector(".range-slider").step = 1;
-
-    var steps = document.querySelectorAll('.step');
-
-    //add step buttons
-    steps.forEach(function(step){
-        step.addEventListener("click", function(){
-            var index = document.querySelector('.range-slider').value;
-            //console.log(index);
-            //increment or decrement depending on button clicked
-            if (step.id == 'forward'){
-                index++;
-                //if past the last attribute, wrap around to first attribute
-                index = index > 3 ? 0 : index;
-            } else if (step.id == 'reverse'){
-                index--;
-                //if past the first attribute, wrap around to last attribute
-                index = index < 0 ? 3 : index;
-            };
-
-            //update slider
-            document.querySelector('.range-slider').value = index;
-            //pass new attribute to update symbols
-            //updatePropSymbols(attributes[index]);
-            //makechoropleth();
-        })
-    })
-
-    //input listener for slider
-    document.querySelector('.range-slider').addEventListener('input', function(){
-        var index = this.value;
-    //    console.log(index);
-        //makechoropleth();
-        //updatePropSymbols(attributes[index]);
-    });
 };
 
 
@@ -788,10 +702,10 @@ function createLegend(attributes) {
             //create the control container with a particular class name 
             var container = L.DomUtil.create("div", "legend-control-container");
 
-            container.innerHTML = '<p class="temporalLegend">Gas in <span class="year">2019</span></p>';
+            container.innerHTML = '<p class="temporalLegend">Borderpoint Gas Flow <span class="month">01</span>/<span class="year">2019</span></p>';
 
             //Start attribute legend svg string
-            var svg = '<svg id="attribute-legend" width="160px" height="60px">';
+            var svg = '<svg id="attribute-legend" width="260px" height="60px">';
 
             //array of circle names to base loop on 
             var circles = ["max", "mean", "min"];
@@ -810,8 +724,14 @@ function createLegend(attributes) {
                 //evenly space out labels
                 var textY = i * 20 + 10;
 
+                //round the number
+                var round_number = Math.round(dataStats[circles[i]] *100) / 100
+               
+                round_number === Math.round(round_number)
+                console.log("this is round number", round_number)
+
                 //text string 
-                svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + Math.round(dataStats[circles[i]] *100) / 100 + " inches" + "</text>";
+                svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + round_number.toLocaleString("en-US") + " million meters³" + "</text>";
             }
 
             //close svg string
@@ -828,9 +748,6 @@ function createLegend(attributes) {
 }    
 
 
-
-  
-
 //function to retrieve the data and place it on the map
 function getData(){ //add map to parantheses at some point
     //load the data
@@ -845,17 +762,20 @@ function getData(){ //add map to parantheses at some point
             globalAttributes = processData(json);
             //console.log(attributes)
             calcStats(json,attributes)
-            //create marker options
-            //callfunction to create proportional symbols
+        
             createDropDownFilter(attributes);
             createPropSymbols(json, attributes);
             createMap();
-            //createSequenceControls(attributes);
-            //createSequenceChoro();
+          
             createLegend(attributes);
-            makechoropleth();
+           
             
         })
     
 };
-document.addEventListener('DOMContentLoaded', getData)    
+
+
+
+
+document.addEventListener('DOMContentLoaded', getData)
+
