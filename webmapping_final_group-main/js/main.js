@@ -702,7 +702,7 @@ function createLegend(attributes) {
             //create the control container with a particular class name 
             var container = L.DomUtil.create("div", "legend-control-container");
 
-            container.innerHTML = '<p class="temporalLegend">Borderpoint Gas Flow <span class="month">01</span>/<span class="year">2019</span></p>';
+            container.innerHTML = '<p class="temporalLegend">Gas Border Crossing <span class="month">01</span>/<span class="year">2019</span></p>';
 
             //Start attribute legend svg string
             var svg = '<svg id="attribute-legend" width="260px" height="60px">';
