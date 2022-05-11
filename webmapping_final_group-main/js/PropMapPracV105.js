@@ -119,7 +119,8 @@ function calcStats(data, attributes) {
 };
 
 //BEGIN CHOROPLETH! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//Funciton to make choropleth
+//Function to make choropleth. Everything in this function is taken from the choropleth tutorial on leaflet. 
+//I put it in a single function to make it easy to call everything at once
 function makechoropleth(map){
     // control that shows state info on hover
 	var info = L.control();
@@ -143,6 +144,8 @@ function makechoropleth(map){
 	info.addTo(map); 
 
 
+    //We had a problem here where we were setting the first color value equal to the top range of 95,000. Since the operator is 
+    // variable >= value, you don't need the top value of 95,000. 
     function getColor(expressedChoro) {
 		return expressedChoro >= 56000 ? '#b2182b' :
         expressedChoro >= 26000 ? '#ef8a62' :
@@ -154,6 +157,8 @@ function makechoropleth(map){
 			'#fff5f0';
 	}
     
+    //this function controls the default stroke options for the choropleth
+    //dashArray makes the stroke dashed
 	function style(feature) {
 		return {
 			weight: 2,
@@ -165,6 +170,7 @@ function makechoropleth(map){
 		};
 	}
 
+    //This function highlights the choropleth when you hover over it.
 	function highlightFeature(e) {
 		var layer = e.target;
 
@@ -182,15 +188,17 @@ function makechoropleth(map){
 	}
 
 	
-
+    //This function resets the highlight. It resets the choropleth layer by setting it equal to the function style which has the default stroke
 	function resetHighlight(e) {
 		choroplethlayer.setStyle(style);
 		info.update();
 	}
 
+    //this function zooms the map when you click on a country
 	function zoomToFeature(e) {
 		map.fitBounds(e.target.getBounds());
 	}
+
 
 	function onEachFeature(feature, layer) {
 		layer.on({
@@ -201,11 +209,11 @@ function makechoropleth(map){
 	}
 
    
-	/* global statesData */
+	//this pulls the data from the 17eurocountries_correct javascript. The script is already connected in html and alleuro is the variable set in the js
 	choroplethlayer = L.geoJson(alleuro, {
 		style: style,
 		onEachFeature: onEachFeature,
-        pane:"overlayPane"
+        pane:"overlayPane" //overlay pane to make it above certain features but below others. This is important to set if you can't see the features
 	}).addTo(map);
     
     
@@ -213,7 +221,7 @@ function makechoropleth(map){
 
 	map.attributionControl.addAttribution(' &copy; <a href="https://www.iea.org/data-and-statistics/data-product/gas-trade-flows">IEA Gas Data</a>');
 
-
+    //builds the choropleth legend
 	var legend = L.control({position: 'topleft'});
 
 	legend.onAdd = function (map) {
@@ -240,7 +248,7 @@ function makechoropleth(map){
 
 
 
-    
+    //This is the sequence control for the choropleth. It sequences through the 4 years 
     function createSequenceChoro(){
         var SequenceControl = L.Control.extend({
             options: {
@@ -311,6 +319,7 @@ function makechoropleth(map){
         });
     };
 
+    //This updates the choropleth when you change the sequence
     function updateChoro(attributeChoro){
         expressedChoro = attributeChoro;
         map.eachLayer(function(layer){
@@ -322,27 +331,19 @@ function makechoropleth(map){
                 var color = getColor(props[attributeChoro]);
                 layer.setStyle({fillColor:color});
     
-                //add ski area  to popup content string
-                //var popupContent =  info.update();
-        
-    
-                
-    
-                //update popup content            
-                //popup = layer.getPopup();            
-                //popup.info.update();
             };
         });
     
         //updateLegend(attribute);
     };   
 
+    //function to process the alleuro data, pulling the necessary attributes
     function processDataChoro(alleuro){
         //empty array to hold attributes
         console.log("this is choro data", alleuro)
         //properties of the first feature in the dataset
         var properties = alleuro.features[0].properties;
-        console.log("yippee Kaiaiii",properties)
+        console.log("Hello user",properties)
     
         //push each attribute name into the attribute array
         for (var attribute in properties){
@@ -353,9 +354,6 @@ function makechoropleth(map){
             };
         };
     
-        //check the resulg
-        //console.log(attributes);
-    
         return attributesChoro;
     }; 
 
@@ -365,17 +363,19 @@ function makechoropleth(map){
 	legend.addTo(map);
     createSequenceChoro();
     processDataChoro(alleuro);
-    attributesChoro = processDataChoro(alleuro);
+    attributesChoro = processDataChoro(alleuro); //set attributesChoro
     
 }
-function makepipeline(style, onEachFeature, getColor){
+
+//this adds the pipeline layer built from the js file preconnected to the html
+function makepipeline(style, onEachFeature){
     pipelinejs = L.geoJson(pipelinesL, {
 		style: style,
 		onEachFeature: onEachFeature,
-        pane:"shadowPane"
+        pane:"shadowPane" //set the pane so it is above the choropleth but below the prop symbols
 
-	}).addTo(map);
-}
+	}).addTo(map); //add .addTo(map) to make the pipeline appear when you start the program
+} 
 
 
 
@@ -506,6 +506,7 @@ function getCircleValues(attribute) {
 
 };
 
+//update the borderpoint gas flow legend
 function updateLegend(attribute) {
     //create content for legend 
     var year = attribute.split("-")[0].split("Y")[1];
@@ -529,7 +530,7 @@ function updateLegend(attribute) {
 };   
 
 
-
+//updates the size of the prop symbols
 function updatePropSymbols(attribute){
     map.eachLayer(function(layer){
         if (layer.feature && layer.feature.properties[attribute]){
@@ -567,11 +568,11 @@ function processData(data){
         //console.log(attribute.indexOf("Y"))
         //only take attributes with gas values
         if (attribute.indexOf("Y") == 0){
-            attributes.push(attribute);
+            attributes.push(attribute); //push the chosen attributes into the empty array created above
         };
     };
 
-    //check the resulg
+    //check the result
     //console.log(attributes);
 
     return attributes;
@@ -685,12 +686,6 @@ document.querySelector('#month-select').addEventListener("change", function(elem
             //store as global variable as well as month
 })
 
-//var monthSect = document.querySelector('#year-select')
-
-//write a function thatll go through spit out the thing to grab Y2022-01
-//have submit button trigger JS thatll look at year and month
-//combine to string
-//match that to 
 
 
 };
@@ -767,13 +762,11 @@ function getData(){ //add map to parantheses at some point
             globalAttributes = processData(json);
             //console.log(attributes)
             calcStats(json,attributes)
-            //create marker options
-            //callfunction to create proportional symbols
+        
             createDropDownFilter(attributes);
             createPropSymbols(json, attributes);
             createMap();
-            //createSequenceControls(attributes);
-            //createSequenceChoro();
+          
             createLegend(attributes);
            
             
